@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Путь креатора</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F3FA; --card:#FFFFFF; --ink:#16142B; --muted:#6B678C; --line:rgba(22,20,43,.12);
+  --acc:#6C4DF6; --acc2:#F25C9A; --ok:#12B37D; --warn:#E8A020; --bad:#E04A5F;
+  --shadow:0 2px 10px rgba(22,20,43,.07);
+  --f:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F0E1E; --card:#1A1930; --ink:#EFEDFB; --muted:#A29EC4; --line:rgba(239,237,251,.14);
+  --acc:#8E7BFF; --acc2:#FF6FA8; --ok:#2ED89B; --shadow:0 2px 14px rgba(0,0,0,.35);}}
+:root[data-theme="dark"]{--bg:#0F0E1E;--card:#1A1930;--ink:#EFEDFB;--muted:#A29EC4;--line:rgba(239,237,251,.14);--acc:#8E7BFF;--acc2:#FF6FA8;--ok:#2ED89B}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:520px;margin:0 auto;padding:14px 14px 220px}
+.hidden{display:none!important}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+
+/* старт */
+.hero{padding:16px 2px 8px}
+.kick{font-size:13px;font-weight:600;color:var(--acc);letter-spacing:.02em}
+h1{font-size:clamp(32px,9vw,44px);font-weight:800;line-height:.95;letter-spacing:-.03em;margin:8px 0 10px}
+.hero p{color:var(--muted);max-width:34ch;margin:0 0 6px;font-size:14px}
+.arch{display:grid;gap:8px;margin-top:6px;padding-bottom:16px}
+.archBtn{display:grid;grid-template-columns:42px 1fr;gap:1px 11px;align-items:center;text-align:left;padding:11px 13px;border-radius:15px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+.archBtn .em{font-size:26px;grid-row:span 2}
+.archBtn b{font-size:16px;font-weight:800}
+.archBtn small{color:var(--muted);font-size:12.5px;line-height:1.35}
+.wide{display:block;width:100%;text-align:center;padding:14px;border-radius:14px;background:var(--acc);color:#fff;font-weight:800;margin-top:14px}
+.wide.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+
+/* шапка */
+.hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.dayN{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.dayN i{font-style:normal;font-size:14px;color:var(--muted);font-weight:600}
+.hd .who{margin-left:auto;text-align:right;font-size:12px;color:var(--muted);font-weight:600}
+.hd .who b{display:block;font-size:14px;color:var(--ink)}
+.goal{padding:12px 14px;margin-bottom:10px}
+.goal .r{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:600;gap:10px}
+.goal .r span:last-child{color:var(--muted)}
+.trk{height:7px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:8px}
+.trk i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:6px;transition:width .35s}
+.wkc{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;margin-bottom:10px;border-left:3px solid var(--acc)}
+.wkc .em{font-size:22px}
+.wkc b{font-size:14px}
+.wkc p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.meters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.m{padding:9px 11px}
+.m .r{display:flex;justify-content:space-between;font-size:12px;font-weight:600}
+.m .r span:last-child{color:var(--muted)}
+.m .trk{height:5px;margin-top:6px}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+.n{padding:9px 6px;text-align:center}
+.n b{display:block;font-size:15px;font-weight:800;letter-spacing:-.01em}
+.n span{font-size:11px;color:var(--muted);font-weight:500}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tag{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--card);border:1px solid var(--line);color:var(--muted)}
+.tag.bad{color:var(--bad);border-color:currentColor}
+.tag.ok{color:var(--ok);border-color:currentColor}
+.feed{padding:2px 14px;margin-bottom:12px}
+.feed p{margin:0;padding:10px 0;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted)}
+.feed p:last-child{border-bottom:0}
+.feed p:first-child{color:var(--ink);font-weight:600}
+
+/* действия */
+.dock{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));z-index:10}
+.dock .inner{max-width:520px;margin:0 auto}
+.tabs{display:flex;gap:6px;margin-bottom:8px}
+.tabs{align-items:center}
+.tabs button{flex:1;padding:8px 2px;font-size:12.5px;font-weight:600;border-radius:10px;color:var(--muted)}
+.tabs .restB{flex:0 0 auto;padding:8px 11px;background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:20px}
+.tabs button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.act{padding:9px 3px 7px;border-radius:13px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:1px;min-height:88px;transition:transform .1s}
+.act .g{font-size:10.5px;font-weight:600;color:var(--acc)}
+.act.p .g{color:#fff;opacity:.9}
+.act:active:not(:disabled){transform:scale(.96)}
+.act .e{font-size:21px}
+.act .t{font-size:11px;font-weight:600;text-align:center;line-height:1.1}
+.act .c{font-size:10.5px;color:var(--muted)}
+.act:disabled{opacity:.35}
+.act.p{background:var(--acc);border-color:transparent;color:#fff}
+.act.p .c{color:rgba(255,255,255,.75)}
+.menu{display:flex;gap:6px;margin-top:8px}
+.menu button{flex:1;padding:9px 2px;font-size:12px;font-weight:600;border-radius:11px;background:var(--card);border:1px solid var(--line)}
+
+/* модалки */
+.ov{position:fixed;inset:0;background:rgba(12,10,28,.6);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:40}
+.mo{background:var(--card);border-radius:20px;max-width:400px;width:100%;padding:22px 18px 16px;max-height:88vh;overflow:auto;animation:pop .2s ease-out;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.mo .em{font-size:40px;line-height:1}
+.mo .kick{margin:8px 0 2px}
+.mo h3{font-size:19px;font-weight:800;margin:4px 0 8px;line-height:1.2}
+.mo p{margin:0 0 16px;color:var(--muted)}
+.mo .btn{display:block;width:100%;padding:13px;border-radius:13px;background:var(--acc);color:#fff;font-weight:600;margin-bottom:8px;text-align:center}
+.mo .btn.g{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.sheet{align-items:flex-end;padding:0}
+.sheet .mo{max-width:520px;border-radius:20px 20px 0 0;max-height:84vh;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));animation:up .22s ease-out}
+.mo h4{font-size:16px;font-weight:800;margin:16px 0 8px}
+.it{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px}
+.it .h{display:flex;justify-content:space-between;gap:8px;font-weight:600;font-size:14px}
+.it .h em{font-style:normal;color:var(--muted);font-size:12.5px;white-space:nowrap}
+.it .d{font-size:13px;color:var(--muted);margin:4px 0 0}
+.it .btn{margin:10px 0 0;padding:9px;font-size:13.5px}
+.it.on{border-color:var(--acc)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.grid2 div{border:1px solid var(--line);border-radius:12px;padding:9px 10px}
+.grid2 b{display:block;font-size:16px;font-weight:800}
+.grid2 span{font-size:11.5px;color:var(--muted)}
+.toast{position:absolute;right:8px;top:8px;background:var(--ink);color:var(--bg);padding:8px 12px;border-radius:12px;font-size:12.5px;font-weight:600;z-index:5;max-width:56%;text-align:left;line-height:1.3;box-shadow:0 6px 18px rgba(0,0,0,.25);animation:pop .2s ease-out}
+.thought{background:var(--bg);border-radius:14px;padding:12px 14px;margin:-4px 0 16px;font-size:14px;line-height:1.45}
+.thought b{display:block;font-size:12.5px;color:var(--acc);margin-bottom:4px}
+.m,.n{cursor:pointer}
+
+/* новые блоки */
+.rival{padding:10px 13px;margin-bottom:10px}
+.rv{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600}
+.rv span:last-child{color:var(--muted)}
+.rvTrk{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin:7px 0 5px;position:relative}
+.rvTrk i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:6px;transition:width .4s}
+.rvN{font-size:11.5px;color:var(--muted)}
+.quests{padding:11px 13px;margin-bottom:10px}
+.qH{font-size:12px;font-weight:800;color:var(--acc);margin-bottom:7px;letter-spacing:.02em}
+.qRow{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:13px}
+.qBox{width:17px;height:17px;border-radius:6px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;flex:0 0 auto}
+.qRow.ok .qBox{background:var(--ok);border-color:var(--ok)}
+.qRow.ok .qT{color:var(--muted);text-decoration:line-through}
+.qT{flex:1}
+.qN{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.post{padding:14px;margin-bottom:12px;border:1px solid var(--line);position:relative;overflow:hidden}
+.post.vir{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent)}
+.pHead{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.pAv{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:19px}
+.pHead b{display:block;font-size:13.5px}
+.pHead i{font-style:normal;font-size:11.5px;color:var(--muted)}
+.pQ{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:2px 8px}
+.pTitle{font-size:15.5px;font-weight:600;line-height:1.3;margin-bottom:10px}
+.pViews{display:flex;align-items:baseline;gap:7px;margin-bottom:8px}
+.pViews b{font-size:30px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pViews span{font-size:12.5px;color:var(--muted)}
+.pStats{display:flex;gap:12px;font-size:12.5px;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:8px}
+.pC{font-size:12.5px;color:var(--muted);padding:3px 0}
+.pC b{color:var(--ink);font-weight:600}
+/* выбор подачи */
+.mo.pick{max-width:430px}
+.hk{display:block;width:100%;text-align:left;border:1px solid var(--line);border-radius:14px;padding:11px 12px;margin-bottom:8px;background:var(--bg)}
+.hk:active:not(:disabled){transform:scale(.99)}
+.hk:disabled{opacity:.4}
+.hkTop{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.hkTop b{font-size:14px;font-weight:600;line-height:1.25}
+.hkTop i{font-style:normal;font-size:12px;color:var(--muted);white-space:nowrap}
+.hkD{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.hkTags{display:block;margin-top:6px}
+.hkTags i{font-style:normal;font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 8px;margin-right:5px;display:inline-block}
+.hkTags .t1{background:color-mix(in srgb,var(--acc2) 20%,transparent);color:var(--acc2)}
+.hkTags .t2{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.hkTags .t3{background:color-mix(in srgb,var(--acc) 18%,transparent);color:var(--acc)}
+.hkTags .t4{background:color-mix(in srgb,var(--bad) 16%,transparent);color:var(--bad)}
+/* старт: имя */
+.nameBox{padding:14px;margin-bottom:12px}
+.nameBox label{font-size:12px;font-weight:700;color:var(--muted)}
+.nameBox input{width:100%;margin-top:6px;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-weight:600}
+.sugg{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sg{font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:20px;padding:5px 10px;color:var(--muted)}
+/* финальный постер */
+.poster{border-radius:18px;padding:18px;background:linear-gradient(145deg,var(--acc),var(--acc2));color:#fff;margin-bottom:14px}
+.poster .pk{font-size:11.5px;font-weight:700;opacity:.85;letter-spacing:.06em;text-transform:uppercase}
+.poster h4{font-size:21px;margin:6px 0 2px;color:#fff}
+.poster .pb{font-size:13px;opacity:.9;margin-bottom:12px}
+.pGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.pGrid div{background:rgba(255,255,255,.16);border-radius:12px;padding:8px 10px}
+.pGrid b{display:block;font-size:17px;font-weight:800}
+.pGrid span{font-size:11px;opacity:.85}
+.poster svg{display:block;width:100%;height:54px;margin-bottom:10px}
+.poster .pf{font-size:12px;opacity:.9;line-height:1.4}
+
+/* ==== компактный одноэкранный режим ==== */
+html,body{height:100%;overflow:hidden}
+.wrap{max-width:520px;margin:0 auto;padding:8px 12px 0;height:100%;display:flex;flex-direction:column;overflow:hidden}
+#start{flex:1;min-height:0;overflow-y:auto;padding-bottom:30px}
+#game{display:flex;flex-direction:column;flex:1;min-height:0;padding-bottom:calc(166px + env(safe-area-inset-bottom,0px))}
+.bar{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bDay{font-size:19px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.bDay i{font-style:normal;font-size:11px;color:var(--muted);font-weight:600}
+.bGoal{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:5px 9px}
+.bGoal .g1{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;gap:6px}
+.bGoal .g1 span:last-child{color:var(--muted)}
+.bGoal .trk{height:4px;margin-top:4px}
+.bMoney{font-size:13px;font-weight:800;white-space:nowrap;text-align:right}
+.bMoney i{display:block;font-style:normal;font-size:10px;color:var(--muted);font-weight:600}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:7px;padding-bottom:1px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:20px;background:var(--card);border:1px solid var(--line);color:var(--ink);white-space:nowrap}
+.chip.bad{color:var(--bad);border-color:currentColor}
+.chip.ok{color:var(--ok);border-color:currentColor}
+.chip.acc{color:var(--acc);border-color:currentColor}
+.chip.warn{color:var(--warn);border-color:currentColor}
+.chip.hot{background:var(--acc);color:#fff;border-color:transparent}
+.strip{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
+.mm{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px 9px}
+.mm .t{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;gap:6px}
+.mm .t b{font-weight:800}
+.mm .t span{color:var(--muted)}
+.mm .trk{height:4px;margin-top:4px}
+.numline{display:flex;justify-content:space-between;gap:6px;font-size:11.5px;font-weight:600;padding:6px 10px;background:var(--card);border:1px solid var(--line);border-radius:11px;margin-bottom:7px;color:var(--muted)}
+.numline span{color:var(--muted);font-weight:600}
+.numline b{font-weight:800;color:var(--ink);font-size:13px}
+.stage{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.stage::-webkit-scrollbar{display:none}
+.post{padding:12px;margin-bottom:8px;position:relative}
+.pHead{margin-bottom:7px}
+.pAv{width:32px;height:32px;border-radius:10px;font-size:17px}
+.pTitle{font-size:14.5px;margin-bottom:7px}
+.pViews b{font-size:26px}
+.pStats{padding-bottom:7px;margin-bottom:6px}
+.miniFeed{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px 11px;margin-bottom:8px}
+.miniFeed p{margin:0;padding:6px 0;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
+.miniFeed p:last-child{border-bottom:0}
+.miniFeed p:first-child{color:var(--ink);font-weight:600}
+.dock{padding:7px 12px calc(7px + env(safe-area-inset-bottom,0px))}
+.tabs{margin-bottom:6px}
+.acts{gap:6px}
+.act{min-height:70px;padding:7px 3px 6px}
+.act .e{font-size:19px}
+.menu{margin-top:6px;gap:5px}
+.menu button{padding:7px 2px;font-size:11.5px}
+.stage{position:relative}
+
+.startBtns{display:grid;grid-template-columns:1.4fr 1fr;gap:8px;margin:4px 0 12px}
+.sBtn{text-align:left;padding:10px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:13px}
+.sBtn small{display:block;font-weight:500;font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.3}
+.sBtn.ch{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
+.sBtn.ch small{color:rgba(255,255,255,.85)}
+.conf{position:fixed;inset:0;pointer-events:none;z-index:80;overflow:hidden}
+.conf i{position:absolute;top:-12px;width:8px;height:12px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.9}}
+.shk{animation:shk .45s}
+@keyframes shk{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.glw .chip{animation:glw 1.2s}
+@keyframes glw{30%{box-shadow:0 0 0 3px var(--ok)}}
+
+.coachT{position:relative;outline:3px solid var(--acc2);outline-offset:3px;border-radius:14px;animation:cpulse 1.4s infinite}
+@keyframes cpulse{50%{outline-color:transparent}}
+#coach{position:fixed;left:12px;right:12px;max-width:500px;margin:0 auto;background:var(--ink);color:var(--bg);border-radius:16px;padding:12px 14px;z-index:90;box-shadow:0 10px 30px rgba(0,0,0,.35);animation:pop .2s ease-out}
+#coach .cT{font-size:13.5px;font-weight:600;line-height:1.4}
+#coach .cB{display:flex;justify-content:space-between;align-items:center;margin-top:9px}
+#coach .cB button{font-size:12px;color:var(--bg);opacity:.7}
+#coach .cB .cN{opacity:1;background:var(--acc);color:#fff;border-radius:10px;padding:6px 14px;font-weight:700}
+body{padding-top:calc(var(--tg-safe-area-inset-top,0px) + var(--tg-content-safe-area-inset-top,0px))}
+.dock{padding-bottom:calc(7px + var(--tg-safe-area-inset-bottom,0px) + env(safe-area-inset-bottom,0px))}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
+@keyframes up{from{transform:translateY(30px)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <section id="start">
+    <div class="hero">
+      <div class="kick">Симулятор блогера · 200 дней</div>
+      <h1>Путь креатора</h1>
+      <p>Рилсы, охваты, выгорание, друзья с репостами, странные продюсеры и кредит на продвижение.</p>
+      <p>Каждый день — одно решение. Дойдёте до цели или удалите приложение в три часа ночи?</p>
+    </div>
+    <div class="startBtns"><button class="sBtn ch" id="chalBtn"></button><button class="sBtn" id="recBtn">🏆 Мои рекорды</button></div>
+    <div class="kick" id="startHint" style="margin:0 0 8px;position:sticky;top:0;background:var(--bg);padding:4px 0;z-index:2"></div>
+    <div class="arch" id="archList"></div>
+    <button class="wide ghost hidden" id="contBtn">Продолжить сохранённую игру</button>
+  </section>
+
+  <section id="game" class="hidden">
+    <div class="bar">
+      <div class="bDay" id="dayEl"></div>
+      <div class="bGoal" id="goalEl"></div>
+      <div class="bMoney" id="moneyEl"></div>
+    </div>
+    <div class="chips" id="chipsEl"></div>
+    <div class="strip" id="metersEl"></div>
+    <div class="numline" id="numsEl"></div>
+    <div class="stage" id="stageEl"></div>
+  </section>
+</div>
+
+<div class="dock hidden" id="dock"><div class="inner">
+  <div class="tabs" id="tabsEl"></div>
+  <div class="acts" id="actsEl"></div>
+  <div class="menu">
+    <button data-sheet="offer">Продукт</button>
+    <button data-sheet="team">Команда</button>
+    <button data-sheet="money">Финансы</button>
+    <button data-sheet="ins" id="insBtn">Инсайты</button>
+  </div>
+</div></div>
+<div id="ovRoot"></div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const ri=(a,b)=>Math.floor(rnd(a,b+1));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const fmt=n=>Math.round(n).toLocaleString('ru-RU');
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const SAVE='putkreatora_v5';
+
+const FAM={
+ expert:{name:'Эксперт',e:'🧠',desc:'Продаёте свои услуги и своё время: консультации, работа руками, сопровождение.',goalType:'revenue',goal:1000000,goalText:'Заработать 1 000 000 ₽',sell:'Продать услугу',minSell:300,
+  tiers:[{n:'Разовая услуга',d:'Один клиент — один заказ. Потолок дохода — ваши часы: больше 8 клиентов за запуск не потянуть.',mult:1,cap:8},
+         {n:'Пакет и сопровождение',d:'Проект целиком или несколько встреч. Чек выше, но одновременно вы ведёте максимум 4 клиентов.',pmx:3,mult:1.35,cap:4,req:{live:1000,trust:30}},
+         {n:'Курс в записи',d:'Ваш опыт, записанный один раз. Продаётся без вашего участия: на запуск покупает примерно 0,35% аудитории.',price:10000,mult:1.2,req:{live:2500,trust:35}},
+         {n:'Курс с обратной связью',d:'Запись плюс разборы и чат. Дороже, но в поток берёте не больше 20 человек.',price:30000,mult:1.7,cap:20,req:{live:5000,trust:45}},
+         {n:'Наставничество',d:'Личная работа. Дорого, но вас хватает максимум на 3 учеников за поток.',price:80000,mult:1.9,cap:3,req:{live:8000,trust:55}}]},
+ goods:{name:'Товарка',e:'📦',desc:'Продаёте физический товар: то, что можно потрогать и отгрузить.',goalType:'revenue',goal:1000000,goalText:'Заработать 1 000 000 ₽ чистыми',sell:'Продать товар',minSell:300,
+  tiers:[{n:'Розница по одному',d:'Каждый заказ вручную, из директа. Руками успеваете не больше 30 штук.',pm:1,cm:1,cap:30},
+         {n:'Маркетплейс и партии',d:'Товар лежит на складе и продаётся без вас. Чек выше, заказов меньше.',pm:2.5,cm:.55,cap:60,req:{live:2000,trust:30}},
+         {n:'Опт и свой бренд',d:'Продаёте партиями и по дилерам. Редко, но крупно: не больше 12 отгрузок за раз.',pm:5.5,cm:.28,cap:12,req:{live:6000,trust:45}}]},
+ art:{name:'Творческий',e:'🎤',desc:'Музыка, сцена, актёрство. Деньги приходят следом за известностью.',goalType:'followers',goal:100000,goalText:'Набрать 100 000 подписчиков',sell:'Монетизация',minSell:1000,
+  tiers:[{n:'Реклама в блоге',d:'Интеграции и бартер.',pm:1,cm:1},
+         {n:'Коммерческие выступления',d:'Зовут на площадки и корпоративы: доход ×2.',pm:2,cm:1,req:{live:3000,trust:30}},
+         {n:'Тур и контракт',d:'Лейбл, продюсерский центр, большие площадки: доход ×3.',pm:3,cm:1,req:{live:20000,trust:45}}]}
+};
+const NICHE={
+ expert:[
+  {id:'video',e:'🎥',n:'Видеограф',d:'Свадьбы, клипы, реклама. Красивый контент сам по себе притягивает охваты.',price:25000,conv:.001,reach:1.2,fm:1.1},
+  {id:'psy',e:'🧘',n:'Психолог',d:'Сессии и терапия. Всё решает доверие, оно растёт быстрее.',price:5000,conv:.0055,reach:1.15,fm:1.1,tr:1.3},
+  {id:'law',e:'⚖️',n:'Юрист',d:'Консультации и суды. Аудитория узкая, но приходит с деньгами.',price:15000,conv:.0017,reach:.85,fm:.85},
+  {id:'mark',e:'📈',n:'Маркетолог',d:'Трафик для бизнеса. Подписчиков мало, зато каждый дорогой.',price:40000,conv:.0009,reach:.92,fm:.92},
+  {id:'astro',e:'🔮',n:'Астролог',d:'Натальные карты и прогнозы. Огромная аудитория и вечные споры в комментариях.',price:4000,conv:.0075,reach:1.3,fm:1.2},
+  {id:'dev',e:'💻',n:'Программист',d:'Разработка на заказ, код-ревью, консультации. Аудитория узкая и придирчивая, чек высокий.',price:40000,conv:.0008,reach:.98,fm:1.05},
+  {id:'fit',e:'💪',n:'Фитнес-тренер',d:'Персональные тренировки и программы. Тема вечная, аудитория огромная.',price:8000,conv:.0035,reach:1.25,fm:1.15},
+  {id:'nutri',e:'🥗',n:'Нутрициолог',d:'Питание и анализы. Спрос стабильный, конкуренция плотная.',price:9000,conv:.003,reach:1.2,fm:1.1},
+  {id:'tutor',e:'📕',n:'Репетитор',d:'Английский, математика, подготовка к экзаменам. Родители смотрят и решают.',price:5000,conv:.0055,reach:1.05,fm:1},
+  {id:'acc',e:'🧮',n:'Бухгалтер',d:'Учёт и налоги для малого бизнеса. Скучно на вид, дорого по факту.',price:20000,conv:.0013,reach:.8,fm:.85},
+  {id:'realt',e:'🔑',n:'Риелтор',d:'Сделки с квартирами. Клиентов мало, комиссия крупная.',price:80000,conv:.00035,reach:.95,fm:.9},
+  {id:'beauty',e:'💅',n:'Бьюти-мастер',d:'Маникюр, брови, ресницы. Записываются по красивым кадрам.',price:4000,conv:.007,reach:1.25,fm:1.2},
+  {id:'design',e:'🛋️',n:'Дизайнер интерьера',d:'Проекты квартир. Длинный цикл сделки, высокий чек.',price:60000,conv:.00045,reach:1.15,fm:1},
+  {id:'any',e:'🧩',n:'Другая профессия',d:'Не нашли свою? Универсальный эксперт: средний чек, средние охваты, всё зависит только от вас.',price:12000,conv:.002,reach:1,fm:1}],
+ goods:[
+  {id:'wood',e:'🪚',n:'Мебель из массива',d:'Столы и стулья на заказ. Процесс в мастерской залетает лучше, чем готовый товар.',price:60000,conv:.0007,reach:1.25,fm:1,cost:.4},
+  {id:'hand',e:'🕯️',n:'Свечи и керамика',d:'Хендмейд небольшими партиями. Дёшево, часто, много заказов.',price:3500,conv:.012,reach:1.2,fm:1.05,cost:.35},
+  {id:'cloth',e:'👕',n:'Локальный бренд одежды',d:'Худи, футболки, мерч. Высокая себестоимость и вечные размеры.',price:8000,conv:.005,reach:1.1,fm:1,cost:.45},
+  {id:'cake',e:'🎂',n:'Торты и десерты',d:'Заказы на праздники. Красивый процесс отлично залетает.',price:4000,conv:.01,reach:1.25,fm:1.1,cost:.4},
+  {id:'flow',e:'💐',n:'Цветы и букеты',d:'Доставка по городу. Праздники решают всё.',price:3500,conv:.011,reach:1.15,fm:1.05,cost:.45},
+  {id:'jew',e:'💍',n:'Украшения',d:'Серебро и авторская бижутерия. Покупают глазами.',price:6000,conv:.0065,reach:1.2,fm:1.05,cost:.35},
+  {id:'cosm',e:'🧴',n:'Косметика ручной работы',d:'Мыло, бальзамы, уход. Дёшево и часто.',price:2500,conv:.016,reach:1.15,fm:1.05,cost:.4},
+  {id:'toys',e:'🧸',n:'Детские товары',d:'Игрушки и развивашки. Аудитория — мамы, самая активная в комментариях.',price:3000,conv:.013,reach:1.1,fm:1,cost:.42},
+  {id:'plant',e:'🪴',n:'Растения',d:'Комнатные цветы и кашпо. Уютный контент, лояльная аудитория.',price:2500,conv:.016,reach:1.2,fm:1.1,cost:.35},
+  {id:'coffee',e:'☕',n:'Кофе и обжарка',d:'Своя обжарка и подписка на зерно. Низкий чек, повторные покупки.',price:1800,conv:.022,reach:1.1,fm:1,cost:.5},
+  {id:'home',e:'🕰️',n:'Товары для дома',d:'Текстиль, посуда, декор. Маркетплейсы и красивые карточки.',price:5000,conv:.008,reach:1.1,fm:1,cost:.45},
+  {id:'any',e:'🧩',n:'Другой товар',d:'Свой вариант: средний чек 10 000 ₽ и себестоимость 40%.',price:10000,conv:.004,reach:1.1,fm:1,cost:.4}],
+ art:[
+  {id:'music',e:'🎸',n:'Музыкант',d:'Свои треки, концерты, коллабы.',price:0,conv:0,reach:1.25,fm:2.2},
+  {id:'actor',e:'🎭',n:'Актёр',d:'Кино, театр, скетчи и самопробы.',price:0,conv:0,reach:1.3,fm:2.1},
+  {id:'show',e:'🎙️',n:'Шоумен и стендап',d:'Юмор и сцена. Самая широкая аудитория.',price:0,conv:0,reach:1.4,fm:2.3},
+  {id:'dance',e:'💃',n:'Танцор и хореограф',d:'Танцы — самый вирусный формат в коротких видео.',price:0,conv:0,reach:1.45,fm:2.3},
+  {id:'paint',e:'🎨',n:'Художник',d:'Картины и иллюстрации. Процесс завораживает зрителя.',price:0,conv:0,reach:1.2,fm:2},
+  {id:'writer',e:'✍️',n:'Писатель и поэт',d:'Тексты и стихи. Аудитория меньше, зато преданная.',price:0,conv:0,reach:1.05,fm:1.8},
+  {id:'dj',e:'🎧',n:'Диджей',d:'Сеты и вечеринки. Живёте площадками и коллабами.',price:0,conv:0,reach:1.3,fm:2.1},
+  {id:'any',e:'🧩',n:'Другое творчество',d:'Что угодно своё: перформанс, фотография, ремесло на сцене.',price:0,conv:0,reach:1.3,fm:2.2}]
+};
+function niche(){return NICHE[S.fam].find(x=>x.id===S.niche)}
+function tierOf(i){return FAM[S.fam].tiers[i]}
+function tierPrice(nc,t){return Math.round(t.price||nc.price*(t.pmx||t.pm||1))}
+function A(){
+ const f=FAM[S.fam],nc=niche(),t=f.tiers[S.tier];
+ let price,conv;
+ if(t.mult!==undefined){const basePF=nc.price*nc.conv;price=tierPrice(nc,t);conv=price?basePF*t.mult/price:0}
+ else{price=Math.round(nc.price*t.pm);conv=nc.conv*t.cm}
+ return {fam:S.fam,name:nc.n,e:nc.e,goalType:f.goalType,goal:f.goal,goalText:f.goalText,sell:f.sell,minSell:f.minSell,
+  price:Math.round(price),conv,fm:nc.fm,reach:nc.reach,cost:nc.cost||0,tr:nc.tr||1,tierName:t.n,digital:!!t.price,cap:t.cap||0};
+}
+const WEEKS=[
+ {id:'trend',e:'🔥',t:'Неделя трендов',d:'Все снимают под новый звук. Охваты ×1.4.',reach:1.4},
+ {id:'algo',e:'📉',t:'Обновление алгоритма',d:'Инстаграм опять всё поменял. Охваты ×0.6.',reach:0.6},
+ {id:'learn',e:'🎓',t:'Неделя марафонов',d:'Везде бесплатные эфиры: учёба прокачивает вдвое сильнее.',learn:2},
+ {id:'cold',e:'🤧',t:'Неделя простуды',d:'За ночь восстанавливается на 10 энергии меньше.',regen:-10},
+ {id:'gypsy',e:'🦄',t:'Неделя инфоцыган',d:'Все продают «миллион за месяц», аудитория не верит никому: продажи ×0.6, доверие −5.',sales:0.6,start:s=>{s.trust=Math.max(0,s.trust-5)}},
+ {id:'salary',e:'💸',t:'Неделя зарплаты',d:'У аудитории пришли деньги. Продажи ×1.5.',sales:1.5},
+ {id:'vacation',e:'🌴',t:'Сезон отпусков',d:'Все на море: охваты ×0.8, продажи ×0.7.',reach:0.8,sales:0.7},
+ {id:'ai',e:'🤖',t:'Неделя нейросетей',d:'Монтаж за вас делает ИИ: рилс дешевле на 10 энергии.',reelCost:-10},
+ {id:'calm',e:'🧘',t:'Обычная неделя',d:'Ничего особенного. Просто работайте.'},
+ {id:'retro',e:'☄️',t:'Меркурий ретроградный',d:'Разброс просмотров огромный: может залететь, может утонуть.',chaos:true},
+ {id:'news',e:'📰',t:'Громкий инфоповод',d:'Все обсуждают новости, не до рилсов: охваты ×0.7.',reach:0.7},
+ {id:'hype',e:'🚀',t:'Неделя вирусов',d:'Алгоритм щедрый: шанс залететь ×2.',viral:2},
+ {id:'live',e:'🎙️',t:'Неделя эфиров',d:'Аудитория хочет живого: сторис и общение дают доверия вдвое больше.',stories:2},
+ {id:'copy',e:'🪞',t:'Неделя копий',d:'Все копируют один формат. Экспертный контент выделяется: он даёт на 30% больше подписчиков.',expert:1.3}
+];
+
+const INS={
+ first:{e:'🐢',t:'Первые рилсы почти всегда без охватов',d:'Алгоритм изучает ваш контент и аудиторию. Первые 20–30 роликов — разгон, а не провал.'},
+ mix:{e:'🧩',t:'Три типа контента решают три разные задачи',d:'Широкий даёт просмотры, экспертный — подписчиков и доверие, продающий — прогрев и деньги. Нужен баланс, а не один любимый формат.'},
+ heat:{e:'🌡️',t:'Продажа без прогрева почти не работает',d:'Люди покупают, когда понимают, что вы даёте и кому это нужно. Прогрев — это контент до оффера, а не сам оффер.'},
+ hook:{e:'🪝',t:'Хук решает всё',d:'Первые 1–3 секунды определяют, досмотрят или пролистают. Сценарий важнее красивой картинки.'},
+ burnout:{e:'🥵',t:'Регулярность без отдыха = выгорание',d:'Лучше 3–4 сильных рилса в неделю, чем 7 через силу. Выгоревший автор снимает хуже и в итоге бросает.'},
+ gap:{e:'👻',t:'Пропадать надолго опасно',d:'Если молчать больше недели, алгоритм и аудитория забывают. Нужен ритм, а не подвиги.'},
+ daily:{e:'🔁',t:'Однотипный контент каждый день',d:'Слабые ролики подряд алгоритм показывает всё меньше. Количество не заменяет качество.'},
+ mass:{e:'🧟',t:'Накрученная аудитория портит охваты',d:'Подписчики-боты не смотрят и не покупают, а алгоритм видит, что ваш контент не досматривают. Перед посевом смотрите охваты и комментарии блогера, а не число подписчиков.'},
+ promo:{e:'💸',t:'Реклама у блогеров работает, но не всегда',d:'Решает совпадение аудиторий, а не размер блога. Из трёх посевов один обычно окупается, один в ноль, один впустую — поэтому их делают партиями и считают цену подписчика.'},
+ ban:{e:'⛔',t:'Серые методы = риск бана',d:'Накрутки ловят фильтры. Теневой бан режет охваты почти до нуля, полный — обнуляет годы работы.'},
+ friends:{e:'🙏',t:'Друзья — не ваша целевая аудитория',d:'Их репосты дают разовый всплеск, но не клиентов. И терпение у них не бесконечное.'},
+ reelsmaker:{e:'🎥',t:'Красиво ≠ эффективно',d:'Рилсмейкер делает картинку. Без смысла и сценария красивый ролик смотрят так же плохо.'},
+ scam:{e:'🕳️',t:'Как проверить продюсера',d:'Кейсы с контактами клиентов, договор, оплата по этапам. «Предоплата на доверии» — классика развода.'},
+ top:{e:'🏆',t:'Сильные продюсеры берут не всех',d:'Им нужен результат, поэтому идут к тем, у кого уже есть аудитория и доверие. Сначала база — потом масштаб.'},
+ trust:{e:'🤝',t:'Покупают не подписчики, а доверие',d:'Сторис, личное, кейсы, ответы в директе — именно это превращает зрителя в клиента.'},
+ fatigue:{e:'😵',t:'Нельзя продавать без остановки',d:'Если продавать каждую неделю, аудитория устаёт и отписывается. Чередуйте пользу, личное и офферы.'},
+ funnel:{e:'🧲',t:'Воронка превращает охваты в деньги',d:'Лид-магнит → прогрев → продажа. С воронкой продажи идут даже в дни, когда вы ничего не делали.'},
+ viral:{e:'🎰',t:'Вирус — лотерея с управляемыми шансами',d:'Залёт не гарантируешь, но шанс растёт с навыком, сценарием и количеством попыток.'},
+ loan:{e:'🏦',t:'Кредит на продвижение — опасная ставка',d:'Без понятной модели монетизации долг растёт быстрее аудитории.'},
+ gypsy:{e:'🦄',t:'Курсы «миллион за 30 дней» продают мечту',d:'Навык — это практика, обратная связь и время. Обещание быстрого результата — главный красный флаг.'},
+ gamble:{e:'🎲',t:'Сомнительная реклама убивает доверие',d:'Быстрые деньги сегодня — минус продажи завтра. Аудитория помнит, что вы ей рекламировали.'},
+ target:{e:'🎯',t:'Реклама без продукта — дорогие подписчики',d:'Платный трафик окупается, только когда есть что продавать и воронка, которая это делает.'},
+ rest:{e:'😴',t:'Отдых — часть стратегии',d:'Энергия и мотивация — главные ресурсы. Без них не работают ни деньги, ни команда.'},
+ streak:{e:'📆',t:'30 дней подряд — ещё не результат',d:'Челлендж учит дисциплине. Но охваты даёт не число дней, а качество и понимание аудитории.'},
+ gear:{e:'📷',t:'Техника не делает блогера',d:'Камера за 200 000 ₽ улучшит картинку, но не хук, не смысл и не оффер. Сначала контент — потом апгрейд.'},
+ brand:{e:'📨',t:'Бренды приходят не сами',d:'Реклама появляется у тех, кто про себя напоминает: медиакит, питчи, понятная тематика блога.'},
+ cap:{e:'⌛',t:'Ваше время — это потолок',d:'Пока вы продаёте личную работу, доход упирается не в спрос, а в количество часов. Снять потолок можно только продуктом, который продаётся без вас: запись курса, товар на складе, команда.'},
+ ladder:{e:'🪜',t:'Продуктовая лестница',d:'Пока вы продаёте только разовую работу, потолок дохода — ваши часы. Следующая ступень (пакет, партия, наставничество) даёт меньше клиентов, но в разы больше денег с каждого.'},
+ asset:{e:'🏠',t:'Доход и остаток на счету — разные вещи',d:'Цель считает заработанное, а не то, что осталось. Поэтому крупные покупки не отбрасывают вас назад по цели — но съедают оборотные деньги, на которые живёт команда и реклама. Сначала подушка, потом мечта.'},
+ gift:{e:'🎁',t:'Покупки поднимают мотивацию ненадолго',d:'Первый подарок себе радует по-настоящему, следующие — всё меньше. Надёжнее работают люди, отдых и маленькие победы, которые вы замечаете.'},
+ producerNeeds:{e:'🧠',t:'Продюсер не заменяет вас',d:'Команда работает с тем, что вы даёте: экспертиза, личность, энергия. Без вас продукта нет.'}
+};
+
+const GOALS={expert:[1000000,3000000,10000000,30000000],goods:[1000000,3000000,10000000,30000000],art:[100000,300000,1000000,3000000]};
+function goalNow(){return GOALS[S.fam][Math.min(S.won,3)]}
+const STORIES={
+ fresh:{e:'🚀',n:'Просто решил(а) начать',d:'Обычный старт без особых обстоятельств.'},
+ fired:{e:'📦',n:'Уволили с работы',d:'Выходное пособие даёт подушку: +70 000 ₽. Но мотивация на старте ниже, а через три месяца деньги кончатся.',money:70000,mot:-12},
+ mat:{e:'👶',n:'После декрета',d:'Мамская аудитория доверяет сразу: +10 доверия. Но ребёнок забирает силы: энергия восстанавливается на 6 меньше.',trust:10,en:-6,money:-20000},
+ late:{e:'🧓',n:'Начинаю в 45',d:'Опыт — сильная сторона: +15 навыка и +10 доверия. С трендами сложнее: подписчики приходят на 15% медленнее.',skill:15,trust:10,fm:.85},
+ student:{e:'🎓',n:'Студент без денег',d:'Денег почти нет, зато жизнь вдвое дешевле (общежитие) и энергии больше: +8 в день. Навык пока ниже.',money:-55000,life:.5,en:8,skill:-4},
+ side:{e:'💼',n:'Работаю и веду блог',d:'Зарплата +50 000 ₽ каждые 30 дней, но после работы сил меньше: энергия восстанавливается на 9 меньше.',salary:50000,en:-9}
+};
+function story(){return STORIES[S.story]||STORIES.fresh}
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function worldRand(){if(!S||!S.challenge)return Math.random();const r=mulberry(S.wr)();S.wr=(S.wr+0x6D2B79F5)|0;return r}
+function pickW(a){return a[Math.floor(worldRand()*a.length)]}
+function weekKey(){return Math.max(1,Math.floor((Date.now()-Date.UTC(2026,0,5))/(7*864e5))+1)}
+function challengeSetup(){
+ const k=weekKey(),r=mulberry(k*7919);
+ const fams=Object.keys(FAM),fam=fams[Math.floor(r()*fams.length)];
+ const ns=NICHE[fam],nc=ns[Math.floor(r()*(ns.length-1))].id;
+ const sts=Object.keys(STORIES),st=sts[1+Math.floor(r()*(sts.length-1))];
+ const trs=Object.keys(TRAITS),trt=trs[Math.floor(r()*trs.length)];
+ return {k,fam,nc,st,trt};
+}
+const REC='putkreatora_records';
+function loadRecs(){try{return JSON.parse(localStorage.getItem(REC)||'[]')}catch(e){return[]}}
+function saveRec(r){try{const a=loadRecs();a.push(r);const s=JSON.stringify(a.slice(-60));localStorage.setItem(REC,s);cloudSet('recs',JSON.stringify(a.slice(-25)))}catch(e){}}
+function goalLabel(v){return S.fam==='art'?fmt(v)+' подписчиков':fmt(v)+' ₽'}
+
+const DIFF={
+ easy:{n:'Лёгкий',e:'🌱',d:'Больше денег на старте, реже бытовые проблемы. Чтобы спокойно разобраться в механике.',money:40000,mot:80,life:25000,ev:.08,gap:7},
+ normal:{n:'Средний',e:'⚖️',d:'Как в жизни: деньги кончаются, близкие переживают, техника ломается.',money:0,mot:70,life:30000,ev:.11,gap:6},
+ hard:{n:'Сложный',e:'🔥',d:'Больше жизненных вводных: отношения, болезни, просьбы в долг, подорожавшая аренда. Каждое решение чего-то стоит.',money:-60000,mot:60,life:42000,ev:.2,gap:3,hard:1}
+};
+function life(){return Math.round((DIFF[S.diff].life+(S.flags.rentUp||0))*(S.flat?.45:1)*(story().life||1)*(S.hc?1.3:1))+(S.flags.rel?8000:0)}
+const START={
+ expert:{money:80000,live:150,skill:8,trust:15,t:'Вы хороший специалист. Проблема одна',
+  d:'Клиенты приходят только по сарафану, раз в месяц, и всегда просят скидку. Коллеги слабее вас ведут блоги и берут втрое дороже. Сегодня вы решили: хватит.',
+  log:'150 подписчиков: друзья, пара бывших клиентов и мама.'},
+ goods:{money:100000,live:120,skill:4,trust:10,t:'Товар есть. Покупателей нет',
+  d:'В мастерской стоят готовые изделия, в чате с поставщиком — счёт за материалы. Сарафан даёт пару заказов в месяц. Пора показать людям, как это делается.',
+  log:'120 подписчиков: соседи по мастерской, друзья и поставщик.'},
+ art:{money:50000,live:400,skill:12,trust:20,t:'Талант есть. Сцены нет',
+  d:'400 подписчиков — это те, кто видел вас вживую: бар, открытый микрофон, чей-то день рождения. Продюсеры не звонят. Значит, сцену придётся построить самим — в телефоне.',
+  log:'400 подписчиков: те, кто видел вас вживую.'}
+};
+const NINTRO={
+ expert_video:'Портфолио в облаке есть, а заказы — только свадьбы знакомых.',
+ expert_psy:'Дипломы на стене, супервизии пройдены, а клиентов трое.',
+ expert_law:'Вы выигрывали дела, о которых никто не узнал.',
+ expert_mark:'Вы продвигаете чужие бизнесы, а про себя молчите. Сапожник без сапог.',
+ expert_astro:'Натальные карты вы пять лет считаете подругам бесплатно.',
+ expert_dev:'Вы пишете код десять лет. Ваш GitHub видели трое, а на конференциях выступают те, кто пишет хуже.',
+ expert_fit:'Вы ставите людям технику, а зал платит вам процент с копеек.',
+ expert_nutri:'Вы разбираете чужие анализы, а своих клиентов ищете через знакомых.',
+ expert_tutor:'Ученики сдают на высокие баллы, а сарафан приводит двоих в год.',
+ expert_acc:'Вы знаете налоги наизусть. Клиенты находят вас через «а у вас нет знакомого бухгалтера?».',
+ expert_realt:'Сделки есть, но все от агентства и с их процентом.',
+ expert_beauty:'Записи плотные, но только у постоянных. Новых почти нет.',
+ expert_design:'Ваши проекты красивые. Их видели три человека и подрядчик.',
+ expert_any:'Вы лучший в своём деле. Об этом пока знаете только вы.',
+ goods_wood:'Дубовый стол третий месяц стоит в углу мастерской.',
+ goods_hand:'Сорок свечей на полке и ярмарка раз в квартал.',
+ goods_cloth:'Первая партия — 50 худи. Продано 7, из них 5 друзьям.',
+ goods_cake:'Торты разлетаются на праздники, а между праздниками — тишина.',
+ goods_flow:'Букеты красивые, но заказы только 8 марта и 1 сентября.',
+ goods_jew:'Серебро лежит в коробке, а соцсети ведёт кто-то другой.',
+ goods_cosm:'Бальзамы хвалят подруги. Подруг всего двенадцать.',
+ goods_toys:'Игрушки ручной работы и один заказ в неделю.',
+ goods_plant:'Дома оранжерея, а продаёте через объявления.',
+ goods_coffee:'Зерно своё, обжарка своя, покупателей — соседи.',
+ goods_home:'Карточки на маркетплейсе висят без просмотров.',
+ goods_any:'Товар хороший. Осталось, чтобы о нём узнали.',
+ art_music:'Три трека на площадках, 212 прослушиваний, половина — ваши.',
+ art_actor:'Две эпизодические роли и ни одного звонка от кастинг-директора.',
+ art_show:'Открытые микрофоны по вторникам и шутки, над которыми смеются только друзья.',
+ art_dance:'Вы танцуете лучше половины тех, кто собирает миллионы.',
+ art_paint:'Картины стоят у стены, а инстаграм пустой.',
+ art_writer:'Тексты читает узкий круг, а хочется, чтобы услышали.',
+ art_dj:'Сеты классные, но зовут только на дни рождения.',
+ art_any:'Своё творчество есть. Зрителя пока нет.'
+};
+const FLAV={
+ work:{expert:['Взяли небольшой заказ по сарафану','Подменили коллегу на проекте','Сделали работу «по знакомству» со скидкой'],
+       goods:['Собрали срочный заказ для знакомого','Продали остатки на барахолке','Поработали на чужом производстве'],
+       art:['Отработали корпоратив','Постояли за баром','Подработали ведущим на дне рождения']},
+ learn:{expert:['Разбирали кейсы сильных коллег','Смотрели, как упаковывают экспертов в вашей нише','Прошли бесплатный интенсив по монтажу'],
+        goods:['Смотрели, как снимают процесс другие мастера','Изучали карточки топовых продавцов','Разбирались в светe и съёмке предметов'],
+        art:['Разбирали клипы любимых артистов','Смотрели, как артисты ведут блоги','Учились держаться в кадре']},
+ rest:['Выходной: спали до обеда','Выключили телефон на весь день','Сериал, пицца и ноль контента','Гуляли без цели и без камеры']
+};
+const HELP={
+ energy:['⚡','Энергия','Тратится на каждое действие, за ночь восстанавливается на 22. Быстро поднять — отдых (+45). Спорт ускоряет восстановление на несколько дней. Если энергии меньше 35, качество публикаций падает.'],
+ mot:['🔥','Мотивация','Если упадёт до нуля — вы бросите блог, и игра закончится. Растёт: хорошие просмотры и продажи, тёплые сообщения, отдых, встреча с друзьями, подарок себе, вдохновение. Падает: пустые охваты, долги, критика близких, провалы и разводы. Все способы поднять её — во вкладке «Жизнь».'],
+ burn:['🥵','Выгорание','Копится, когда вы публикуете каждый день и много работаете. На 100 — выгорание и пять потерянных дней. Снижается: отдых, встреча с друзьями, спорт, дни без публикаций.'],
+ heat:['🌡️','Прогрев','Готовность аудитории купить. Растёт от продающих рилсов, каруселей и сторис, каждый день остывает на 4. Продажа сжигает прогрев — продавайте, когда шкала высокая.'],
+ trust:['🤝','Доверие','Главный множитель продаж. Растёт от экспертного контента, каруселей и сторис. Падает от сомнительной рекламы, частых продаж и накруток.'],
+ skill:['🎯','Навык','Влияет на качество каждой публикации и шанс залететь. Растёт от учёбы, сценариев и практики.']
+};
+const THOUGHTS=[
+ 'Первый рилс всегда кривой. Второй тоже. Выкладывайте — идеального первого не бывает ни у кого.',
+ 'Никто не смотрит на вас так пристально, как кажется. Это свобода, а не приговор.',
+ 'Пишите сценарий до съёмки. Даже три строчки в заметках экономят час монтажа.',
+ 'Не сравнивайте свой двадцатый день с чужим двухтысячным.',
+ 'Смотрите, где зритель отваливается. Удержание честнее любого комментария.',
+ 'Хук — это обещание. Если начало обещает, а ролик не выполняет, алгоритм это видит.',
+ 'Лучший формат — тот, который вы готовы делать полгода, а не тот, что залетел у соседа.',
+ 'Одна идея — один ролик. Хочется сказать три мысли — это три рилса.',
+ 'Комментарии — бесплатное исследование аудитории. Их вопросы и есть ваш контент-план.',
+ 'Подписчик ещё не клиент. Клиентом он станет, когда начнёт доверять и поймёт, что вы продаёте.',
+ 'Говорите языком клиента, а не коллег. Результат понятнее терминов.',
+ 'Личное продаёт лучше экспертного. Люди покупают у людей.',
+ 'Продавать не стыдно. Стыдно иметь решение и молчать о нём.',
+ 'Кейсы — самый сильный продающий контент. Результат клиента звучит громче вас.',
+ 'Упакуйте оффер в одну фразу: кому, что и за сколько. Не получается — значит, и клиенту непонятно.',
+ 'Поднимайте цену, когда очередь длиннее, чем ваше время. Это не жадность, это спрос.',
+ 'Система бьёт вдохновение. Контент-план на неделю вперёд снимает половину стресса.',
+ 'Делегируйте то, что другой умеет лучше, а не то, что вы не любите. Стратегию не делегируют.',
+ 'Команда умножает то, что уже работает. Если не работает — умножит ноль.',
+ 'Пять тысяч человек, которые вам доверяют, стоят больше ста тысяч случайных.',
+ 'Воронка — это забота: человек получает пользу раньше, чем отдаёт деньги.',
+ 'Лучшие клиенты приходят по рекомендации тех, кто пришёл из блога. Так блог работает дважды.',
+ 'Считайте цифры: цену подписчика, конверсию, средний чек. Интуиция хороша, таблица надёжнее.',
+ 'Следующая ступень продукта решает следующую проблему клиента, а не ту же самую дороже.',
+ 'Вы уже умеете то, чему другие хотят научиться. Обучение — это упакованный опыт.',
+ 'Выгорание — не цена успеха, а признак плохой системы. Отдых планируют так же, как съёмку.',
+ 'Бренд — это то, что о вас говорят, когда вас нет в комнате.',
+ 'Вы смотрите на свои первые рилсы и морщитесь. Это и есть рост.',
+ 'Самое сложное оказалось не снимать. Самое сложное было начать.',
+ 'Секрета нет: регулярность, понятный оффер и уважение к аудитории.',
+ 'Сколько времени ушло на «подготовиться». Первый рилс мог выйти год назад.',
+ 'Главное — начать. Всё остальное настраивается по дороге.',
+ 'Путь длиннее, чем кажется, но проще, чем страшно.',
+ 'Кто-то сейчас смотрит ваш первый рилс и думает: «Я тоже так смогу». Пусть сможет.',
+ 'Спасибо, что не бросили. Большинство останавливается раньше.',
+ 'Дальше — только ваши правила. Вы их уже знаете.'
+];
+
+/* ====== ИНДИВИДУАЛЬНЫЕ ДАННЫЕ НИШ ====== */
+const ND={
+ video:{t:['свадебную съёмку','цветокор','свет в кадре','работу с клиентом','монтаж на телефоне'],c:['Какой у вас свет стоит?','Снимете свадьбу в июле?'],r:'Костя с камерой',b:['Кадр','Свет и точка','Синий час']},
+ psy:{t:['тревогу','границы с родителями','выгорание','отношения','самооценку'],c:['Это прям про меня…','Сколько стоит консультация?'],r:'Психолог Катя',b:['Без тревоги','Тихий кабинет','Понятно про чувства']},
+ law:{t:['договор с заказчиком','возврат денег','наследство','права при увольнении','штрафы ГИБДД'],c:['А если договора не было?','Спасибо, вернул деньги по вашему видео'],r:'Юрист Марат',b:['По закону','Без суда','Бумаги в порядке']},
+ mark:{t:['воронку','упаковку профиля','рекламный бюджет','аналитику','офферы'],c:['А CPM какой был?','Сколько берёте за настройку?'],r:'Маркетолог Дима',b:['Трафик и смысл','Цифры решают','Рост по плану']},
+ astro:{t:['ретроградный Меркурий','натальную карту','совместимость','лунные дни','транзиты'],c:['У меня Луна в Скорпионе, всё сходится','Запишите на разбор карты'],r:'Астролог Лада',b:['Звёзды в курсе','Карта дня','Лунный дневник']},
+ dev:{t:['код-ревью','собеседования','нейросети в работе','архитектуру','легаси-код'],c:['Так в проде не пишут','А стек какой?'],r:'Сеня Backend',b:['Чистый код','Пет-проект','Деплой в пятницу']},
+ fit:{t:['технику приседа','питание в дефиците','тренировки дома','боль в спине','первый месяц в зале'],c:['А колени не полетят?','Возьмёте на онлайн-ведение?'],r:'Тренер Влад',b:['Без фанатизма','Тело в деле','Сильнее вчера']},
+ nutri:{t:['завтраки','анализы','дефицит железа','сахар','режим питания'],c:['А если нет времени готовить?','Какие анализы сдать?'],r:'Нутрициолог Оля',b:['Еда как еда','Без запретов','Сытно и просто']},
+ tutor:{t:['подготовку к ЕГЭ','разговорный английский','мотивацию ребёнка','ошибки в эссе','запоминание слов'],c:['Сын не хочет заниматься, что делать?','Есть места на сентябрь?'],r:'Репетитор Аня',b:['Сдадим','Без зубрёжки','Уроки по делу']},
+ acc:{t:['самозанятость','налоги для ИП','кассу','отчётность','вычеты'],c:['А если просрочил отчёт?','Возьмёте на обслуживание?'],r:'Бухгалтер Ирина',b:['Без штрафов','Цифры в порядке','Налоги по-русски']},
+ realt:{t:['ипотеку','осмотр квартиры','торг с продавцом','юридические риски','новостройки против вторички'],c:['А если продавец в разводе?','Поможете с подбором?'],r:'Риелтор Артём',b:['Ключи на руки','Квадратный метр','Сделка без нервов']},
+ beauty:{t:['уход после процедуры','форму бровей','стойкость маникюра','аллергии','цены в бьюти'],c:['Запишите меня!','А гель какой фирмы?'],r:'Мастер Вика',b:['Руки-крылья','Бровь всему голова','Красиво и близко']},
+ design:{t:['планировку','бюджет ремонта','ошибки в отделке','свет в квартире','подбор мебели'],c:['А в однушке так можно?','Сколько стоит проект?'],r:'Дизайнер Лиза',b:['Метры и смысл','Дом как надо','План на стену']},
+ any:{t:['свою работу','частые ошибки клиентов','цены в нише','закулисье','первый заказ'],c:['Интересно, продолжайте','А сколько это стоит?'],r:'Коллега по нише',b:['Моё дело','По-честному','Без воды']},
+ wood:{t:['выбор массива','шлифовку','масло против лака','сборку стола','заказ под размер'],c:['Из чего столешница?','Сделаете такой же, но 180 см?'],r:'Мастерская «Сук»',b:['Дерево и руки','Стол на век','Стружка']},
+ hand:{t:['варку свечей','ароматы','упаковку','ярмарки','себестоимость'],c:['Пахнет, наверное, космос','Доставка в Казань есть?'],r:'Свечная Маша',b:['Тёплый свет','Ручная работа','Воск и воля']},
+ cloth:{t:['лекала','ткани','размерную сетку','отшив партии','фото для карточек'],c:['А на рост 180 будет?','Ткань не сядет после стирки?'],r:'Бренд «Нитка»',b:['Своя марка','Нитка к нитке','Ношу своё']},
+ cake:{t:['бисквит','начинки','доставку торта','цены на праздники','декор'],c:['А без мастики можно?','Свободны на 12-е?'],r:'Кондитер Настя',b:['Сладко и честно','Кусочек','Крем и терпение']},
+ flow:{t:['сборку букета','стойкость цветов','упаковку','цены 8 марта','доставку'],c:['Сколько стоит такой букет?','А пионы будут в мае?'],r:'Цветочная Юля',b:['Букет и смысл','Стебель','Цветы близко']},
+ jew:{t:['серебро','гравировку','размер кольца','уход за украшениями','пару под образ'],c:['А размер 15 есть?','Серебро не темнеет?'],r:'Ювелир Рома',b:['Металл и свет','Своя проба','Мелочь на память']},
+ cosm:{t:['состав','срок годности','кожу зимой','тесты','упаковку'],c:['А для чувствительной кожи?','Состав покажете?'],r:'Лаборатория Ани',b:['Состав честный','Баночка','Кожа скажет спасибо']},
+ toys:{t:['безопасность материалов','развивашки по возрасту','цены','подарок на год','уборку игрушек'],c:['А с какого возраста?','Краска безопасная?'],r:'Мастерская «Ежик»',b:['Для маленьких','Играем','Дерево и смех']},
+ plant:{t:['полив','пересадку','свет для растений','вредителей','кашпо'],c:['У меня желтеют листья, почему?','Доставите монстеру?'],r:'Растения у Даши',b:['Зелёный угол','Полив по средам','Листик']},
+ coffee:{t:['обжарку','помол','воду для кофе','сорта','подписку на зерно'],c:['А на фильтр что посоветуете?','Свежая обжарка какого числа?'],r:'Обжарщик Гоша',b:['Своя обжарка','Зерно','Кружка утром']},
+ home:{t:['текстиль','хранение','сервировку','уборку','подарки для дома'],c:['А размер пледа какой?','Есть в бежевом?'],r:'Магазин «Дома»',b:['Дом в порядке','Уютно','Вещи со смыслом']},
+ music:{t:['запись трека','тексты','концерт в баре','работу со студией','каверы'],c:['Где послушать целиком?','Когда концерт в Питере?'],r:'Группа «Вторник»',b:['Звук','Не в формате','Голос и провод']},
+ actor:{t:['самопробы','кастинги','работу с текстом','сценическую речь','отказы'],c:['Мороз по коже','А где вас можно увидеть?'],r:'Актёр Никита',b:['Дубль два','Роль','За кадром']},
+ show:{t:['открытый микрофон','написание шуток','провалы на сцене','работу с залом','гастроли'],c:['Ору','Приезжайте к нам в город!'],r:'Стендапер Гриша',b:['Смешно вроде','Микрофон','Шутки про жизнь']},
+ dance:{t:['растяжку','связки','баттлы','преподавание','травмы'],c:['Разбор связки будет?','Где занимаетесь?'],r:'Танцор Соня',b:['В движении','Шаг','Тело говорит']},
+ paint:{t:['материалы','процесс работы','продажу картин','насмотренность','заказы портретов'],c:['Сколько стоит такая картина?','Как вы это делаете вообще'],r:'Художник Тимур',b:['Мазок','Холст и кофе','Пишу']},
+ writer:{t:['рутину письма','редактуру','публикации','идеи','блок'],c:['Перечитал трижды','Где почитать полностью?'],r:'Автор Ксюша',b:['Черновик','Пишется','Абзац']},
+ dj:{t:['сведение','подбор треков','вечеринки','оборудование','работу с залом'],c:['Что за трек на 0:14?','Сет выложите?'],r:'Диджей Марк',b:['Сет','Бит','До утра']}
+};
+function nd(){return ND[S.niche]||ND.any}
+const HOOKS={
+ expert:['Разбираем {t}','Три мифа про {t}','Что я понял про {t} за 10 лет','Честно про {t}','Главная ошибка: {t}'],
+ wide:['{t}: как это выглядит на самом деле','Челлендж: {t} за 60 секунд','Когда клиент говорит про {t}','Мем про {t}','Ожидание и реальность: {t}'],
+ car:['5 ошибок: {t}','Чек-лист: {t}','{t}: до и после','Мини-гайд: {t}','Сохраните: {t} по шагам'],
+ sell:['Кейс клиента: {t}','Почему {t} стоит столько','Что входит в работу: {t}','Кому не подойдёт: {t}','Результат за месяц: {t}']
+};
+const CARDS=[
+ {id:'safe',e:'🛡',n:'Безопасная тема',d:'Проверенный формат. Стабильно, но без чудес.',q:8,reach:1,viral:.6,trust:1,tip:'Стабильные форматы держат канал живым между экспериментами.'},
+ {id:'risk',e:'🎲',n:'Эксперимент',d:'Может выстрелить, может утонуть. Как повезёт.',q:0,rq:[-10,20],reach:1.2,viral:1.7,tip:'Без экспериментов не находят свой формат. Но ставить на них всё — дорого.'},
+ {id:'prov',e:'🔥',n:'Провокация',d:'Жёсткое мнение. Много охвата и много спорящих.',q:4,reach:1.5,viral:2,trust:-2,hate:1,tip:'Споры разгоняют охваты, но часть аудитории уходит. Провокацию дозируют.'},
+ {id:'story',e:'💎',n:'Личная история',d:'Про себя, без выгоды. Сближает с аудиторией.',q:10,reach:.9,viral:.9,trust:4,heat:6,tip:'Личное продаёт лучше экспертного: люди покупают у людей.'},
+ {id:'fast',e:'⏱',n:'Снять на бегу',d:'Быстро и дёшево по силам, но сыро.',q:-10,cost:-8,reach:1,viral:.8,tip:'Иногда выложить сырое лучше, чем не выложить ничего. Но не каждый день.'},
+ {id:'trend',e:'🎵',n:'Под тренд',d:'Актуальный звук и формат. Охват выше, срок жизни короче.',q:2,reach:1.35,viral:1.5,trust:-1,tip:'Тренды дают охват сегодня, экспертиза — клиентов завтра.'},
+ {id:'deep',e:'🧠',n:'Глубокий разбор',d:'Долго готовить, но зрители досматривают и сохраняют.',q:16,cost:6,reach:.85,viral:.8,trust:3,tip:'Досмотры и сохранения алгоритм ценит выше лайков.'}
+];
+const CMT={
+ flop:['Первый','…','Алгоритм, ты где?','Ничего не понял, но ладно','2 просмотра, один мой'],
+ mid:['Сохранил, спасибо','А можно подробнее?','Наконец-то по делу','Подписалась','Оу, полезно'],
+ hit:['Это надо показать всем','Пришёл из рекомендаций','Ого, залетело, поздравляю','Кто ещё тут с рекомендаций?','Забрал в закладки'],
+ sell:['А сколько стоит?','Опять продажа…','Написала в директ','Дорого, но честно','Когда следующий набор?'],
+ hate:['Ну это спорно','Вы не правы, но интересно','Развели срач ради охватов','Подписался, чтобы спорить']
+};
+const TRAITS={
+ perf:{e:'🔍',n:'Перфекционист',d:'Качество публикаций выше на 8, но каждая съёмка отнимает на 5 энергии больше.',q:8,cost:5},
+ grapho:{e:'⚡',n:'Скорострел',d:'Публикации дешевле на 6 энергии, но качество ниже на 6. Берёте количеством.',q:-6,cost:-6},
+ nerd:{e:'🤓',n:'Душнила-эксперт',d:'Доверие растёт на 40% быстрее, широкие ролики заходят хуже.',tr:1.4,wide:.75},
+ party:{e:'🎉',n:'Тусовщик',d:'Выгорание уходит быстрее, мотивация падает медленнее. Учёба даётся хуже.',burn:.7,learn:.7},
+ work:{e:'🐝',n:'Трудоголик',d:'Каждый день +7 энергии, но выгорание копится на четверть быстрее.',en:7,burnUp:1.25},
+ opt:{e:'🌞',n:'Оптимист',d:'Каждый день +2 мотивации: вы умеете не падать духом от пустых охватов.',motDay:2},
+ lazy:{e:'🦥',n:'Лентяй',d:'Энергии восстанавливается на 10 больше, но качество публикаций ниже на 5: делаете быстро и «и так сойдёт».',en:10,q:-5},
+ owl:{e:'🦉',n:'Сова',d:'Ночью работается лучше: качество +6. Зато утром вы никакой — энергии восстанавливается на 7 меньше.',q:6,en:-7},
+ net:{e:'🤝',n:'Нетворкер',d:'Друзья не устают от просьб (8 репостов вместо 4), а бренды отвечают чаще.',patience:8,pitch:.25},
+ show:{e:'🎭',n:'Шоумен',d:'Широкие ролики заходят на 30% лучше, но экспертные даются хуже: качество −6 на пользе.',wide:1.3,expQ:-6}
+};
+const QUIZ=[
+ {q:'Что даст больше подписчиков?',a:['Юмор на 200 000 просмотров','Карусель на 4 000 просмотров'],r:1,w:'Широкий охват даёт просмотры, но подписываются единицы. Карусель и экспертное конвертируют зрителя в подписчика в разы лучше.'},
+ {q:'Аудитория не покупает. Что чинить в первую очередь?',a:['Больше продающих постов','Доверие и прогрев'],r:1,w:'Больше офферов при низком доверии только утомляют аудиторию. Сначала польза и личное, потом продажа.'},
+ {q:'Что важнее для досмотра?',a:['Первые 3 секунды','Качество камеры'],r:0,w:'Хук решает, останется зритель или пролистает. Камера не спасёт слабое начало.'},
+ {q:'Блогер купил 5 000 подписчиков. Что будет с охватами?',a:['Вырастут','Упадут'],r:1,w:'Боты не смотрят. Алгоритм видит низкое удержание и показывает контент меньше — страдает весь аккаунт.'},
+ {q:'Публиковать каждый день через силу или 3 раза в неделю нормально?',a:['Каждый день','Три раза в неделю'],r:1,w:'Выгоревший автор снимает хуже и чаще бросает. Ритм важнее подвига.'},
+ {q:'Продюсер просит 100 000 предоплаты и обещает миллион. Первое действие?',a:['Запросить кейсы с контактами клиентов','Перевести, пока есть место в наборе'],r:0,w:'Проверяемые кейсы, договор и оплата по этапам. Срочность и гарантии — красные флаги.'},
+ {q:'Что сильнее поднимает продажи?',a:['Ещё 10 000 подписчиков','Тот же блог, но доверие выше вдвое'],r:1,w:'Продажи идут от доверия. Пять тысяч тёплых людей дают больше, чем сто тысяч случайных.'},
+ {q:'Ролик залетел на 500 000. Что с этой аудиторией?',a:['Часть отпишется в ближайший месяц','Останутся все'],r:0,w:'Случайная аудитория уходит, если блог не про то, на что она подписалась. Поэтому важно быстро показать ей свою суть.'},
+ {q:'Зачем нужна воронка, если есть личные продажи?',a:['Чтобы продавать без вашего участия','Чтобы поднять цену'],r:0,w:'Воронка работает в дни, когда вы отдыхаете или болеете. Это единственный способ снять потолок «продаю своё время».'},
+ {q:'Реклама у блогера не окупилась. Что это значит?',a:['Посевы не работают','Не совпали аудитории'],r:1,w:'Решает совпадение аудиторий, а не размер блога. Поэтому посевы делают партиями и считают цену подписчика.'},
+ {q:'Что делать с хейтом под роликом?',a:['Удалять и банить всех','Отвечать спокойно, часть споров оставить'],r:1,w:'Споры повышают активность и охваты. Токсичное удаляют, но стерильные комментарии — мёртвые комментарии.'},
+ {q:'Куда сначала вкладывать первые деньги с блога?',a:['В дорогую камеру','В сценариста или обучение'],r:1,w:'Техника улучшает картинку, смысл — результат. Камера почти никогда не бывает узким местом.'},
+ {q:'Сколько стоит подписчик из рекламы, если 25 000 ₽ дали 500 человек?',a:['50 ₽','500 ₽'],r:0,w:'25 000 / 500 = 50 ₽. Считать цену подписчика — базовая привычка, без неё бюджет уходит вслепую.'},
+ {q:'Когда поднимать цену на услуги?',a:['Когда записи больше, чем времени','Когда захотелось больше денег'],r:0,w:'Цену поднимает спрос. Очередь — сигнал, что рынок готов платить больше.'},
+ {q:'Что чаще убивает блог на третьем месяце?',a:['Плохая камера','Выгорание и отсутствие системы'],r:1,w:'Почти все бросают не из-за качества картинки, а из-за усталости и отсутствия плана.'}
+];
+const QUESTS=[
+ {id:'expert2',t:'Выложить 2 экспертных ролика',n:2,g:s=>s.q.expert,m:{skill:4,mot:8}},
+ {id:'car2',t:'Выложить 2 карусели',n:2,g:s=>s.q.car,m:{trust:6,mot:8}},
+ {id:'wide2',t:'Выложить 2 широких ролика',n:2,g:s=>s.q.wide,m:{mot:10}},
+ {id:'heat',t:'Сделать прогрев и продажу',n:2,g:s=>Math.min(s.q.sell,1)+Math.min(s.q.sold,1),m:{money:40000,mot:8}},
+ {id:'subs',t:'Набрать 300 подписчиков за неделю',n:300,g:s=>s.q.subs,m:{mot:12,money:25000}},
+ {id:'prep2',t:'Проработать 2 сценария',n:2,g:s=>s.q.prep,m:{skill:5,mot:5}},
+ {id:'stories2',t:'Выложить сторис 2 раза',n:2,g:s=>s.q.stories,m:{trust:8,mot:5}},
+ {id:'rest1',t:'Взять день отдыха',n:1,g:s=>s.q.rest,m:{mot:10}},
+ {id:'learn1',t:'Позаниматься обучением',n:1,g:s=>s.q.learn,m:{skill:5,mot:4}},
+ {id:'post4',t:'Сделать 4 любые публикации',n:4,g:s=>s.q.posts,m:{mot:10,money:35000}}
+];
+
+/* ====== TELEGRAM MINI APP ====== */
+const BOT_URL='https://t.me/YOUR_BOT_USERNAME'; // ← замените на ссылку на своего бота
+const TG=(window.Telegram&&Telegram.WebApp&&Telegram.WebApp.initData!==undefined)?Telegram.WebApp:null;
+function tgv(v){try{return TG&&TG.isVersionAtLeast(v)}catch(e){return false}}
+function tgInit(){
+ if(!TG)return;
+ try{TG.ready();TG.expand()}catch(e){}
+ try{document.documentElement.setAttribute('data-theme',TG.colorScheme==='dark'?'dark':'light')}catch(e){}
+ try{if(tgv('7.7'))TG.disableVerticalSwipes()}catch(e){}
+ try{if(tgv('6.2'))TG.enableClosingConfirmation()}catch(e){}
+ const paint=()=>{try{const bg=getComputedStyle(document.body).backgroundColor;if(tgv('6.1')){TG.setHeaderColor(bg);TG.setBackgroundColor(bg)}if(tgv('7.10'))TG.setBottomBarColor(bg)}catch(e){}};
+ setTimeout(paint,50);
+ try{TG.onEvent('themeChanged',()=>{document.documentElement.setAttribute('data-theme',TG.colorScheme==='dark'?'dark':'light');setTimeout(paint,50)})}catch(e){}
+ try{if(tgv('6.1'))TG.BackButton.onClick(tgBack)}catch(e){}
+}
+function tgBack(){
+ if(document.querySelector('#sheet')){closeSheet();tgBackSync();return}
+ const p=document.querySelector('[data-p="x"]');if(p){p.click();tgBackSync();return}
+ tgBackSync();
+}
+function tgBackSync(){try{if(!TG||!tgv('6.1'))return;(document.querySelector('#sheet')||document.querySelector('[data-p="x"]'))?TG.BackButton.show():TG.BackButton.hide()}catch(e){}}
+function haptic(kind){
+ try{
+  if(TG&&tgv('6.1')){const H=TG.HapticFeedback;
+   if(kind==='success')H.notificationOccurred('success');
+   else if(kind==='error')H.notificationOccurred('error');
+   else if(kind==='heavy')H.impactOccurred('heavy');
+   else H.selectionChanged();return}
+  if(navigator.vibrate)navigator.vibrate(kind==='success'?[30,40,60]:kind==='heavy'||kind==='error'?80:8);
+ }catch(e){}
+}
+/* облачные сохранения: CloudStorage хранит строки до 4096 символов, режем на куски */
+function cloudOk(){return TG&&tgv('6.9')&&TG.CloudStorage}
+function cloudSet(key,str){
+ if(!cloudOk())return;
+ try{const n=Math.ceil(str.length/3800)||1;
+  for(let i=0;i<n;i++)TG.CloudStorage.setItem(key+'_'+i,str.slice(i*3800,(i+1)*3800),()=>{});
+  TG.CloudStorage.setItem(key+'_n',String(n),()=>{});
+ }catch(e){}
+}
+function cloudGet(key,cb){
+ if(!cloudOk())return cb(null);
+ try{TG.CloudStorage.getItem(key+'_n',(err,n)=>{
+  n=+n||0;if(err||!n)return cb(null);
+  const keys=[...Array(n).keys()].map(i=>key+'_'+i);
+  TG.CloudStorage.getItems(keys,(e2,vals)=>{if(e2||!vals)return cb(null);cb(keys.map(k=>vals[k]||'').join(''))});
+ })}catch(e){cb(null)}
+}
+function cloudDel(key){if(!cloudOk())return;try{TG.CloudStorage.setItem(key+'_n','0',()=>{})}catch(e){}}
+let cloudTimer=null;
+function cloudSaveSoon(){if(!cloudOk())return;clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>{try{cloudSet('game',JSON.stringify(S))}catch(e){}},1500)}
+function tgShare(text){
+ if(!TG)return false;
+ try{const url='https://t.me/share/url?url='+encodeURIComponent(BOT_URL)+'&text='+encodeURIComponent(text);TG.openTelegramLink(url);return true}catch(e){return false}
+}
+tgInit();
+let S=null, week=null, queue=[], modalOpen=false, tab='content', newIns=[];
+
+function wk(){return week||WEEKS[8]}
+function log(t){S.log.unshift(t);if(S.log.length>40)S.log.pop()}
+function save(){try{localStorage.setItem(SAVE,JSON.stringify(S))}catch(e){}cloudSaveSoon()}
+function load(){try{const r=localStorage.getItem(SAVE);return r?JSON.parse(r):null}catch(e){return null}}
+function wipeSave(){try{localStorage.removeItem(SAVE)}catch(e){}clearTimeout(cloudTimer);cloudDel('game')}
+function unlock(id){if(!S.ins.includes(id)){S.ins.push(id);newIns.push(id)}}
+function insToast(){if(!newIns.length)return;const i=INS[newIns[0]];toast(newIns.length>1?`💡 Новых инсайтов: ${newIns.length}. Загляните в «Инсайты»`:`💡 Инсайт: ${i.t}`,3200);newIns=[]}
+function msg(e,t,d,ch){queue.push({e,t,d,choices:ch})}
+let toastQ=[];
+function toast(t,ms){
+ if(modalOpen||document.querySelector('#sheet')){toastQ.push([t,ms]);return}
+ const stage=$('#stageEl')||document.body;
+ document.querySelectorAll('.toast').forEach(x=>x.remove());
+ const el=document.createElement('div');el.className='toast';el.textContent=t;
+ const card=stage.querySelector&&stage.querySelector('.post'),vw=card&&card.querySelector('.pViews');
+ if(card&&vw){card.appendChild(el);el.style.top=Math.max(4,vw.offsetTop-4)+'px'}
+ else{stage.appendChild(el)}
+ setTimeout(()=>el.remove(),ms||2400);
+}
+function drainToasts(){if(modalOpen||document.querySelector('#sheet'))return;const q=toastQ;toastQ=[];q.forEach(([t,ms],i)=>setTimeout(()=>toast(t,ms),i*600))}
+
+function newGame(fam,nc,diff,blog,trait,storyId,chal){
+ const st=START[fam],D=DIFF[diff],SY=STORIES[storyId||'fresh'];
+ S={fam,niche:nc,diff,tier:0,day:1,maxDays:200,energy:100,mot:D.mot,burn:0,heat:0,money:st.money+D.money,debt:0,live:st.live,dead:0,skill:st.skill,trust:st.trust,ban:0,shadow:0,
+   prep:0,nextQ:0,nextMult:1,lastPost:0,streak:0,lastSale:0,sellStreak:0,reels:0,views:0,best:0,revenue:0,taxed:0,sales:0,
+   patience:4,team:{reels:0,script:0,target:0,funnel:0,course:0},prod:null,loans:0,weekId:'calm',
+   gear:{crack:0,phone:0,disk:0,camera:0},dream:{on:0,saved:0,goal:190000,inst:0},
+   cold:0,sat:0,postBan:0,flat:'',mort:null,hc:0,hcOffered:0,raise:{reels:0,script:0,target:0},blog:'',trait:'perf',autoPick:0,q:{expert:0,wide:0,car:0,sell:0,sold:0,subs:0,prep:0,stories:0,rest:0,learn:0,posts:0},quests:[],qdone:[],rival:null,post:null,hist:[],quizWeek:0,log:[],ins:[],thoughts:[],seen:{},flags:{},scammed:0,over:0,won:0,wonDay:0,lastEv:0,fit:0,giftDay:-99};
+ S.story=storyId||'fresh';S.challenge=chal||0;S.wr=chal?chal*104729:0;
+ S.money+=SY.money||0;S.mot=clamp(S.mot+(SY.mot||0),20,100);S.trust+=SY.trust||0;S.skill=Math.max(1,S.skill+(SY.skill||0));
+ S.tut=0;try{if(localStorage.getItem('putkreatora_tut')==='done')S.tut=99}catch(e){}
+ S.month={subs:st.live,rev:0,spent:0,best:null,worst:null,posts:0,q:0,series:[]};
+ S.blog=blog||pick((ND[nc]||ND.any).b);
+ S.trait=trait||'perf';
+ S.patience=(TRAITS[S.trait]||{}).patience||4;
+ S.rival={n:(ND[nc]||ND.any).r,f:Math.round(st.live*rnd(1.3,2.2)),v:0};
+ S.quests=rollQuests();
+ week=WEEKS.find(w=>w.id==='calm');
+ log(`📱 День 1. ${NINTRO[fam+'_'+nc]} ${st.log}`);
+ msg(A().e,st.t,`${st.d}<br><br><b>${A().name}, ${S.blog}.</b> Характер: ${TRAITS[S.trait].e} ${TRAITS[S.trait].n.toLowerCase()}. ${TRAITS[S.trait].d}<br><br>История: ${SY.e} ${SY.n.toLowerCase()}. ${SY.d}<br><br>Цель — ${A().goalText.toLowerCase()} за 200 дней.${chal?' <b>Челлендж недели №'+chal+':</b> у всех одинаковые условия и события — сравнивайтесь постерами.':''} Уровень: ${D.e} ${D.n.toLowerCase()}. Возьмёте цель раньше — сможете поднять планку, и срок продлится до 250 дней.`);
+ save();showGame();render();flush();
+}
+
+/* ====== КОНТЕНТ ====== */
+const TYPES={
+ expert:{e:'🧠',t:'Экспертный',c:25,reach:.85,fol:2.2,trust:2.5,heat:7,viral:.7,d:'Польза и разборы. Просмотров меньше, но подписчики и доверие растут стабильно.'},
+ wide:{e:'😂',t:'Широкий',c:25,reach:2,fol:.5,trust:0,heat:0,viral:2.2,d:'Юмор, тренды, эмоции. Много просмотров, мало подписчиков — пока не залетит по-крупному.'},
+ car:{e:'🖼️',t:'Карусель',c:18,reach:.75,fol:3.2,trust:3.5,heat:10,viral:.2,d:'Пост-инструкция на несколько слайдов. Просмотров мало, зато подписываются и сохраняют.'},
+ sell:{e:'💰',t:'Продающий',c:20,reach:.45,fol:.35,trust:0,heat:24,viral:.4,d:'Оффер, кейсы, боль клиента. Охваты низкие, зато аудитория прогревается к покупке.'}
+};
+function tr(){return TRAITS[S.trait]||TRAITS.perf}
+function reelCost(k){return Math.max(6,TYPES[k].c+(tr().cost||0)-(S.team.reels?8:0)-(S.gear.disk===2?2:0)-(S.flags.pc?2:0)+(wk().reelCost||0))}
+function gearQ(){const g=S.gear,f=S.flags;return (f.monitor?3:0)+(f.pc?8:0)+(f.laptop?-5:0)+(g.crack===1?-4:0)+(g.disk===-1?-4:0)+(g.disk===2?2:0)+(g.phone?8:0)+(g.phone2?6:0)+(g.camera?12:0)+(S.flags.smile?3:0)}
+
+function doReel(k,card){
+ const s=S,w=wk(),p=s.prod,T=TYPES[k];
+ card=card||{q:0,reach:1,viral:1,trust:0,heat:0};
+ const t=tr();
+ let q=s.skill*.55+s.prep*9+(s.team.reels?15:0)+(s.team.script?14:0)+(p?p.q:0)+gearQ()+rnd(-12,12)+s.nextQ+(card.q||0)+(t.q||0)+(k==='expert'?(t.expQ||0):0)+(card.rq?ri(card.rq[0],card.rq[1]):0);
+ if(s.energy<35)q-=15;
+ q=clamp(Math.round(q),3,100);
+ const gap=s.lastPost?s.day-s.lastPost:3;
+ let cons=1;
+ if(gap===1&&q<45){cons=.75;if(s.streak>=5)unlock('daily')}
+ if(s.lastPost&&gap>7){cons=.55;unlock('gap')}
+ const total=s.live+s.dead, health=total?Math.sqrt(s.live/total):1;
+ const reachBase=s.live<=3000?s.live*.35:1050+Math.pow(s.live-3000,.75)*1.2;
+ const base=(250+reachBase)*health;
+ const spread=w.chaos?rnd(.25,2.6):rnd(.6,1.5);
+ const fl=s.flags,fm2=(fl.satur&&s.day<fl.satur?.85:1)*(fl.igLow&&s.day<fl.igLow?.5:1)*(fl.aiFlood&&card.id!=='story'?.85:1)*(fl.algoLong&&s.day<fl.algoLong?(k==='wide'?.7:k==='car'?1.3:1):1);
+ let views=base*fm2*(.4+q/45)*T.reach*A().reach*(card.reach||1)*(k==='wide'?(t.wide||1):1)*(w.reach||1)*cons*(s.shadow>0?.15:1)*s.nextMult*spread;
+ let vc=(Math.max(0,q-25)/300*T.viral)*(card.viral||1)+(s.team.script?.02:0)+(p?p.viral:0)+(S.fam==='art'?.02:0);
+ vc*=(w.viral||1); if(s.shadow>0)vc=0;
+ let viral=false;
+ if(Math.random()<vc){viral=true;views*=Math.random()<.1?rnd(80,200):rnd(12,50)}
+ views=Math.round(views);
+ let rate=(.006+q/2500)*T.fol*A().fm*(story().fm||1)*(k==='expert'?(w.expert||1):1);
+ let gain=Math.round(views*rate/(1+views/700000));
+ const coldShare=k==='wide'?.35:k==='sell'?.12:k==='car'?.06:.05;
+ s.cold=(s.cold||0)+Math.round(gain*coldShare);
+ s.live+=gain;s.views+=views;s.reels++;s.best=Math.max(s.best,views);
+ s.streak=gap===1?s.streak+1:1;
+ s.burn+=((gap===1?13:6)-(s.team.reels?3:0))*(s.flags.chair?.8:1)*(t.burnUp||1);
+ s.trust=clamp(s.trust+(T.trust+(card.trust||0))*A().tr*(t.tr||1)*(1-s.trust/120),0,100);
+ s.heat=clamp(s.heat+T.heat+(card.heat||0),0,100);
+ if(k==='sell'){s.sellStreak++;if(s.sellStreak>=3){s.trust=Math.max(0,s.trust-4);const l=Math.round(s.live*.01);s.live-=l;log(`😵 Третий продающий подряд: ${l} человек отписались.`);unlock('fatigue')}}else s.sellStreak=0;
+ if(k==='car')s.mot+=gain>=25?3:-1;
+ else if(k==='sell')s.mot-=1;
+ else if(views<300)s.mot-=s.reels<15?2:4;else if(views<1500)s.mot-=1;else if(views<5000)s.mot+=2;else s.mot+=8;
+ if(viral)s.mot+=25;
+ s.prep=0;s.nextQ=0;s.nextMult=1;s.lastPost=s.day;
+ s.q[k==='car'?'car':k]++;s.q.posts++;s.q.subs+=gain;
+ monthTrack(k,card.title||T.t,views,q);if(viral)fx('confetti');
+ const likes=Math.round(views*rnd(.03,.07)),saves=Math.round(views*(k==='car'?rnd(.02,.05):rnd(.004,.012)));
+ s.post={type:k,title:card.title||T.t,views,gain,likes,saves,q,viral,
+  cmts:makeComments(k,views,gain,card),tip:card.tip||''};
+ log(`${T.e} ${card.title||T.t}: ${fmt(views)} просмотров, +${fmt(gain)} подписчиков, ${fmt(saves)} сохранений. Качество ${q}/100.${s.shadow>0?' Теневой бан режет охваты.':''}`);
+ if(viral){s.virals=(s.virals||0)+1;}
+ if(viral&&s.virals>2)toast(`🚀 Залетело: ${fmt(views)} просмотров, +${fmt(gain)} подписчиков`,3000);
+ if(viral&&s.virals<=2){msg('🚀','Рилс залетел!',`${fmt(views)} просмотров и +${fmt(gain)} подписчиков. Родственники переслали его в семейный чат.`);unlock('viral')}
+ if(s.reels===1&&views<700)unlock('first');
+ if(s.reels===6)unlock('mix');
+ if(q>=70)unlock('hook');
+ if(s.team.reels&&!s.team.script&&!p&&s.reels>2)unlock('reelsmaker');
+ if(s.streak===30){s.mot+=15;msg('📆','Челлендж «30 дней» выполнен','Вы выкладывали рилсы 30 дней подряд. Мотивация +15. Теперь главное — не выгореть.');unlock('streak')}
+}
+function makeComments(k,views,gain,card){
+ const n=nd(),out=[],used=[];
+ const pool=views<800?CMT.flop:views>20000?CMT.hit:CMT.mid;
+ out.push(pick(pool));
+ if(k==='sell')out.push(pick(CMT.sell));
+ else if(card&&card.hate)out.push(pick(CMT.hate));
+ else out.push(pick(n.c));
+ if(views>3000&&Math.random()<.6)out.push(pick(n.c.concat(CMT.mid)));
+ return [...new Set(out)].slice(0,3).map(c=>({n:pick(NAMES.filter(x=>!used.includes(x))||NAMES)||'гость',c}))
+  .map(o=>{used.push(o.n);return o});
+}
+function hookCards(k){
+ const n=nd(),topics=[...n.t].sort(()=>Math.random()-.5);
+ const set=[...CARDS].sort(()=>Math.random()-.5).slice(0,3);
+ return set.map((c,i)=>{
+  const tpl=pick(HOOKS[k]),topic=topics[i%topics.length];
+  return {...c,title:tpl.replace('{t}',topic),cost:c.cost||0};
+ });
+}
+function openPicker(k){
+ if(modalOpen)return;
+ const T=TYPES[k],cards=hookCards(k);
+ pendingPick={k,cards};
+ const base=reelCost(k);
+ const body=`<div class="mo pick"><div class="em">${T.e}</div><div class="kick">${T.t} — выберите подачу</div><h3>О чём снимаем?</h3>
+  <p>${T.d}</p>
+  ${cards.map((c,i)=>`<button class="hk" data-p="${i}"${S.energy<base+(c.cost||0)?' disabled':''}>
+    <span class="hkTop"><b>${c.e} ${c.title}</b><i>⚡${Math.max(6,base+(c.cost||0))}</i></span>
+    <span class="hkD">${c.n} · ${c.d}</span>
+    <span class="hkTags">${c.viral>=1.5?'<i class="t1">шанс залететь</i>':''}${c.q>=8?'<i class="t2">высокое качество</i>':''}${c.trust>0?'<i class="t3">+доверие</i>':''}${c.trust<0?'<i class="t4">−доверие</i>':''}${c.rq?'<i class="t4">непредсказуемо</i>':''}</span>
+   </button>`).join('')}
+  <button class="btn g" data-p="x">Передумал</button></div>`;
+ const root=$('#ovRoot');modalOpen=true;
+ root.innerHTML=`<div class="ov">${body}</div>`;
+ setTimeout(tutTick,40);setTimeout(tgBackSync,0);
+ root.onclick=e=>{const b=e.target.closest('button');if(!b||b.disabled)return;
+  root.innerHTML='';root.onclick=null;modalOpen=false;
+  if(b.dataset.p==='x'){render();return}
+  runPost(k,pendingPick.cards[+b.dataset.p]);
+ };
+}
+let pendingPick=null;
+function doPrep(){S.prep=Math.min(4,S.prep+1);S.skill=Math.min(100,S.skill+.5);log(`📝 Сценарий и хук готовы. Подготовка ${S.prep}/4.`);if(S.prep>=2)unlock('hook')}
+function doStories(){const s=S,k=wk().stories||1;const g=3*k*A().tr*(1-s.trust/110)+(s.live>1000?1:0);s.trust=Math.min(100,s.trust+g);s.heat=clamp(s.heat+6,0,100);const f=Math.round(s.live*.002)+ri(0,3);s.live+=f;s.mot+=2;log(`🤳 Сторис, ответы в директе, живое общение. Доверие +${g.toFixed(1)}, прогрев +6.`);if(s.trust>30)unlock('trust')}
+function doLearn(){const s=S;const g=rnd(2,4)*(wk().learn||1)*(tr().learn||1)*(1-s.skill/130);s.skill=Math.min(100,s.skill+g);s.mot+=2;log(`📚 ${pick(FLAV.learn[s.fam])}. Навык +${g.toFixed(1)}.`)}
+function doWork(){const m=ri(3500,6500);S.money+=m;S.mot-=3;S.burn+=3;log(`💼 ${pick(FLAV.work[S.fam])}: +${fmt(m)} ₽. Контент сегодня не снимали.`)}
+function doRest(){S.energy=Math.min(100,S.energy+45);if(S.burn>50)unlock('rest');S.burn=Math.max(0,S.burn-30);S.mot+=8;log(`😴 ${pick(FLAV.rest)}. Энергия +45, выгорание −30, мотивация +8.`)}
+
+function doFriendsMeet(){const s=S;s.money-=3000;s.burn=Math.max(0,s.burn-35);s.mot+=12;
+ log(`🍻 ${pick(['Встретились с друзьями, смеялись до ночи','Посидели с друзьями, про блог — ни слова','Съездили с друзьями за город'])}. Мотивация +12, выгорание −35.`);unlock('rest')}
+function doGift(){const s=S,recent=s.day-s.giftDay<14;const g=recent?6:18;s.money-=15000;s.mot+=g;s.giftDay=s.day;
+ log(`🎁 Купили себе подарок за 15 000 ₽. Мотивация +${g}.${recent?' Радость от покупок быстро привыкает.':''}`);if(recent)unlock('gift')}
+function doInspire(){const s=S;s.mot+=8;s.nextQ+=12;s.skill=Math.min(100,s.skill+1);
+ log(`📖 ${pick(['Сходили на выставку','Прочитали книгу, от которой не могли оторваться','Посмотрели сильный документальный фильм','Съездили в новое место'])}. Мотивация +8, следующая публикация сильнее.`)}
+function doSport(){const s=S;s.burn=Math.max(0,s.burn-15);s.mot+=6;s.fit=6;
+ log('🏃 Тренировка. Выгорание −15, мотивация +6, следующие 6 дней энергия восстанавливается быстрее.')}
+function doFriends(){const s=S;
+ if(s.patience>0){const v=ri(300,900),f=ri(5,25);s.live+=f;s.views+=v;s.patience--;s.mot+=2;
+  log(`🙏 Друзья репостнули: ${fmt(v)} просмотров, +${f} подписчиков. ${s.patience?'Кажется, они подустали.':'Больше просить неудобно.'}`);
+  if(s.patience<=2)unlock('friends');
+ }else{s.mot-=8;log('🙏 Друзья делают вид, что не видели сообщение. Кто-то замьютил ваши сторис.');unlock('friends')}}
+function doPromo(){
+ const s=S,cost=25000;
+ const r=Math.random();
+ if(r<.6){const g=Math.round(ri(150,600)*(1+s.trust/100)+s.live*rnd(.02,.08));s.live+=g;s.mot+=4;
+  log(`💸 Посев у блогера за ${fmt(cost)} ₽: пришло ${fmt(g)} живых подписчиков. Аудитория совпала.`)}
+ else if(r<.85){const g=ri(20,120);s.live+=g;s.mot-=4;
+  log(`💸 Посев за ${fmt(cost)} ₽ не зашёл: всего ${g} подписчиков. Аудитория блогера оказалась не вашей.`)}
+ else{const d=ri(300,900),g=ri(10,40);s.dead+=d;s.live+=g;s.mot-=8;
+  log(`💸 Посев за ${fmt(cost)} ₽: +${fmt(d+g)} подписчиков, но живых среди них ~${g}. У блогера накрученная аудитория.`);
+  unlock('mass')}
+ s.money-=cost;if(s.month)s.month.spent+=cost;
+ unlock('promo');
+}
+function hardBan(){const s=S;
+ msg('⛔','Аккаунт заблокирован','«Ваш аккаунт отключён». Что делаем?',[
+  {l:'Заплатить «разбанщику» 25 000 ₽',f:()=>{s.money-=25000;
+    if(Math.random()<.5){s.ban=0;msg('😮‍💨','Аккаунт вернули','Повезло. Больше так не рискуйте.');log('⛔ Аккаунт разблокировали.')}
+    else{s.scammed++;resetAcc();msg('🕳️','Развели','«Разбанщик» взял деньги и пропал. Придётся начинать с новой страницы.');log('⛔ Деньги ушли, аккаунт нет.')}}},
+  {l:'Завести новый аккаунт',f:()=>{resetAcc();log('⛔ Новый аккаунт. Почти вся аудитория осталась на старом.')}}]);}
+function resetAcc(){const s=S;s.live=Math.round(s.live*.05)+40;s.dead=0;s.trust*=.5;s.ban=0;s.shadow=0;s.heat=0;s.mot-=25}
+
+function doSell(){
+ const s=S,a=A(),w=wk(),p=s.prod;
+ const recent=s.lastSale&&s.day-s.lastSale<12;
+ const heatM=.5+s.heat/60;
+ const astro=(s.niche==='astro'&&w.id==='retro')?1.8:1;
+ let rev=0,buyers=0,gross=0;
+ if(s.fam==='art'){
+  const satA=1/(1+(s.sat||0)/Math.max(200,s.live*.12)),penA=(s.flags.sellPen&&s.day<s.flags.sellPen)?.6:1;
+  rev=Math.round(s.live*rnd(3,5)*tierOf(s.tier).pm*(s.trust/60)*heatM*satA*penA*(w.sales||1)*(recent?.4:1)*(p?p.sales:1));
+  s.sat=(s.sat||0)+Math.round(s.live*.02);
+  gross=rev;
+ }else{
+  const satM=1/(1+(s.sat||0)/Math.max(80,s.live*.06));
+  const pen=((s.flags.sellPen&&s.day<s.flags.sellPen)?.6:1)*((s.flags.crisis&&s.day<s.flags.crisis)?.6:1)*((s.flags.peak&&s.day<s.flags.peak)?1.8:1)*(s.flags.outgrew===s.tier&&s.flags.outgrew!==undefined?.7:1);
+  let b=s.live*a.conv*(s.trust/60)*heatM*astro*satM*pen*(s.team.funnel?2:1)*(p?p.sales:1)*(w.sales||1)*rnd(.5,1.5)*(recent?.35:1);
+  buyers=Math.floor(b)+(Math.random()<b%1?1:0);
+  let over=0,cap=a.cap;
+  if(!cap&&a.digital)cap=Math.max(5,Math.round(s.live*.0035));
+  if(cap&&buyers>cap){over=buyers-cap;buyers=cap}
+  gross=buyers*a.price;
+  if(over>0){s.heat=Math.min(100,s.heat+8);
+   log(a.digital?`⌛ Ещё ${over} человек присматривались, но до покупки в этот раз не дошли. Аудиторию нельзя продать всю сразу.`
+    :`⌛ Желающих было больше на ${over} — вы физически не успеваете всех взять. Часть осталась ждать следующего потока.`);unlock('cap')}
+  rev=Math.round(gross*(1-a.cost-(s.flags.costUp||0)));
+ }
+ const share=p?Math.round(rev*p.share):0,net=rev-share;
+ s.money+=net;s.revenue+=net;s.sales+=buyers;s.lastSale=s.day;s.sat=(s.sat||0)+buyers;
+ if(s.heat<25&&net<=a.price)unlock('heat');
+ s.heat=Math.round(s.heat*.2);
+ if(recent){s.trust=Math.max(0,s.trust-6);s.live-=Math.round(s.live*.02);unlock('fatigue')}
+ s.mot+=net>0?Math.min(20,Math.round(net/20000)+3):-10;
+ if(s.fam==='art')log(`💰 ${tierOf(s.tier).n}: +${fmt(net)} ₽${share?` (продюсеру ${fmt(share)} ₽)`:''}.`);
+ else log(`💰 ${tierOf(s.tier).n}: ${buyers} ${buyers===1?'продажа':'продаж'} по ${fmt(a.price)} ₽`+
+   `${a.cost?`, себестоимость −${fmt(gross-rev)} ₽`:''}${share?`, продюсеру −${fmt(share)} ₽`:''} → +${fmt(net)} ₽.`+
+   `${recent?' Аудитория ещё не отдохнула от прошлого запуска.':''}${astro>1?' Ретроградный Меркурий сделал вам кассу.':''}`);
+ if(buyers<=1&&s.fam!=='art'&&s.trust<35)unlock('trust');
+ if(s.team.funnel)unlock('funnel');
+ if(s.tier===0&&(s.revenue>250000||s.live>2500))unlock('ladder');
+}
+function doPitch(){
+ const s=S;
+ const ch=s.flags.noAds?0:clamp(.15+s.live/40000+s.trust/300+(tr().pitch||0),0,.85);
+ if(Math.random()<ch){const m=Math.round(s.live*rnd(2,5)*(1+s.trust/150));s.money+=m;s.revenue+=m;s.mot+=6;
+  log(`🤝 Бренд согласился на интеграцию: +${fmt(m)} ₽.`)}
+ else{s.mot-=3;log('🤝 Разослали медиакит брендам. Ответили: «вернёмся к вам позже».')}
+ unlock('brand');
+}
+
+const GROUPS={
+ content:[{id:'r_expert',e:'🧠',t:'Экспертный',g:'подписчики',c:()=>reelCost('expert'),f:()=>doReel('expert'),p:1},
+   {id:'r_wide',e:'😂',t:'Широкий',g:'охваты',c:()=>reelCost('wide'),f:()=>doReel('wide'),p:1},
+   {id:'r_car',e:'🖼️',t:'Карусель',g:'доверие',c:()=>reelCost('car'),f:()=>doReel('car'),p:1},
+   {id:'r_sell',e:'💰',t:'Продающий',g:'прогрев',c:()=>reelCost('sell'),f:()=>doReel('sell'),p:1}],
+ growth:[{id:'prep',e:'📝',t:'Сценарий',g:'+ качество',c:()=>12,f:doPrep},
+   {id:'stories',e:'🤳',t:'Сторис',g:'доверие',c:()=>12,f:doStories},
+   {id:'learn',e:'📚',t:'Учёба',g:'навык',c:()=>18,f:doLearn},
+   {id:'friends',e:'🙏',t:'Друзья',g:'репосты',c:()=>5,f:doFriends}],
+ money:[{id:'sell',e:'🏷️',t:()=>A().sell,g:'деньги',c:()=>30,f:doSell},
+   {id:'pitch',e:'🤝',t:'Питч бренду',g:'реклама',c:()=>20,f:doPitch},
+   {id:'promo',e:'💸',t:'Посев у блогера',g:'−25 000 ₽',c:()=>10,f:doPromo},
+   {id:'work',e:'💼',t:'Подработка',g:'+5 000 ₽',c:()=>30,f:doWork}],
+ hidden:[{id:'rest',e:'😴',t:'Отдых',c:()=>0,f:doRest}]
+};
+GROUPS.life=[{id:'meet',e:'🍻',t:'Встреча с друзьями',g:'мотивация',c:()=>10,f:doFriendsMeet},
+   {id:'gift',e:'🎁',t:'Подарок себе',g:'−15 000 ₽',c:()=>5,f:doGift},
+   {id:'inspire',e:'📖',t:'Вдохновение',g:'идеи',c:()=>10,f:doInspire},
+   {id:'sport',e:'🏃',t:'Спорт',g:'энергия',c:()=>15,f:doSport}];
+const TABS=[['content','Контент'],['growth','Подготовка'],['money','Деньги'],['life','Жизнь']];
+
+function act(id){
+ if(!S||S.over||modalOpen)return;
+ closeSheet();
+ let a;for(const g in GROUPS){const x=GROUPS[g].find(v=>v.id===id);if(x)a=x}
+ if(!a)return;
+ const c=a.c();
+ if(S.energy<c){toast('Не хватает энергии — отдохните');return}
+ if(id==='sell'&&S.live<A().minSell){toast(`Нужно от ${fmt(A().minSell)} живых подписчиков`);return}
+ if(id==='pitch'&&S.live<1500){toast('Брендам интересны блоги от 1 500 подписчиков');return}
+ if(id==='promo'&&S.money<25000){toast('Посев стоит 25 000 ₽');return}
+ if(id==='gift'&&S.money<15000){toast('На подарок нужно 15 000 ₽');return}
+ if(S.postBan>0&&id.startsWith('r_')){toast(`Публикации заблокированы ещё ${S.postBan} дн.`);return}
+ if(id.indexOf('r_')===0){const k=id.slice(2);if(S.autoPick){runPost(k,pick(hookCards(k)));return}openPicker(k);return}
+ S.energy-=c;a.f();
+ if(id==='prep')S.q.prep++;if(id==='stories')S.q.stories++;if(id==='rest')S.q.rest++;
+ if(id==='learn')S.q.learn++;if(id==='sell')S.q.sold++;
+ if(S.burn>=100)burnout();
+ nextDay(0);endCheck();checkQuests();save();render();flush();
+}
+function runPost(k,card){
+ const cost=Math.max(6,reelCost(k)+(card.cost||0));
+ if(S.energy<cost){toast('Не хватает энергии');return}
+ S.energy-=cost;
+ doReel(k,card);
+ if(S.burn>=100)burnout();
+ nextDay(0);endCheck();checkQuests();save();render();flush();
+ if(card.tip&&Math.random()<.5)setTimeout(()=>toast('💡 '+card.tip,4000),900);
+}
+function burnout(){const s=S;s.burn=40;s.mot-=20;for(let i=0;i<5;i++)nextDay(1);s.energy=60;
+ log('🥵 Выгорание: пять дней вы лежали и смотрели чужие рилсы.');
+ msg('🥵','Выгорание','Сил нет совсем. Пропущено 5 дней, мотивация −20.');unlock('burnout')}
+
+/* ====== ДЕНЬ ====== */
+function weeklyCost(){let c=0;const t=S.team,rz=S.raise||{};if(t.reels)c+=rz.reels||0;if(t.script)c+=rz.script||0;if(t.target)c+=rz.target||0;if(t.reels)c+=25000;if(t.script)c+=15000;if(t.target)c+=20000;if(S.prod&&S.prod.weekly)c+=S.prod.weekly;if(S.dream.inst)c+=12000;return c}
+function mortWeek(){const s=S;if(!s.mort)return 0;return Math.min(s.mort.pay,s.mort.left+Math.round(s.mort.left*.16/12))}
+function loanPay(){return S.debt>0?Math.min(S.debt,8000*Math.ceil(S.debt/140000)):0}
+
+function nextDay(quiet){
+ const s=S;s.day++;
+ s.energy=clamp(s.energy+22+(story().en||0)+(tr().en||0)+(wk().regen||0)+(s.fit>0?8:0)-(s.burn>70?8:0),0,100);if(s.fit>0)s.fit--;
+ s.burn=Math.max(0,s.burn-3*(tr().burn?1.5:1));s.ban=Math.max(0,s.ban-2);s.heat=Math.max(0,s.heat-4);s.sat=(s.sat||0)*.93;
+ if(s.shadow>0)s.shadow--;
+ if(s.postBan>0){s.postBan--;
+  if(s.postBan===0){const l=Math.round(s.live*rnd(.05,.15));s.live-=l;s.cold=Math.max(0,(s.cold||0)-l);s.mot-=10;
+   log(`🔓 Блокировку сняли. За неделю простоя отписалось ${fmt(l)} человек.`);fx('shake');
+   msg('🔓','Публикации снова доступны',`Неделя без контента обошлась в ${fmt(l)} подписчиков. Алгоритм придётся разгонять заново.`)}}
+ if(s.day>S.maxDays)return;
+ if((s.day-1)%7===0){
+  const c=weeklyCost(),l=loanPay();
+  if(c){s.money-=c;if(s.month)s.month.spent+=c;log(`👥 Еженедельные расходы: −${fmt(c)} ₽.`)}
+  if(l){s.money-=l;s.debt-=l;log(`🏦 Платёж по кредиту: −${fmt(l)} ₽, осталось ${fmt(s.debt)} ₽.`)}
+  if(s.mort){const m=s.mort,int=Math.round(m.left*.16/12),pay=Math.min(m.pay,m.left+int);
+   s.money-=pay;m.left=Math.max(0,m.left+int-pay);
+   log(`🏦 Ипотека: −${fmt(pay)} ₽ (из них проценты ${fmt(int)} ₽). Осталось ${fmt(m.left)} ₽.`);
+   if(m.left<=0){s.mort=null;s.mot=Math.min(100,s.mot+25);msg('🎉','Ипотека закрыта','Квартира полностью ваша. Мотивация +25.')}}
+  if(s.dream.inst&&!s.gear.camera){s.dream.saved+=12000;if(s.dream.saved>=s.dream.goal)getCamera()}
+  resetQuests();
+  s.hist.push(s.live+s.dead);
+  startWeek();
+ }
+ if((s.day-1)%30===0){s.money-=life();log(`🏠 Аренда, еда, связь: −${fmt(life())} ₽.`);
+  if(story().salary){s.money+=story().salary;log(`💼 Зарплата с основной работы: +${fmt(story().salary)} ₽.`)}
+  if(s.day>2)monthReport()}
+ if(s.cold>0){const ch=Math.max(1,Math.round(s.cold*.04));s.cold-=ch;s.live=Math.max(0,s.live-ch);
+  if(ch>60&&Math.random()<.4)log(`📉 Отписалось ${fmt(ch)} человек: пришли на один ролик, а блог оказался про другое.`)}
+ if(s.team.target){s.live+=ri(40,110);s.cold=(s.cold||0)+ri(20,60);if(!s.team.funnel&&s.day%10===0)unlock('target')}
+ if(s.team.funnel&&s.fam!=='art'&&s.live>500){
+  const b=s.live*.00006*(s.trust/60)*(s.prod?s.prod.sales:1)*(s.fam==='expert'?(A().digital?1.1:.15):(s.tier===0?1:.45))*(1/(1+(s.sat||0)/Math.max(60,s.live*.04)))*((s.flags.sellPen&&s.day<s.flags.sellPen)?.6:1);
+  const n=Math.floor(b)+(Math.random()<b%1?1:0);
+  if(n>0){let r=n*A().price;const sh=s.prod?Math.round(r*s.prod.share):0;r-=sh;s.money+=r;s.revenue+=r;s.sales+=n;log(`🧲 Воронка продала без вас: ${n} × ${fmt(A().price)} ₽.`)}}
+ if(s.prod&&s.prod.vanish&&s.day>=s.prod.vanish){const n=s.prod.name;s.prod=null;s.scammed++;s.mot-=15;
+  msg('🕳️','Продюсер пропал',`${n} перестал выходить на связь. Ни стратегии, ни денег.`);log('🕳️ Продюсер пропал вместе с предоплатой.');unlock('scam')}
+ if(s.flags.gypsyDay&&s.day>=s.flags.gypsyDay){s.flags.gypsyDay=0;s.mot-=25;
+  msg('🦄','Разочарование','Вы досмотрели курс «Миллион с рилсов». Это пересказ бесплатных видео с ютуба.');unlock('gypsy')}
+ if(!s.flat&&!s.mort&&!s.flags.flatHint&&s.money>=1500000){s.flags.flatHint=1;
+  msg('🏠','У вас хватает на первый взнос','На счету больше 1 500 000 ₽. В разделе «Финансы» можно купить квартиру целиком или взять ипотеку под 16% — первый взнос от 1 400 000 ₽ за однушку. Аренда после этого пропадёт, а заработанное в зачёт цели остаётся.')}
+ if(s.money<0)s.mot-=1;
+ s.mot+=tr().motDay||0;
+ if(s.month)s.month.series.push(s.live+s.dead);
+ if(s.rival){const r=s.rival,k=s.fam==='art'?2.4:1;
+  let g=(ri(50,200)+r.f*rnd(.005,.012))*k*((r.pause&&s.day<r.pause)?0:1);
+  if(Math.random()<.04){g+=ri(1500,12000)*k;r.v=1}else r.v=0;
+  const mine=s.live+s.dead;
+  r.f=Math.round(clamp(r.f+g,Math.max(300,mine*.3),Math.max(800,mine*5)));
+  if(!s.flags.ahead&&mine>r.f){s.flags.ahead=1;s.mot+=10;log(`🏁 Вы обошли «${r.n}»: ${fmt(mine)} против ${fmt(r.f)}. Мотивация +10.`)}
+  else if(s.flags.ahead&&mine<r.f*.9){s.flags.ahead=0;s.mot-=6;log(`🏁 «${r.n}» снова впереди: ${fmt(r.f)}. Обидно.`)}}
+ const D=DIFF[s.diff];
+ if(!quiet&&s.rival&&s.day>20&&s.day-(s.rivalEv||0)>=20&&worldRand()<.07)rivalEvent();
+ if(!quiet&&s.day>3&&(s.day-1)%7>=2&&s.day-s.lastEv>=(s.hc?2:D.gap)&&worldRand()<(s.hc?.32:D.ev))randomEvent();
+ if(s.flags.lendBack&&s.day>=s.flags.lendBack){s.flags.lendBack=0;if(Math.random()<.5){s.money+=40000;log('🤲 Родственник вернул долг: +40 000 ₽.')}else{s.mot-=6;log('🤲 Про долг родственник «забыл». Напоминать неловко.')}}
+ s.mot=clamp(s.mot,0,100);
+}
+let quizPending=null;
+function msgNow(e,t,d,ch){queue.unshift({e,t,d,choices:ch})}
+function startWeek(){const s=S;let w;do{w=pickW(WEEKS)}while(w.id===s.weekId);
+ week=w;s.weekId=w.id;if(w.start)w.start(s);
+ const n=Math.floor((s.day-1)/7), th=THOUGHTS[Math.min(n-1,THOUGHTS.length-1)];
+ if(n>=1&&th&&!s.thoughts.includes(th))s.thoughts.push(th);
+ if(n>=2&&n%2===0){const qz=QUIZ[(Math.floor(n/2)-1)%QUIZ.length];
+  quizPending={e:'🎯',t:'Проверка на прочность',d:qz.q,choices:qz.a.map((a,i)=>({l:a,f:()=>{
+   if(i===qz.r){s.skill=Math.min(100,s.skill+3);s.mot+=5;msgNow('✅','Верно',qz.w+'<br><br>Навык +3, мотивация +5.')}
+   else{msgNow('❌','Не угадали',qz.w)}
+  }}))};
+ }
+ queue.push({e:w.e,t:'Астрологи объявили: '+w.t.toLowerCase(),d:w.d,x:th&&n>=1?`<div class="thought"><b>💡 Мысль недели ${n}</b>${th}</div>`:''});
+ if(quizPending){queue.unshift(quizPending);quizPending=null}
+}
+function getCamera(){const s=S;s.gear.camera=1;s.dream.inst=0;s.mot+=20;
+ msg('🎥','Камера ваша','Вы держите в руках то, о чём мечтали полгода. Качество контента +12, мотивация +20. И да, хук всё ещё важнее камеры.');unlock('gear')}
+
+/* ====== СОБЫТИЯ ====== */
+const EV=[
+ // быт и близкие
+ {id:'mom',cd:40,r:s=>{s.mot-=10;return['👵','Звонок мамы','«Когда ты уже нормальную работу найдёшь?» Мотивация −10.']}},
+ {id:'dad',cd:40,r:s=>{s.mot-=8;return['👨','Отец посмотрел ваш рилс','«Ну, снимаешь ты бодро. А деньги-то с этого какие?» Мотивация −8.']}},
+ {id:'school',cd:50,r:s=>{s.mot-=6;return['🎒','Одноклассники нашли ваш блог','В общем чате скинули ваш рилс со смешным комментарием. Мотивация −6.']}},
+ {id:'granny',cd:50,r:s=>{s.mot+=8;return['💐','Бабушка показала вас соседкам','«Внучка блогер!» Показала весь аккаунт. Мотивация +8.']}},
+ {id:'freebie',cd:45,r:s=>{s.mot-=5;s.energy=Math.max(0,s.energy-10);return['🙃','«Сделай мне такой же, ты же умеешь»','Знакомый просит снять ему рилс бесплатно. Полдня ушло. Энергия −10, мотивация −5.']}},
+ {id:'partner',cd:45,r:s=>{s.mot-=7;return['🛋️','Дома недовольны','«Ты опять весь вечер в телефоне». Мотивация −7.']}},
+ {id:'thanks',cd:25,c:s=>s.reels>3,r:s=>{s.mot+=15;s.trust=Math.min(100,s.trust+3);return['❤️','Сообщение в директ','«Спасибо, ваш рилс мне реально помог». Мотивация +15, доверие +3.']}},
+ {id:'hater',cd:25,c:s=>s.reels>0,r:s=>{s.mot-=5;s.nextMult*=1.4;return['💬','Хейтер в комментариях','Написал, что контент «ни о чём». Мотивация −5, но споры разогнали активность: следующий рилс ×1.4.']}},
+ {id:'compare',cd:35,c:s=>s.day>5,r:s=>{s.mot-=8;return['📊','Ровесник объявил про миллион','Вы увидели это в ленте и сравнили со своими охватами. Мотивация −8.']}},
+ {id:'ex',cd:60,c:s=>s.day>10,r:s=>{s.mot+=5;return['👀','Бывший смотрит все ваши сторис','Все. До единой. Мотивация +5.']}},
+ // ресурс и вдохновение
+ {id:'mood',cd:22,r:s=>{s.energy=Math.max(0,s.energy-30);return['😶','Нет настроения','Проснулись — и всё. День похерен: энергия −30.']}},
+ {id:'idea',cd:20,r:s=>{s.nextQ+=25;return['💡','Идея в душе','Прямо готовый сценарий. Следующий рилс: качество +25.']}},
+ {id:'sleep',cd:25,r:s=>{s.energy=Math.min(100,s.energy+30);return['☕','Выспались','Впервые за месяц. Энергия +30.']}},
+ {id:'cat',cd:45,r:s=>{s.nextMult*=2;return['🐈','Кот залез в кадр','Людям нравятся коты больше, чем ваша экспертиза. Следующий рилс ×2.']}},
+ {id:'old',cd:30,c:s=>s.reels>=10,r:s=>{const g=ri(50,300);s.live+=g;return['✨','Старый рилс ожил',`Ролик месячной давности начал набирать просмотры: +${g} подписчиков.`]}},
+ {id:'sound',cd:35,c:s=>s.reels>=5,r:s=>{s.nextMult*=1.6;return['🎵','Поймали трендовый звук','Пока не выгорел. Следующий рилс ×1.6.']}},
+ {id:'tax',cd:40,c:s=>s.revenue-s.taxed>150000,r:s=>{const t=Math.round((s.revenue-s.taxed)*.06);s.taxed=s.revenue;s.money-=t;return['🧾','Налоги','Самозанятость и 6% никто не отменял: −'+fmt(t)+' ₽.']}},
+ // техника — цепочка, каждое не чаще одного раза
+ {id:'crack',once:1,c:s=>s.day>15,choice:1,r:s=>['🫣','Уронили телефон','Экран в трещине, снимать можно, но неприятно.',[
+   {l:'Заменить стекло — 7 000 ₽',f:()=>{s.money-=7000;log('🔧 Поменяли стекло.')}},
+   {l:'Жить с трещиной',f:()=>{s.gear.crack=1;log('🫣 Живём с трещиной: качество съёмки −4.')}}]]},
+ {id:'memory',once:1,c:s=>s.day>35&&s.reels>15,choice:1,r:s=>['💾','Кончилась память','Телефон не даёт снимать: «Хранилище заполнено». Архив надо куда-то деть.',[
+   {l:'SSD на 1 ТБ — 20 000 ₽',f:()=>{s.money-=20000;s.gear.disk=2;s.mot+=5;log('💾 Взяли быстрый SSD: монтаж перестал тормозить, качество +2, рилсы даются легче.')}},
+   {l:'Обычный жёсткий диск — 9 000 ₽',f:()=>{s.money-=9000;s.gear.disk=1;log('💾 Купили обычный диск. Медленно, но работает.')}},
+   {l:'Чистить вручную каждый раз',f:()=>{s.gear.disk=-1;s.energy=Math.max(0,s.energy-20);log('💾 Полдня чистили галерею. Теперь это отнимает время: качество −4.')}}]]},
+ {id:'phone',once:1,c:s=>s.day>60&&s.reels>25,choice:1,r:s=>['📱','Телефон не тянет','Камера мылит, приложение вылетает на монтаже.',[
+   {l:'Новый телефон — 90 000 ₽',f:()=>{s.money-=90000;s.gear.phone=1;s.gear.crack=0;s.mot+=10;log('📱 Новый телефон: качество +8.')}},
+   {l:'Снимать как есть',f:()=>{s.mot-=5;log('📱 Решили потерпеть.')}}]]},
+ {id:'dream',once:1,c:s=>s.day>110,choice:1,r:s=>['🎥','Мечта: нормальная камера',`Профессиональная камера со светом — ${fmt(s.dream.goal)} ₽. Это уже не про рилсы, это про уровень.`,[
+   {l:'Копить (откладывать вручную)',f:()=>{s.dream.on=1;s.mot+=8;log('🎥 Появилась цель: камера. Откладывать можно во вкладке «Финансы».')}},
+   {l:'Взять в рассрочку — 12 000 ₽/нед',f:()=>{s.dream.on=1;s.dream.inst=1;s.mot+=5;log('🎥 Оформили рассрочку на камеру: −12 000 ₽ каждую неделю.');unlock('gear')}},
+   {l:'Сначала контент, потом техника',f:()=>{s.mot+=3;unlock('gear')}}]]},
+ // люди и предложения
+ {id:'collab',cd:30,c:s=>s.live>=300,choice:1,r:s=>['🤝','Предложили взаимопиар','Блогер с похожей аудиторией зовёт снять совместный ролик.',[
+   {l:'Снимаем (энергия −20)',f:()=>{const g=Math.round(s.live*rnd(.05,.2))+20;s.live+=g;s.energy=Math.max(0,s.energy-20);s.mot+=5;log(`🤝 Взаимопиар: +${g} подписчиков.`)}},
+   {l:'Отказаться',f:()=>{}}]]},
+ {id:'webinar',cd:40,choice:1,r:s=>['🎓','Бесплатный вебинар в 23:00','«Как выйти на миллион в Reels». Идём?',[
+   {l:'Идём (энергия −15)',f:()=>{s.skill=Math.min(100,s.skill+3);s.energy=Math.max(0,s.energy-15);log('🎓 Вебинар: навык +3. Последние 40 минут продавали курс.')}},
+   {l:'Лучше посплю',f:()=>{s.energy=Math.min(100,s.energy+10)}}]]},
+ {id:'gypsyCourse',once:1,c:s=>s.day>20&&s.money>=50000,choice:1,r:s=>['🦄','Курс «Миллион с рилсов за 30 дней»','Эксперт на фоне арендованного Ламборгини обещает результат или вернёт деньги. 50 000 ₽.',[
+   {l:'Купить',f:()=>{s.money-=50000;s.skill+=2;s.mot+=20;s.flags.gypsyDay=s.day+10;log('🦄 Купили курс за 50 000 ₽. Вдохновение зашкаливает.')}},
+   {l:'Пройти мимо',f:()=>{s.mot+=3;unlock('gypsy')}}]]},
+ {id:'dmProd',once:1,c:s=>s.day>30,choice:1,r:s=>['🧑‍💼','«Продюсер» в директе','«Вижу потенциал! Сделаю миллионником. Предоплата 100 000 ₽, результат гарантирую».',[
+   {l:'Попросить кейсы',f:()=>showCases()},
+   {l:'Перевести 100 000 ₽ сразу',f:()=>payProd(Math.random()<.2)},
+   {l:'Проигнорировать',f:()=>{unlock('scam')}}]]},
+ {id:'gamble',once:1,c:s=>s.live>=1000,choice:1,r:s=>['🎲','Реклама ставок',`Букмекер предлагает ${fmt(Math.min(150000,s.live*4))} ₽ за одну сторис.`,[
+   {l:'Взять деньги',f:()=>{const m=Math.min(150000,s.live*4);s.money+=m;s.trust=Math.max(0,s.trust-18);s.live-=Math.round(s.live*.05);log(`🎲 Реклама ставок: +${fmt(m)} ₽, доверие −18, часть аудитории ушла.`);unlock('gamble')}},
+   {l:'Отказаться',f:()=>{s.trust=Math.min(100,s.trust+2);unlock('gamble')}}]]},
+ {id:'oldJob',once:1,c:s=>s.day>45&&s.mot<50,choice:1,r:s=>['🏢','Зовут обратно в офис','Бывший руководитель: «Возвращайся, 120 000 и соцпакет». Блог пока не кормит.',[
+   {l:'Вернуться в офис',f:()=>{end('office')}},
+   {l:'Остаться в блоге',f:()=>{s.mot+=10;log('🏢 Отказались от офиса. Назад дороги нет.')}}]]},
+ {id:'freeconsult',cd:35,nc:['law','psy','mark'],r:s=>{s.mot-=5;return['🙄','«А можно быстренько спросить?»','В комментариях просят бесплатную консультацию и обижаются на отказ. Мотивация −5.']}},
+ {id:'edits',cd:35,nc:['video'],r:s=>{s.energy=Math.max(0,s.energy-15);return['🎞️','«Поправь пару моментов»','Пятый круг правок по свадебному ролику. Энергия −15.']}},
+ {id:'night',cd:35,nc:['psy'],r:s=>{s.energy=Math.max(0,s.energy-10);return['🌙','Клиент пишет в два ночи','«Извините, но мне очень надо». Энергия −10.']}},
+ {id:'budget',cd:35,nc:['mark'],r:s=>{s.mot-=7;return['📉','Клиент винит вас в сливе бюджета','Хотя сам менял оффер три раза. Мотивация −7.']}},
+ {id:'skeptic',cd:30,nc:['astro'],r:s=>{s.mot-=4;s.nextMult*=1.5;return['🔭','«Астрология — не наука»','Спор в комментариях на 300 сообщений. Мотивация −4, следующий рилс ×1.5.']}},
+ {id:'discount',cd:35,nc:['wood','hand','cloth'],choice:1,r:s=>['🤏','Просят скидку «по-братски»','Заказчик хочет минус 30% и «потом порекомендую друзьям».',[
+   {l:'Дать скидку',f:()=>{const m=Math.round(niche().price*.7*(1-(niche().cost||0)));s.money+=m;s.revenue+=m;s.live+=ri(5,20);log(`🤏 Продали со скидкой: +${fmt(m)} ₽.`)}},
+   {l:'Держать цену',f:()=>{s.trust=Math.min(100,s.trust+2);s.mot+=3;log('🤏 Отказали. Цена — это тоже позиционирование.')}}]]},
+ {id:'materials',cd:40,nc:['wood','hand','cloth'],r:s=>{const m=ri(12000,30000);s.money-=m;return['📦','Материалы подорожали',`Закупка партии обошлась дороже обычного: −${fmt(m)} ₽.`]}},
+ {id:'freegig',cd:35,nc:['music','actor','show'],choice:1,r:s=>['🎟️','Зовут выступить «за экспозицию»','Площадка обещает «огромный охват» вместо гонорара.',[
+   {l:'Выступить бесплатно',f:()=>{const g=ri(50,400);s.live+=g;s.energy=Math.max(0,s.energy-20);log(`🎟️ Выступили бесплатно: +${g} подписчиков и ноль денег.`)}},
+   {l:'Попросить гонорар',f:()=>{if(Math.random()<.4){const m=ri(15000,40000);s.money+=m;s.revenue+=m;log(`🎟️ Заплатили гонорар: +${fmt(m)} ₽.`)}else{s.mot-=3;log('🎟️ Организатор пропал, как только услышал про гонорар.')}}}]]},
+ {id:'boost',cd:45,c:s=>s.reels>5,choice:1,r:s=>['📈','Предлагают накрутить просмотры','«5 000 ₽ — и на рилсе будет 100 тысяч. Алгоритм подхватит».',[
+   {l:'Накрутить',f:()=>{s.money-=5000;s.views+=ri(50000,120000);s.dead+=ri(200,600);s.ban+=30;
+     log('📈 Накрутили просмотры: цифра красивая, комментариев ноль.');
+     if(Math.random()*100<s.ban-20){s.shadow=7;s.mot-=10;msg('🌫️','Теневой бан','Алгоритм заметил накрутку: неделю ваши публикации почти никто не увидит.');unlock('ban')}}},
+   {l:'Отказаться',f:()=>{unlock('ban')}}]]},
+ {id:'love',once:1,hard:1,c:s=>s.day>12,choice:1,r:s=>['💘','Вы кого-то встретили','Вечер пролетел незаметно. Вам предлагают встретиться снова.',[
+   {l:'Да, начать отношения',f:()=>{s.flags.rel=1;s.mot+=15;log('💘 Начались отношения. Свидания и подарки: +8 000 ₽ к ежемесячным расходам.')}},
+   {l:'Сейчас не время, блог важнее',f:()=>{s.mot-=6;log('💘 Отказались от свидания. Вечером всё равно думали об этом.')}}]]},
+ {id:'date',cd:30,hard:1,c:s=>s.flags.rel,choice:1,r:s=>['🌹','Годовщина или съёмка?','На завтра запланирована важная съёмка. А ещё у вас годовщина.',[
+   {l:'Годовщина (−8 000 ₽)',f:()=>{s.money-=8000;s.mot+=12;s.burn=Math.max(0,s.burn-20);s.energy=Math.max(0,s.energy-15);log('🌹 Провели вечер вдвоём. Съёмку перенесли.')}},
+   {l:'Съёмка важнее',f:()=>{s.nextQ+=10;s.mot-=8;s.flags.strain=(s.flags.strain||0)+1;log('🌹 Выбрали съёмку. Дома обиделись.');
+     if(s.flags.strain>=2){s.flags.rel=0;s.mot-=20;msg('💔','Расставание','«Ты всегда выбираешь телефон». Отношения закончились. Мотивация −20.')}}}]]},
+ {id:'lend',cd:60,hard:1,c:s=>s.money>=40000,choice:1,r:s=>['🤲','Родственник просит в долг','«40 000 ₽ до зарплаты, честно верну через месяц».',[
+   {l:'Дать 40 000 ₽',f:()=>{s.money-=40000;s.mot+=3;s.flags.lendBack=s.day+30;log('🤲 Дали в долг 40 000 ₽.')}},
+   {l:'Отказать',f:()=>{s.mot-=6;log('🤲 Отказали. На семейном ужине было неловко.')}}]]},
+ {id:'rent',once:1,hard:1,c:s=>s.day>40,r:s=>{s.flags.rentUp=5000;s.mot-=5;return['🏠','Хозяин поднял аренду','Теперь на 5 000 ₽ в месяц дороже. Переезжать сейчас — ещё дороже.']}},
+ {id:'sick',cd:50,hard:1,choice:1,r:s=>['🤒','Заболели','Температура 38, голос сел.',[
+   {l:'Лечиться дома (3 дня)',f:()=>{for(let i=0;i<3;i++)nextDay(1);s.energy=70;s.burn=Math.max(0,s.burn-20);log('🤒 Три дня болели. Зато восстановились.')}},
+   {l:'Снимать через силу',f:()=>{s.energy=Math.max(0,s.energy-30);s.nextQ-=15;s.mot-=8;log('🤒 Снимали с температурой. Видно по лицу.')}}]]},
+ {id:'wedding',once:1,notEasy:1,c:s=>s.day>25,choice:1,r:s=>['💍','Друг женится','Зовёт на свадьбу. Подарок, костюм, целый день.',[
+   {l:'Пойти (−10 000 ₽)',f:()=>{s.money-=10000;s.mot+=10;s.burn=Math.max(0,s.burn-20);s.energy=Math.max(0,s.energy-20);log('💍 Отгуляли на свадьбе друга. Танцевали до утра.')}},
+   {l:'Не пойти, работа',f:()=>{s.mot-=8;log('💍 Пропустили свадьбу. Друг сделал вид, что не обиделся.')}}]]},
+ {id:'laptop',once:1,hard:1,c:s=>s.day>40,choice:1,r:s=>['💻','Сломался ноутбук','Монтировать не на чем.',[
+   {l:'Починить за 25 000 ₽',f:()=>{s.money-=25000;log('💻 Ноутбук починили.')}},
+   {l:'Монтировать на телефоне',f:()=>{s.flags.laptop=1;log('💻 Монтируем на телефоне: качество −5.')}}]]},
+ {id:'neighbors',cd:40,hard:1,r:s=>{s.energy=Math.max(0,s.energy-20);s.nextQ-=10;return['🔨','Соседи делают ремонт','Перфоратор с девяти утра. Снимать со звуком невозможно: энергия −20, следующая публикация слабее.']}},
+ {id:'audit',once:1,hard:1,c:s=>s.revenue>300000,r:s=>{const t=Math.round((s.revenue-s.taxed)*.08);s.taxed=s.revenue;s.money-=t;s.mot-=8;return['🧾','Требование из налоговой',`Доходы из блога тоже доходы. Налог и пени: −${fmt(t)} ₽.`]}},
+ {id:'book',cd:45,r:s=>{s.mot+=6;s.nextQ+=8;return['📚','Посоветовали книгу','Прочитали за вечер. Мотивация +6, появилась пара идей.']}},
+ {id:'postban',cd:60,c:s=>s.best>30000&&s.reels>15,r:s=>{s.postBan=7;s.mot-=12;
+   return['🚫','Публикации заблокированы','Ваш залетевший ролик собрал жалобы. Неделю выкладывать нельзя — остаются сторис, сценарии, учёба и дела вне блога.']}},
+ {id:'sellblock',cd:50,c:s=>s.sales>3||s.revenue>200000,r:s=>{s.flags.sellPen=s.day+14;
+   return['📵','Продающий ролик заблокировали','Хейтеры завалили жалобами. Две недели продажи и воронка работают на 40% хуже.']}},
+ {id:'cleanup',cd:45,c:s=>s.live>3000,r:s=>{const l=Math.round((s.live+s.dead)*rnd(.05,.15));const dd=Math.min(s.dead,Math.round(l*.6));s.dead-=dd;s.live-=(l-dd);s.cold=Math.max(0,(s.cold||0)-Math.round((l-dd)*.5));s.mot-=6;
+   return['🧹','Чистка аудитории',`Соцсеть удалила неактивных и ботов: минус ${fmt(l)} подписчиков. Так бывает у всех, зато охваты честнее.`]}},
+ {id:'marking',once:1,c:s=>s.revenue>500000,r:s=>{s.money-=100000;s.mot-=10;
+   return['📜','Реклама без маркировки',`Интеграцию не отметили как рекламу и не подали в ЕРИР. Штраф — 100 000 ₽.`]}},
+ {id:'cert',once:1,c:s=>s.fam==='goods'&&s.revenue>300000,r:s=>{s.money-=60000;s.mot-=8;
+   return['🏷️','Проверка по маркировке товара','Партия ушла без обязательной маркировки и чеков. Штраф и переделка: −60 000 ₽.']}},
+ {id:'newgame',cd:55,notEasy:1,choice:1,r:s=>['🎮','Вышла игра, которую ждали три года','Она уже скачана. Вы это чувствуете.',[
+   {l:'Пропасть на три дня',f:()=>{for(let i=0;i<3;i++)nextDay(1);s.mot+=10;s.burn=Math.max(0,s.burn-30);s.energy=Math.min(100,s.energy+20);log('🎮 Три дня в игре. Блог стоял, зато голова отдохнула.')}},
+   {l:'Держаться',f:()=>{s.mot-=5;log('🎮 Не установили. Но думали об этом весь день.')}}]]},
+ {id:'dentist',once:1,hard:1,c:s=>s.day>25,choice:1,r:s=>['🦷','Зуб','Тянуть больше нельзя.',[
+   {l:'Лечить — 45 000 ₽',f:()=>{s.money-=45000;s.flags.teeth=1;log('🦷 Вылечили зуб: −45 000 ₽.')}},
+   {l:'Потерпеть',f:()=>{s.mot-=10;s.energy=Math.max(0,s.energy-20);log('🦷 Терпим. Болит и мешает снимать.')}}]]},
+ {id:'veneers',once:1,hard:1,c:s=>s.flags.teeth&&s.day>70,choice:1,r:s=>['😬','«А ещё вам бы виниры»','Стоматолог показал план лечения: 250 000 ₽. В кадре улыбка и правда важна.',[
+   {l:'Сделать — 250 000 ₽',f:()=>{s.money-=250000;s.mot+=12;s.nextQ+=5;s.flags.smile=1;log('😬 Поставили виниры. Дорого, но в кадре видно.')}},
+   {l:'Обойдусь',f:()=>{log('😬 Отложили до лучших времён.')}}]]},
+ {id:'relsick',once:1,hard:1,c:s=>s.day>50,choice:1,r:s=>['🏥','Заболел близкий','Нужно лечение и время рядом.',[
+   {l:'Помочь деньгами (−80 000 ₽)',f:()=>{s.money-=80000;s.mot+=5;log('🏥 Оплатили лечение близкого.')}},
+   {l:'Сейчас нет денег',f:()=>{s.mot-=18;log('🏥 Не смогли помочь. Мысли об этом мешают работать.')}}]]},
+ {id:'wantvac',cd:60,notEasy:1,r:s=>{s.mot-=8;return['🏖️','Все в отпуске, вы нет','Лента забита морем и коктейлями. Мотивация −8. Отпуск можно купить во вкладке «Финансы».']}},
+ {id:'chair',once:1,nc:['dev'],c:s=>s.day>20,choice:1,r:s=>['🪑','Спина','К вечеру уже не разогнуться. Нормальное кресло стоит 45 000 ₽.',[
+   {l:'Купить кресло — 45 000 ₽',f:()=>{s.money-=45000;s.flags.chair=1;s.burn=Math.max(0,s.burn-10);log('🪑 Купили нормальное кресло: выгорание копится на 20% медленнее.')}},
+   {l:'Потерплю',f:()=>{s.mot-=6;s.energy=Math.max(0,s.energy-15);log('🪑 Спина напомнила о себе к вечеру.')}}]]},
+ {id:'monitor',once:1,nc:['dev'],c:s=>s.day>35,choice:1,r:s=>['🖥️','Второй монитор','Монтировать и кодить на одном экране — боль. Монитор 35 000 ₽.',[
+   {l:'Взять — 35 000 ₽',f:()=>{s.money-=35000;s.flags.monitor=1;log('🖥️ Второй монитор: работать и монтировать стало заметно быстрее, качество +3.')}},
+   {l:'Обойдусь',f:()=>{log('🖥️ Продолжаем на одном экране.')}}]]},
+ {id:'pc',once:1,nc:['dev'],c:s=>s.day>70,choice:1,r:s=>['🖲️','Компьютер не тянет','Сборка идёт 20 минут, монтаж 4K умирает. Новый — 200 000 ₽.',[
+   {l:'Собрать новый — 200 000 ₽',f:()=>{s.money-=200000;s.flags.pc=1;s.mot+=10;log('🖲️ Новый компьютер: качество +8, публикации даются легче.')}},
+   {l:'Терпеть',f:()=>{s.mot-=5;s.energy=Math.max(0,s.energy-10);log('🖲️ Ждём сборку и молча злимся.')}}]]},
+ {id:'net',cd:35,nc:['dev'],r:s=>{s.energy=Math.max(0,s.energy-25);s.nextQ-=8;return['📡','Провайдер оборвал интернет','Полдня на телефонном раздаче: энергия −25, следующая публикация слабее.']}},
+ {id:'ai',cd:40,nc:['dev'],choice:1,r:s=>['🤖','Подписки на нейронки','За ассистента и генерацию — 12 000 ₽ в месяц. Бесплатных лимитов уже не хватает.',[
+   {l:'Оплатить — 12 000 ₽',f:()=>{s.money-=12000;s.skill=Math.min(100,s.skill+3);s.energy=Math.min(100,s.energy+10);log('🤖 Оплатили нейронки: навык +3, рутина быстрее.')}},
+   {l:'Сидеть на бесплатных лимитах',f:()=>{s.energy=Math.max(0,s.energy-10);log('🤖 Ждём отката лимитов и теряем время.')}}]]},
+ {id:'oncall',cd:35,nc:['dev'],r:s=>{s.energy=Math.max(0,s.energy-30);s.mot-=5;return['🚨','Прод упал в 3 ночи','Чинили до утра. Энергия −30, мотивация −5.']}},
+ {id:'review',cd:40,nc:['dev'],r:s=>{s.mot-=6;s.nextMult*=1.4;return['👨‍💻','Ваш код разнесли в комментариях','«Так в проде не пишут». Спор собрал охваты: следующая публикация ×1.4.']}},
+ {id:'devoffer',once:1,nc:['dev'],c:s=>s.day>60,choice:1,r:s=>['📄','Оффер из найма','Зовут в крупную компанию на 400 000 ₽ в месяц. Удалёнка, стабильность, никаких рилсов.',[
+   {l:'Принять оффер',f:()=>{end('office')}},
+   {l:'Отказаться',f:()=>{s.mot+=12;log('📄 Отказались от оффера. Теперь точно надо дойти.')}}]]},
+ {id:'pet',cd:50,nc:['dev'],choice:1,r:s=>['🧪','Идея пет-проекта','Загорелись сделать инструмент для своей ниши.',[
+   {l:'Потратить выходные',f:()=>{nextDay(1);nextDay(1);s.mot+=12;s.skill=Math.min(100,s.skill+4);s.nextQ+=10;log('🧪 Два дня на пет-проект: навык +4, появился сильный контент про разработку.')}},
+   {l:'Не сейчас',f:()=>{s.mot-=3}}]]},
+
+ /* ---- команда ---- */
+ {id:'raiseR',cd:60,c:s=>s.team.reels&&!(s.raise||{}).reels&&s.day>40,choice:1,r:s=>['💬','Рилсмейкер просит повышения','«Я снимаю вам каждый ролик. Хочу на 8 000 ₽ в неделю больше».',[
+   {l:'Поднять ставку',f:()=>{s.raise.reels=8000;s.mot+=2;log('💬 Подняли рилсмейкеру ставку: +8 000 ₽ в неделю.')}},
+   {l:'Отказать',f:()=>{if(Math.random()<.5){s.team.reels=0;msg('🚪','Рилсмейкер ушёл','Нашёл клиента, который платит больше. Теперь снимаете сами.')}else log('💬 Отказали. Рилсмейкер остался, но без энтузиазма.')}}]]},
+ {id:'raiseS',cd:60,c:s=>s.team.script&&!(s.raise||{}).script&&s.day>40,choice:1,r:s=>['💬','Сценарист хочет больше','«Мои тексты дают вам охваты. +5 000 в неделю — и продолжаем».',[
+   {l:'Согласиться',f:()=>{s.raise.script=5000;log('💬 Подняли сценаристу ставку.')}},
+   {l:'Отказать',f:()=>{if(Math.random()<.5){s.team.script=0;if(s.rival)s.rival.f=Math.round(s.rival.f*1.05);msg('🚪','Сценарист ушёл к конкуренту','И забрал с собой ваши лучшие идеи.')}}}]]},
+ {id:'draft',cd:45,c:s=>s.team.reels,r:s=>{s.trust=Math.max(0,s.trust-3);s.mot-=5;return['🙈','Рилсмейкер выложил черновик','С незакрытым таймкодом и вашим «ну давай ещё дубль». Доверие −3.']}},
+ {id:'hitS',cd:40,c:s=>s.team.script,r:s=>{s.nextMult*=1.8;return['✍️','Сценарист принёс хит','«Это залетит». Следующий ролик ×1.8.']}},
+ {id:'botsT',cd:50,c:s=>s.team.target,r:s=>{s.dead+=900;s.money-=15000;return['🤖','Таргетолог слил бюджет на ботов','Кампания привела 900 «подписчиков» из ниоткуда. Минус 15 000 ₽ и испорченная статистика.']}},
+ {id:'prodFight',cd:50,c:s=>s.prod&&s.prod.id!=='cheap',choice:1,r:s=>['🥊','Спор с продюсером','«Хватит пользы, давай только продажи — месяц дожимаем».',[
+   {l:'Послушаться',f:()=>{s.heat=Math.min(100,s.heat+25);s.trust=Math.max(0,s.trust-5);log('🥊 Месяц дожима: прогрев вырос, доверие просело.')}},
+   {l:'Настоять на своём',f:()=>{s.mot+=5;if(Math.random()<.3){s.prod=null;msg('🚪','Продюсер ушёл','«Работайте сами, раз всё знаете».')}else log('🥊 Отстояли баланс контента.')}}]]},
+ /* ---- поздняя игра ---- */
+ {id:'piracy',once:1,late:1,c:s=>A().digital,choice:1,r:s=>['🏴‍☠️','Ваш курс слили в Telegram','Бесплатный доступ разлетается по чатам.',[
+   {l:'Юрист и жалобы — 40 000 ₽',f:()=>{s.money-=40000;if(Math.random()<.6)log('🏴‍☠️ Канал со сливом заблокировали.');else{s.flags.sellPen=s.day+21;log('🏴‍☠️ Одни каналы закрыли, появились другие.')}}},
+   {l:'Не тратить силы',f:()=>{s.flags.sellPen=s.day+21;log('🏴‍☠️ Слив живёт своей жизнью: три недели продажи слабее.')}}]]},
+ {id:'bigAudit',once:1,late:1,c:s=>s.revenue>3000000,choice:1,r:s=>['🧾','Выездная налоговая проверка',`Оборот больше 3 млн — к вам пришли вопросы. Расчёт доначислений: до ${fmt(s.revenue*.04)} ₽.`,[
+   {l:'Нанять бухгалтера — 60 000 ₽',f:()=>{const t=Math.round(s.revenue*.01);s.money-=60000+t;log(`🧾 Бухгалтер разобрал документы: доплатили ${fmt(t)} ₽.`)}},
+   {l:'Разбираться самому',f:()=>{const t=Math.round(s.revenue*.04);s.money-=t;s.energy=Math.max(0,s.energy-30);s.mot-=10;log(`🧾 Сами разбирались две недели: доначисления ${fmt(t)} ₽.`)}}]]},
+ {id:'outgrew',once:1,late:1,c:s=>s.fam!=='art',r:s=>{s.flags.outgrew=s.tier;return['🌱','Аудитория выросла из вашего продукта','Постоянные подписчики уже всё купили. Пока вы на этой ступени, продажи на 30% слабее — пора новый продукт.']}},
+ {id:'saturated',once:1,late:1,r:s=>{s.flags.satur=s.day+30;return['🧃','Ниша перенасыщена','Все снимают то же, что и вы. Месяц охваты на 15% ниже.']}},
+ {id:'tv',once:1,late:1,c:s=>s.live>8000,choice:1,r:s=>['📺','Позвали на ТВ и большой подкаст','Съёмочный день, дорога, нервы — и новая аудитория.',[
+   {l:'Идти',f:()=>{const g=Math.round(s.live*rnd(.05,.12));s.live+=g;s.trust=Math.min(100,s.trust+5);s.energy=Math.max(0,s.energy-30);log(`📺 Эфир вышел: +${fmt(g)} подписчиков и +5 доверия.`)}},
+   {l:'Отказаться',f:()=>{}}]]},
+ {id:'rkn',once:1,c:s=>s.live>10000,choice:1,r:s=>['🗂️','Больше 10 000 подписчиков','Блогеры с такой аудиторией должны подать сведения в реестр Роскомнадзора, иначе у них не могут размещать рекламу.',[
+   {l:'Подать сведения',f:()=>{s.energy=Math.max(0,s.energy-15);log('🗂️ Подали сведения в реестр. Реклама разрешена.')}},
+   {l:'Потом',f:()=>{s.flags.noAds=1;log('🗂️ Отложили. Бренды пока не могут с вами работать.')}}]]},
+ {id:'hack',once:1,late:1,choice:1,r:s=>['🔓','Аккаунт взломали','Пароль сменён, в сторис реклама казино.',[
+   {l:'Восстанавливать через поддержку',f:()=>{s.postBan=5;s.trust=Math.max(0,s.trust-5);log('🔓 Пять дней восстанавливали доступ.')}},
+   {l:'Заплатить «специалисту» 50 000 ₽',f:()=>{s.money-=50000;if(Math.random()<.6){s.scammed++;s.postBan=7;msg('🕳️','Развели снова','«Специалист» пропал, восстанавливать всё равно пришлось через поддержку.')}else log('🔓 Доступ вернули за сутки.')}}]]},
+ {id:'sellBiz',once:1,late:1,c:s=>s.live>50000,choice:1,r:s=>['💼','Предлагают купить ваш блог',`Медиагруппа готова выкупить аккаунт и продукт за ${fmt(s.live*90)} ₽.`,[
+   {l:'Продать и выйти',f:()=>{s.money+=s.live*90;s.revenue+=s.live*90;end('exit')}},
+   {l:'Не продаётся',f:()=>{s.mot+=10;log('💼 Отказались продавать блог. Он ваш.')}}]]},
+ /* ---- режим выживания ---- */
+ {id:'hcPlatform',once:1,hc:1,choice:1,r:s=>['🧱','Платформу ограничили','Охваты рухнули почти у всех. Можно переехать на другую площадку — но дойдут не все.',[
+   {l:'Переезжать',f:()=>{const l=Math.round(s.live*.35);s.live-=l;log(`🧱 Переехали: потеряли ${fmt(l)} подписчиков, но охваты вернулись.`)}},
+   {l:'Остаться и ждать',f:()=>{s.flags.igLow=s.day+45;log('🧱 Остались: полтора месяца охваты вдвое ниже.')}}]]},
+ {id:'hcTeam',once:1,hc:1,c:s=>s.team.reels||s.team.script||s.team.target||s.prod,r:s=>{s.team.reels=0;s.team.script=0;s.team.target=0;s.prod=null;s.mot-=15;
+   return['🚪','Команда ушла','Все разом: нашли проект стабильнее. Вы снова один на один с камерой.']}},
+ {id:'hcNet',cd:60,hc:1,r:s=>{s.postBan=7;return['📵','Интернет отключают неделю','Мобильная связь с перебоями. Выкладывать не получится 7 дней.']}},
+ {id:'hcCrisis',once:1,hc:1,r:s=>{s.flags.crisis=s.day+30;return['📉','Кризис: аудитория экономит','Месяц продажи на 40% ниже.']}},
+ {id:'hcTax',once:1,hc:1,c:s=>s.revenue>1000000,r:s=>{const t=Math.round(s.revenue*.08);s.money-=t;return['🧾','Доначисление налогов',`Пересчитали режим налогообложения задним числом: −${fmt(t)} ₽.`]}},
+ {id:'hcCourt',once:1,hc:1,choice:1,r:s=>['⚖️','Бывший клиент подал в суд','Требует 300 000 ₽ за «несоответствие результату».',[
+   {l:'Договориться — 300 000 ₽',f:()=>{s.money-=300000;log('⚖️ Договорились до суда.')}},
+   {l:'Судиться',f:()=>{s.energy=Math.max(0,s.energy-40);if(Math.random()<.5){s.money-=500000;msg('⚖️','Суд проигран','С издержками — 500 000 ₽.')}else log('⚖️ Суд выигран.')}}]]},
+ {id:'hcLeak',once:1,hc:1,r:s=>{s.trust=Math.max(0,s.trust-15);return['🕵️','Утекла база клиентов','Сервис рассылок взломали, клиенты получили спам от вашего имени. Доверие −15.']}},
+ {id:'hcAI',once:1,hc:1,r:s=>{s.flags.aiFlood=1;return['🤖','Лента заполнилась ИИ-контентом','Зрители устали от одинаковых роликов. Охваты обычных форматов −15%, личные истории работают как раньше.']}},
+ {id:'hcLong',once:1,hc:1,r:s=>{s.flags.algoLong=s.day+30;return['🎞️','Алгоритм полюбил длинное','Месяц широкие ролики получают на 30% меньше, а карусели — на 30% больше.']}},
+ {id:'hcBurn',cd:70,hc:1,r:s=>{s.burn=Math.min(99,s.burn+40);return['🥵','Накопилось','Год без нормального отпуска даёт о себе знать. Выгорание +40.']}},
+ {id:'hcInfl',once:1,hc:1,r:s=>{s.flags.rentUp=(s.flags.rentUp||0)+8000;return['💸','Всё подорожало','Аренда, еда, сервисы. Жизнь дороже на 8 000 ₽ в месяц.']}},
+ /* ---- ниши ---- */
+ {id:'noShow',cd:40,nc:['beauty'],r:s=>{s.money-=6000;s.mot-=4;return['📵','Клиентка не пришла','Окно пустое, телефон не отвечает. Минус 6 000 ₽.']}},
+ {id:'chairRent',once:1,nc:['beauty'],r:s=>{s.flags.rentUp=(s.flags.rentUp||0)+7000;return['💺','Аренда кресла подорожала','Салон поднял цену: +7 000 ₽ в месяц.']}},
+ {id:'badRev',cd:50,nc:['beauty','cake','flow','design'],choice:1,r:s=>['⭐','Недовольный отзыв','Клиентка публично пишет, что результат не тот.',[
+   {l:'Ответить спокойно и переделать',f:()=>{s.energy=Math.max(0,s.energy-15);s.trust=Math.min(100,s.trust+2);log('⭐ Переделали и ответили — подписчики оценили.')}},
+   {l:'Удалить отзыв',f:()=>{s.trust=Math.max(0,s.trust-5);log('⭐ Удалили — скриншот уже гуляет по чатам.')}}]]},
+ {id:'heavy',cd:40,nc:['psy','nutri','fit','tutor','any'],c:s=>s.fam==='expert',r:s=>{s.burn=Math.min(99,s.burn+15);return['🌧️','Тяжёлая неделя с клиентами','Чужие истории оседают внутри. Выгорание +15.']}},
+ {id:'superv',cd:60,nc:['psy'],choice:1,r:s=>['🧑‍🏫','Нужна супервизия','Без неё начинаете путать своё и клиентское.',[
+   {l:'Пойти — 8 000 ₽',f:()=>{s.money-=8000;s.burn=Math.max(0,s.burn-20);s.skill=Math.min(100,s.skill+2);log('🧑‍🏫 Супервизия: выгорание −20.')}},
+   {l:'Потом',f:()=>{s.burn=Math.min(99,s.burn+8)}}]]},
+ {id:'refund',cd:60,c:s=>s.fam==='expert'&&s.sales>3,choice:1,r:s=>['💸','Клиент требует вернуть деньги','«Не помогло». Хотя половину рекомендаций не выполнил.',[
+   {l:'Вернуть',f:()=>{s.money-=A().price;s.trust=Math.min(100,s.trust+2);log(`💸 Вернули ${fmt(A().price)} ₽. Репутация дороже.`)}},
+   {l:'Отказать с объяснением',f:()=>{s.trust=Math.max(0,s.trust-4);log('💸 Отказали. Клиент написал гневный пост.')}}]]},
+ {id:'injury',once:1,nc:['fit','dance'],r:s=>{s.energy=Math.max(0,s.energy-40);s.postBan=3;return['🩹','Травма','Потянули связку на съёмке. Три дня без контента.']}},
+ {id:'parents',cd:50,nc:['tutor'],r:s=>{s.mot-=6;return['👪','Родители недовольны','«Почему у Вани четвёрка, мы же платим?» Мотивация −6.']}},
+ {id:'lawChange',cd:60,nc:['law','acc'],r:s=>{s.heat=Math.min(100,s.heat+25);s.nextMult*=1.5;return['📜','Вышел новый закон','Все в панике, вопросов море. Прогрев +25, следующий ролик ×1.5.']}},
+ {id:'docErr',once:1,nc:['law','acc'],r:s=>{s.money-=20000;s.trust=Math.max(0,s.trust-4);return['📎','Ошибка в документах клиента','Пришлось исправлять за свой счёт: −20 000 ₽.']}},
+ {id:'dealFell',cd:50,nc:['realt','design'],r:s=>{s.mot-=10;return['💔','Сделка сорвалась в последний день','Два месяца работы — и клиент передумал.']}},
+ {id:'contractor',cd:50,nc:['design','wood'],r:s=>{s.energy=Math.max(0,s.energy-20);s.trust=Math.max(0,s.trust-3);return['🧱','Подрядчик сорвал сроки','Клиент звонит вам, а не ему.']}},
+ {id:'defect',cd:50,c:s=>s.fam==='goods'&&s.sales>0,r:s=>{s.money-=25000;s.trust=Math.max(0,s.trust-4);return['🧨','Брак в партии','Часть товара пришлось переделать: −25 000 ₽.']}},
+ {id:'supplier',once:1,c:s=>s.fam==='goods',r:s=>{s.flags.costUp=(s.flags.costUp||0)+.05;return['🚚','Поставщик поднял цены','Себестоимость выросла на 5% — навсегда.']}},
+ {id:'mpFine',cd:60,c:s=>s.fam==='goods'&&s.tier>=1,r:s=>{s.money-=15000;return['🏬','Штраф маркетплейса','За задержку отгрузки: −15 000 ₽.']}},
+ {id:'lost',cd:50,c:s=>s.fam==='goods'&&s.sales>0,r:s=>{s.money-=5000;s.trust=Math.max(0,s.trust-2);return['📦','Доставка потеряла посылку','Отправили новую за свой счёт.']}},
+ {id:'peak',cd:80,nc:['cake','flow','toys','home'],r:s=>{s.flags.peak=s.day+7;return['🎉','Сезон праздников','Неделю продажи ×1.8. Главное — успеть.']}},
+ {id:'spoiled',once:1,nc:['cake','flow'],r:s=>{s.money-=6000;s.trust=Math.max(0,s.trust-5);return['🥀','Испорченный заказ','Курьер уронил коробку. Переделывали ночью.']}},
+ {id:'gigCancel',cd:50,c:s=>s.fam==='art',r:s=>{s.mot-=8;return['🚫','Отменили выступление','За день до события. Предоплаты не было.']}},
+ {id:'stolen',cd:60,c:s=>s.fam==='art',choice:1,r:s=>['🧷','Вашу работу украли','Крупный аккаунт выдал ваш номер или трек за свой.',[
+   {l:'Рассказать публично',f:()=>{s.nextMult*=1.8;s.mot-=3;log('🧷 История разлетелась — многие узнали, кто автор.')}},
+   {l:'Забить',f:()=>{s.mot-=6}}]]},
+ {id:'casting',cd:60,nc:['actor','dance','music','show'],choice:1,r:s=>['🎬','Приглашение на кастинг','Большой проект. Целый день ожидания в коридоре.',[
+   {l:'Идти',f:()=>{s.energy=Math.max(0,s.energy-25);if(Math.random()<.4){const g=Math.round(s.live*.15)+200;s.live+=g;s.mot+=15;msg('🌟','Вас утвердили!',`Роль небольшая, но проект громкий: +${fmt(g)} подписчиков.`)}else log('🎬 Не взяли. «Мы вам перезвоним».')}},
+   {l:'Не сейчас',f:()=>{}}]]},
+ /* ---- истории ---- */
+ {id:'hrCall',once:1,st:['fired'],c:s=>s.day>50,choice:1,r:s=>['📞','Звонок из HR','Похожая вакансия, как на прошлой работе. Выходить через неделю.',[
+   {l:'Выйти на работу',f:()=>{end('office')}},
+   {l:'Нет, блог',f:()=>{s.mot+=10}}]]},
+ {id:'cushion',once:1,st:['fired'],c:s=>s.day>85,r:s=>{s.mot-=8;return['🫙','Подушка тает','Выходное пособие почти закончилось. Мотивация −8.']}},
+ {id:'kidSick',cd:45,st:['mat'],r:s=>{nextDay(1);nextDay(1);s.energy=Math.max(0,s.energy-15);return['🤒','Ребёнок заболел','Два дня только дом и градусник.']}},
+ {id:'momChats',once:1,st:['mat'],r:s=>{const g=ri(150,400);s.live+=g;return['💬','Мамские чаты вас нашли',`Ролик переслали по десятку чатов: +${g} подписчиков.`]}},
+ {id:'young',once:1,st:['late'],r:s=>{s.mot-=6;return['😅','«Бумер снимает рилсы»','Комментарий под роликом задел. Мотивация −6.']}},
+ {id:'expertCall',once:1,st:['late'],r:s=>{s.trust=Math.min(100,s.trust+6);return['🎙️','Позвали экспертом','Из-за опыта, которого нет у молодых коллег. Доверие +6.']}},
+ {id:'exam',cd:90,st:['student'],r:s=>{nextDay(1);nextDay(1);nextDay(1);return['📚','Сессия','Три дня только учёба. Блог стоит.']}},
+ {id:'classmates',once:1,st:['student'],r:s=>{const g=ri(100,250);s.live+=g;return['🎓','Однокурсники подписались',`И привели друзей: +${g}.`]}},
+ {id:'bossSaw',once:1,st:['side'],choice:1,r:s=>['👔','Начальник увидел ваш блог','«Интересно у тебя. Это не мешает работе?»',[
+   {l:'Честно рассказать',f:()=>{s.mot+=6;log('👔 Начальник неожиданно поддержал.')}},
+   {l:'Закрыть аккаунт от коллег',f:()=>{s.mot-=4;s.live-=ri(10,40)}}]]},
+ {id:'overtime',cd:45,st:['side'],r:s=>{s.energy=Math.max(0,s.energy-30);return['🕘','Переработка на основной','Сдавали проект до ночи. Энергия −30.']}},
+ {id:'agency',once:1,c:s=>s.live>=3000,choice:1,r:s=>['📨','Пишет агентство','«Возьмём вас в пул авторов: 3 рилса в месяц для клиента, 60 000 ₽».',[
+   {l:'Согласиться',f:()=>{s.money+=60000;s.energy=Math.max(0,s.energy-25);s.mot+=5;log('📨 Сняли рилсы для клиента агентства: +60 000 ₽, но свой блог в этот день простоял.')}},
+   {l:'Отказаться, свой блог важнее',f:()=>{s.mot+=2}}]]}
+];
+function showCases(){
+ const s=S,good=Math.random()<.35;
+ const cases=good
+  ? ['Клиент 1: было 1 200 подписчиков → 28 000 за 3 месяца, выручка 640 000 ₽. Есть контакт клиента и договор.',
+     'Клиент 2: было 4 000 → 19 000, запуск курса на 1 100 000 ₽. Скрины кабинета и чеки прилагаются.']
+  : ['Клиент 1: было 5 000 подписчиков → 7 000 за полгода, про выручку «клиент просил не раскрывать».',
+     'Клиент 2: скриншот чужого аккаунта без имени и подписи: «сделали 10 млн» — проверить невозможно.'];
+ msg('📂','Он прислал кейсы',cases.join('<br><br>')+'<br><br>Что делаем?',[
+  {l:'Платить 100 000 ₽',f:()=>payProd(good)},
+  {l:'Отказаться',f:()=>{unlock('scam');if(good)log('📂 Отказались от продюсера с нормальными кейсами.');else log('📂 Отказались. Кейсы были ни о чём.')}}]);
+}
+function payProd(good){
+ const s=S;s.money-=100000;unlock('scam');
+ if(good){s.prod={id:'mid',name:'Продюсер по рекомендации',weekly:15000,share:.15,q:8,sales:1.6,viral:.03,vanish:0};
+  msg('🤝','Сработались','Кейсы оказались настоящими: договор подписан, стратегия есть. Он работает с вами за 15 000 ₽/нед и 15% с продаж.')}
+ else{s.scammed++;s.mot-=20;msg('🕳️','Развели','Он заблокировал вас сразу после перевода. 100 000 ₽ ушли, мотивация −20.')}
+}
+
+function rivalEvent(){
+ const s=S,r=s.rival,n=r.n;
+ const opts=['burn','ban','copy','collab','scandal'];
+ if(A().digital||s.tier>=2)opts.push('cheap');
+ const k=pickW(opts);s.rivalEv=s.day;
+ if(k==='burn'){r.pause=s.day+14;msg('😮‍💨',`${n} выгорел(а)`,`Две недели ни одной публикации. Конкурент стоит на месте — хорошее время обогнать.`);log(`😮‍💨 ${n} пропал(а) на две недели.`)}
+ else if(k==='ban'){const l=Math.round(r.f*.45);r.f-=l;msg('⛔',`${n} получил(а) блокировку`,`Минус ${fmt(l)} подписчиков у конкурента. Серые методы догнали и его.`);log(`⛔ Конкурент потерял ${fmt(l)} подписчиков после блокировки.`)}
+ else if(k==='copy')msg('🪞',`${n} скопировал(а) ваш формат`,'Ролик один в один, даже шутка та же. Реакция?',[
+   {l:'Сделать ещё лучше',f:()=>{s.nextQ+=12;s.energy=Math.max(0,s.energy-10);log('🪞 Ответили качеством: следующий ролик сильнее.')}},
+   {l:'Публично указать на копию',f:()=>{s.nextMult*=1.6;s.trust=Math.max(0,s.trust-3);s.mot+=4;log('🪞 Устроили публичный разбор: охват будет, но часть аудитории устала от драмы.')}},
+   {l:'Не обращать внимания',f:()=>{s.mot-=4;log('🪞 Промолчали.')}}]);
+ else if(k==='collab')msg('🤝',`${n} предлагает коллаб`,'Совместный эфир или ролик. Оба получите новую аудиторию.',[
+   {l:'Согласиться',f:()=>{const g=Math.round(Math.min(r.f,s.live*3)*rnd(.03,.08))+50;s.live+=g;r.f+=Math.round(s.live*.03);s.mot+=6;s.energy=Math.max(0,s.energy-15);log(`🤝 Коллаб с конкурентом: +${fmt(g)} подписчиков вам и немного ему.`)}},
+   {l:'Отказаться',f:()=>{s.mot+=2;log('🤝 Отказались от коллаба. Гонка продолжается.')}}]);
+ else if(k==='scandal')msg('🍿',`У ${n} скандал`,'Вся ниша обсуждает. Можно высказаться — охват будет.',[
+   {l:'Высказаться',f:()=>{s.nextMult*=1.7;s.trust=Math.max(0,s.trust-4);log('🍿 Высказались про скандал: охват вырос, осадочек остался.')}},
+   {l:'Промолчать',f:()=>{s.trust=Math.min(100,s.trust+3);log('🍿 Промолчали — аудитория это оценила.')}}]);
+ else if(k==='cheap')msg('🏷️',`${n} запустил(а) продукт вдвое дешевле`,'Часть ваших покупателей задумалась.',[
+   {l:'Усилить ценность: кейсы и бонусы',f:()=>{s.energy=Math.max(0,s.energy-20);s.trust=Math.min(100,s.trust+5);log('🏷️ Показали кейсы и добавили бонусы. Цена осталась.')}},
+   {l:'Проигнорировать',f:()=>{s.flags.sellPen=s.day+14;log('🏷️ Не отреагировали: две недели продажи слабее.')}}]);
+}
+function rollQuests(){const p=[...QUESTS].sort(()=>Math.random()-.5).slice(0,3);return p.map(x=>x.id)}
+function questList(){return S.quests.map(id=>QUESTS.find(x=>x.id===id)).filter(Boolean)}
+function checkQuests(){
+ const s=S;let all=true;
+ questList().forEach(q=>{if(q.g(s)<q.n)all=false});
+ if(all&&!s.qdone.includes(s.day+'w')&&questList().length){
+  s.qdone.push(s.day+'w');
+  let txt=[];
+  questList().forEach(q=>{const m=q.m;
+   if(m.money){s.money+=m.money;txt.push(`+${fmt(m.money)} ₽`)}
+   if(m.mot){s.mot+=m.mot;txt.push(`+${m.mot} мотивации`)}
+   if(m.skill){s.skill=Math.min(100,s.skill+m.skill);txt.push(`+${m.skill} навыка`)}
+   if(m.trust){s.trust=Math.min(100,s.trust+m.trust);txt.push(`+${m.trust} доверия`)}});
+  const bonus=30000+Math.round(s.day*400);
+  s.money+=bonus;s.mot=Math.min(100,s.mot+12);
+  log(`✅ Все задания недели закрыты: ${txt.join(', ')}, бонус ${fmt(bonus)} ₽ и +12 мотивации.`);
+  toast(`✅ Задания недели закрыты: +${fmt(bonus)} ₽ и +12 мотивации`,3200);fx('glow');
+ }
+}
+function resetQuests(){S.q={expert:0,wide:0,car:0,sell:0,sold:0,subs:0,prep:0,stories:0,rest:0,learn:0,posts:0};S.quests=rollQuests()}
+function randomEvent(){
+ const s=S;
+ const pool=EV.filter(e=>{
+  if(e.nc&&!e.nc.includes(s.niche))return false;
+  if(e.hard&&!DIFF[s.diff].hard&&!s.hc)return false;
+  if(e.hc&&!s.hc)return false;
+  if(e.late&&s.day<100&&s.revenue<1000000)return false;
+  if(e.st&&!e.st.includes(s.story))return false;
+  if(e.notEasy&&s.diff==='easy')return false;
+  if(e.c&&!e.c(s))return false;
+  const last=s.seen[e.id];
+  if(e.once)return !last;
+  return !last||s.day-last>=(e.cd||25);
+ });
+ if(!pool.length)return;
+ const e=pickW(pool);s.seen[e.id]=s.day;s.lastEv=s.day;
+ const r=e.r(s);
+ if(e.choice)msg(r[0],r[1],r[2],r[3]);
+ else{msg(r[0],r[1],r[2]);log(`${r[0]} ${r[1]}.`)}
+}
+
+/* ====== КОМАНДА И ДЕНЬГИ ====== */
+const PRODS={
+ cheap:{name:'Продюсер из рилсов',d:'Сам недавно прошёл курс продюсеров. 40 000 ₽ сразу и 30% с продаж.',up:40000,weekly:0,share:.3,q:3,sales:1.1,viral:0},
+ mid:{name:'Продюсер-практик',d:'Кейсы и договор. 20 000 ₽/нед и 15% с продаж. Стратегия, сценарии, прогревы.',up:0,weekly:20000,share:.15,q:8,sales:1.6,viral:.03},
+ top:{name:'Топ-продюсер',d:'Без фикса, забирает 40% дохода. Берёт только авторов от 5 000 живых подписчиков и доверия 40+.',up:0,weekly:0,share:.4,q:12,sales:2.8,viral:.06}
+};
+const TEAM={
+ reels:{n:'Рилсмейкер',d:'Снимает и монтирует: качество +15, рилс дешевле на 8 энергии.',p:'25 000 ₽/нед'},
+ script:{n:'Сценарист',d:'Хуки и сценарии: качество +14, выше шанс залететь.',p:'15 000 ₽/нед'},
+ target:{n:'Таргетолог',d:'Реклама аккаунта: +40–110 подписчиков каждый день.',p:'20 000 ₽/нед'},
+ funnel:{n:'Воронка продаж',d:'Лид-магнит, бот, прогрев: продажи ×2 плюс продажи на автомате.',p:'45 000 ₽ разово'},
+ course:{n:'Обучение у практика',d:'Нормальный курс с обратной связью: навык +12.',p:'35 000 ₽ разово'}
+};
+function hire(k){
+ const s=S;
+ if(k==='reels'||k==='script'||k==='target'){s.team[k]=s.team[k]?0:1;log(s.team[k]?`👥 Наняли: ${TEAM[k].n}.`:`👥 Попрощались: ${TEAM[k].n}.`);if(k==='target'&&s.team[k]&&!s.team.funnel)unlock('target')}
+ else if(k==='funnel'){if(s.team.funnel)return;s.money-=45000;s.team.funnel=1;log('🧲 Собрали воронку: лид-магнит, бот, прогрев.');unlock('funnel')}
+ else if(k==='course'){if(s.team.course)return;s.money-=35000;s.team.course=1;s.skill=Math.min(100,s.skill+12);log('🎓 Прошли обучение у практика: навык +12.')}
+ else if(k.startsWith('p_')){
+  const id=k.slice(2);
+  if(s.prod){if(s.prod.id===id){s.prod=null;log('👥 Расстались с продюсером.')}}
+  else{
+   if(id==='top'&&(s.live<5000||s.trust<40)){closeSheet();msg('🏆','Топ-продюсер не ответил','Он посмотрел профиль и ушёл в игнор. Возвращайтесь с 5 000 живых подписчиков и доверием 40+.');unlock('top');flush();return}
+   const P=PRODS[id];s.money-=P.up;
+   s.prod={id,name:P.name,weekly:P.weekly,share:P.share,q:P.q,sales:P.sales,viral:P.viral,vanish:id==='cheap'&&Math.random()<.55?s.day+ri(5,12):0};
+   log(`👥 Наняли: ${P.name}.`);if(id!=='cheap')unlock('producerNeeds');
+  }}
+ save();reopen('team');render();flush();
+}
+function takeLoan(){if(S.loans>=3)return;S.loans++;S.money+=100000;S.debt+=140000;log('🏦 Взяли кредит 100 000 ₽, вернуть 140 000 ₽.');unlock('loan');save();reopen('money');render();flush()}
+function repay(){if(S.money<S.debt)return;S.money-=S.debt;log(`🏦 Закрыли кредит: −${fmt(S.debt)} ₽.`);S.debt=0;S.mot+=10;save();reopen('money');render()}
+const BUYS=[
+ {id:'vac',e:'🏖️',n:'Отпуск на неделю',p:150000,d:'Море, ноль съёмок, пять дней вне игры. Выгорание обнуляется, мотивация +35.',c:()=>1,
+  f:s=>{s.money-=150000;for(let i=0;i<5;i++)nextDay(1);s.burn=0;s.mot=Math.min(100,s.mot+35);s.energy=100;log('🏖️ Улетели на неделю. Впервые за полгода без телефона в руке.')}},
+ {id:'phone2',e:'📱',n:'Новый флагман',p:180000,d:'Вышла новая модель: камера лучше, монтаж быстрее. Качество +6.',c:()=>!S.gear.phone2,
+  f:s=>{s.money-=180000;s.gear.phone2=1;s.mot+=10;log('📱 Купили новый флагман: качество +6.')}},
+ {id:'star',e:'🎓',n:'Мастер-класс у звезды',p:400000,d:'Два дня в Дубае у человека, которого вы смотрели годами. Навык +20, мотивация +15.',c:()=>S.day>50&&!S.flags.star,
+  f:s=>{s.money-=400000;s.flags.star=1;s.skill=Math.min(100,s.skill+20);s.mot+=15;nextDay(1);nextDay(1);log('🎓 Слетали на мастер-класс: навык +20. Половина — то, что вы уже знали, но вторая половина стоила этих денег.')}},
+ {id:'flat1',e:'🏠',n:'Однушка, 45 м²',p:7000000,d:'Своя квартира. Больше никакой аренды. Можно взять в ипотеку.',c:()=>!S.flat,
+  f:s=>buyFlat('Однушка 45 м²',7000000)},
+ {id:'flat2',e:'🏡',n:'Двушка, 65 м²',p:12000000,d:'Комната под съёмки и комната для жизни.',c:()=>!S.flat,
+  f:s=>buyFlat('Двушка 65 м²',12000000)},
+ {id:'flat3',e:'🏘️',n:'Трёшка, 80 м²',p:15000000,d:'Квартира, студия и кабинет. Мечта в полном размере.',c:()=>!S.flat,
+  f:s=>buyFlat('Трёшка 80 м²',15000000)}
+];
+const MORT=[{y:5,n:60},{y:10,n:120},{y:15,n:180}];
+function mortPay(P,n){const r=.16/12;return Math.round(P*r/(1-Math.pow(1+r,-n)))}
+function takeMort(name,price,n){
+ const s=S,down=Math.round(price*.2);
+ if(s.money<down)return toast('Не хватает на первоначальный взнос');
+ if(s.mort)return toast('Ипотека уже есть');
+ s.money-=down;const P=price-down;
+ s.mort={name,left:P,pay:mortPay(P,n),months:n};
+ s.flat=name;s.flags.rentUp=0;s.mot=Math.min(100,s.mot+30);
+ log(`🏦 Ипотека на ${name}: взнос ${fmt(down)} ₽, платёж ${fmt(s.mort.pay)} ₽ в неделю.`);
+ msg('🔑','Ключи у вас',`${name} в ипотеке под 16% годовых. Платёж ${fmt(s.mort.pay)} ₽ списывается каждую неделю вместе с зарплатами команде. Аренду платить больше не нужно.`);
+ unlock('asset');closeSheet();save();render();flush();
+}
+function buyFlat(n,p){const s=S;s.money-=p;s.flat=n;s.flags.rentUp=0;s.mot=Math.min(100,s.mot+40);
+ log(`🏠 Куплена квартира: ${n}. Аренду платить больше не нужно.`);
+ msg('🔑','Вы купили квартиру',`${n}. Заработанное никуда не делось из зачёта: цель считает доход, а не остаток на счету. Просто теперь у вас есть актив — и нет аренды.`);
+ unlock('asset')}
+function buy(id){const b=BUYS.find(x=>x.id===id);if(!b)return;
+ if(S.money<b.p)return toast('Не хватает денег');
+ b.f(S);closeSheet();endCheck();save();render();flush()}
+function saveDream(sum){const s=S;sum=Math.min(sum||20000,s.dream.goal-s.dream.saved);if(s.money<sum)return toast('Не хватает денег');s.money-=sum;s.dream.saved+=sum;
+ log(`🎥 Отложили ${fmt(sum)} ₽ на камеру: ${fmt(s.dream.saved)} / ${fmt(s.dream.goal)} ₽.`);
+ if(s.dream.saved>=s.dream.goal)getCamera();
+ save();reopen('money');render();flush()}
+
+/* ====== ФИНАЛ ====== */
+function goalVal(){return FAM[S.fam].goalType==='revenue'?S.revenue:S.live+S.dead}
+function offerHC(reason){
+ const s=S;s.hcOffered=1;
+ queue.push({e:'🌋',t:'Добьём до года?',d:`${reason} Можно остановиться здесь — или продолжить до 365-го дня в режиме выживания: жизнь на 30% дороже, события в два раза чаще и жёстче — налоговые проверки, уход команды, блокировки, кризисы. Финальная планка: ${goalLabel(GOALS[s.fam][3])}.`,
+  choices:[{l:'Режим выживания до 365 дня',f:()=>{s.hc=1;s.maxDays=365;s.mot=Math.min(100,s.mot+10);if(s.won<3)s.won=Math.max(s.won,0);
+     log('🌋 Режим выживания: впереди 365-й день и самые тяжёлые условия.');}},
+           {l:'Закончить на этом',f:()=>{end(s.won>=3?'legend':s.won>=1?'win':'time')}}]});
+}
+function endCheck(){if(S.over)return;
+ if(goalVal()>=goalNow()){
+  if(!S.won)S.wonDay=Math.min(S.day,S.maxDays);
+  S.won++;
+  if(S.hc&&S.won>=4)return end('legend2');
+  if(S.won>=3&&!S.hc){if(!S.hcOffered)return offerHC(`Три планки взяты на ${S.day}-й день.`);return}
+  const left=Math.max(S.maxDays,250)-S.day;
+  const next=GOALS[S.fam][Math.min(S.won,3)];
+  queue.push({e:'🏆',t:`Цель достигнута на ${S.day}-й день`,
+   d:`Вы дошли до отметки ${goalLabel(GOALS[S.fam][S.won-1])}. В запасе ещё ${Math.max(0,left)} дней. Можно закрыть игру с этим результатом — или поднять планку.`,
+   choices:[{l:`Поднять планку: ${goalLabel(next)}`,f:()=>{S.mot=Math.min(100,S.mot+15);if(!S.hc)S.maxDays=Math.max(S.maxDays,250);log(`🏆 Новая цель: ${goalLabel(next)}. Срок: до ${S.maxDays}-го дня.`)}},
+            {l:'Закончить на этом результате',f:()=>{end('win')}}]});
+  return;
+ }
+ if(S.mot<=0)return end('quit');
+ if(S.money<-150000)return end(S.hc?'hcbroke':'broke');
+ if(S.day>S.maxDays){
+  if(!S.hc&&!S.hcOffered&&(S.won>=1||S.maxDays>=250))return offerHC(`Прошло ${S.maxDays} дней.`);
+  if(!S.hc&&S.hcOffered)return;
+  return end(S.hc?(S.won>=1?'hcsurvive':'hctime'):(S.won>=1?'win':'time'));
+ }}
+function rank(k){const s=S;
+ const W={expert:'Эксперт с записью на месяц вперёд',goods:'Мастер, у которого всё раскупают',art:'Звезда, которую узнают в «Пятёрочке»'}[s.fam];
+ if(k==='exit')return 'Продал(а) блог медиагруппе';
+ if(k==='legend2')return {expert:'Империя эксперта: 30 миллионов за год',goods:'Фабрика, а не мастерская',art:'Звезда года'}[s.fam];
+ if(k==='hcsurvive')return 'Выжил(а) в году блогера';
+ if(k==='hctime')return 'Прошёл(ла) год, не сдавшись';
+ if(k==='hcbroke')return 'Год выживания сломал бюджет';
+ if(k==='legend')return {expert:'Легенда ниши: очередь и свои ученики',goods:'Бренд, который знают по всей стране',art:'Артист со стадионами'}[s.fam];
+ if(k==='win')return s.won>=2?W+' · вторая планка взята':W;
+ if(k==='office')return 'Вернулся в стабильность';
+ if(k==='broke')return 'Инвестор в чужие курсы';
+ if(k==='quit')return 'Удалил приложение в три часа ночи';
+ if(s.won>=1)return W;
+ if(s.dead>s.live)return 'Купил рекламу не там';
+ if(s.scammed>=2)return 'Щедрый спонсор продюсеров';
+ if(s.reels<15)return 'Вечный «начну с понедельника»';
+ if(goalVal()>=goalNow()*.4)return 'Почти получилось';
+ return 'Блогер в процессе'}
+function end(k){if(S.over)return;S.over=1;
+ const T={exit:['💼','Вы продали блог'],legend2:['👑','Год, который изменил всё'],hcsurvive:['🌋','Вы пережили год'],hctime:['🌋','Год позади'],hcbroke:['💸','Режим выживания победил'],legend:['👑','Вы сделали больше, чем планировали'],win:['🏆','Вы дошли'],quit:['📵','Вы сдались'],broke:['💸','Пришли коллекторы'],time:['⏳','180 дней прошли'],office:['🏢','Вы вернулись в офис']};
+ const FD={expert:'Сарафан больше не единственный источник клиентов.',goods:'Мастерская больше не ждёт случайных покупателей.',art:'Сцена теперь есть — и она в каждом телефоне.'};
+ const D={exit:'Блог стал активом, а актив — деньгами. Такой выход тоже победа.',
+  legend2:'Четыре планки и год в режиме выживания. Такое удаётся единицам.',
+  hcsurvive:'Налоговые, уходы команды, блокировки — и вы всё ещё здесь. Это и есть устойчивый блог.',
+  hctime:'Год без сдачи — уже больше, чем у большинства. Цель не взята, но система у вас есть.',
+  hcbroke:'Под конец года расходы съели всё. Режим выживания на то и режим выживания.',
+  legend:'Первую цель вы взяли и не остановились. Три планки подряд — это уже не блог, это бизнес.',
+  win:FD[S.fam]+' Было всё: пустые охваты, выгорание, странные продюсеры. Но вы дошли.',
+  quit:'Мотивация кончилась. Так заканчивают девять из десяти — не от нехватки таланта, а от нехватки системы.',
+  broke:'Долги выросли быстрее аудитории. Продвижение без модели монетизации — очень дорогое хобби.',
+  time:'Полгода позади. Цель не взята, но вы уже понимаете этот путь лучше, чем 95% тех, кто только собирается начать.',
+  office:'Стабильная зарплата, соцпакет и никаких охватов. Иногда это тоже нормальный выбор.'};
+ S.rank=rank(k);wipeSave();
+ saveRec({d:Date.now(),fam:S.fam,niche:S.niche,name:A().name,e:A().e,story:S.story,diff:S.diff,hc:S.hc,ch:S.challenge,rank:S.rank,rev:S.revenue,subs:S.live+S.dead,won:S.won,wonDay:S.wonDay,day:Math.min(S.day,S.maxDays)});
+ fx('confetti');
+ queue.push({end:1,e:T[k][0],t:T[k][1],d:D[k]})}
+function shareText(){return `${S.challenge?'Челлендж недели №'+S.challenge+'. ':''}Прошёл игру «Путь креатора» (${A().e} ${A().name}) — титул «${S.rank}». ${S.reels} рилсов, ${fmt(S.live+S.dead)} подписчиков, ${fmt(S.revenue)} ₽ за ${Math.min(S.day,S.maxDays)} дней. Сколько продержишься ты?`}
+
+/* ====== РЕНДЕР ====== */
+function showGame(){$('#start').classList.add('hidden');$('#game').classList.remove('hidden');$('#dock').classList.remove('hidden')}
+const NAMES=['marina_k','den.pro','alex_777','olya','nastya.v','sergey_m','kate','ilya','vera.ok','maxim','lena_777','artem'];
+function pickName(){return pick(NAMES)}
+function animateCount(){
+ const el=document.querySelector('[data-count]');if(!el||typeof requestAnimationFrame!=='function')return;
+ if(el.dataset.done==='1')return;el.dataset.done='1';el.textContent='0';
+ const target=+el.dataset.count;let start=null,dur=Math.min(1400,600+target/50);
+ function step(ts){if(!start)start=ts;const p=Math.min(1,(ts-start)/dur);
+  el.textContent=fmt(Math.round(target*(1-Math.pow(1-p,3))));
+  if(p<1)requestAnimationFrame(step)}
+ requestAnimationFrame(step);
+}
+function meter(l,v,col,k){return `<div class="card m" data-help="${k}"><div class="r"><span>${l}</span><span>${Math.round(v)}</span></div><div class="trk"><i style="width:${clamp(v,0,100)}%;background:${col}"></i></div></div>`}
+function render(){
+ const s=S,a=A(),w=wk();
+ const goal=goalNow(),pct=clamp(goalVal()/goal*100,0,100);
+ $('#dayEl').innerHTML=`${Math.min(s.day,s.maxDays)}<i>/${s.maxDays}</i>`;
+ $('#goalEl').innerHTML=`<div class="g1"><span>${s.won?`Планка ${s.won+1}`:'Цель'}: ${goalLabel(goal)}</span><span>${pct<1?pct.toFixed(1):Math.floor(pct)}%</span></div><div class="trk"><i style="width:${pct}%"></i></div>`;
+ $('#moneyEl').innerHTML=`${fmt(s.money)} ₽<i>${s.debt||s.mort?'долг '+fmt(s.debt+(s.mort?s.mort.left:0)):a.tierName}</i>`;
+
+ // чипы: неделя, задания, конкурент, статусы
+ const ql=questList(),done=ql.filter(q=>q.g(s)>=q.n).length;
+ const mine=s.live+s.dead,r=s.rival;
+ const ch=[`<button class="chip acc" data-info="week">${w.e} ${w.t}</button>`,
+  `<button class="chip${done===ql.length?' ok':''}" data-info="quests">✅ Задания ${done}/${ql.length}</button>`];
+ if(r)ch.push(`<button class="chip${mine>=r.f?' ok':''}" data-info="rival">${mine>=r.f?'🏆':'🎯'} ${r.n}: ${fmt(r.f)}</button>`);
+ if(s.postBan>0)ch.push(`<span class="chip bad">🚫 Блок ${s.postBan} дн.</span>`);
+ if(s.shadow>0)ch.push(`<span class="chip bad">🌫️ Тень ${s.shadow} дн.</span>`);
+ if(s.flags.sellPen&&s.day<s.flags.sellPen)ch.push(`<span class="chip bad">📵 Продажи −40%</span>`);
+ if(s.prep)ch.push(`<span class="chip ${s.prep>=4?'ok':'warn'}">📝 Сценарий ${s.prep}/4</span>`);
+ if(s.nextQ||s.nextMult>1)ch.push(`<span class="chip ok">✨ Бонус</span>`);
+ if(s.dead>0)ch.push(`<span class="chip">🧟 ${fmt(s.dead)}</span>`);
+ if(s.prod)ch.push(`<span class="chip">🧑‍💼 ${s.prod.name.split(' ')[0]}</span>`);
+ if(s.mot<25)ch.push(`<span class="chip bad">🔥 Мотивация!</span>`);
+ if(!s.flat&&!s.mort&&s.money>=1400000)ch.push(`<button class="chip hot" data-sheet="money">🏠 Хватает на квартиру</button>`);
+ $('#chipsEl').innerHTML=ch.join('');
+
+ const mm=(e,l,v,col,k)=>`<div class="mm" data-help="${k}"><div class="t"><b>${e} ${l}</b><span>${Math.round(v)}</span></div><div class="trk"><i style="width:${clamp(v,0,100)}%;background:${col}"></i></div></div>`;
+ $('#metersEl').innerHTML=mm('⚡','Энергия',s.energy,'var(--ok)','energy')+mm('🔥','Мотивация',s.mot,'var(--acc)','mot')
+  +mm('🥵','Выгорание',s.burn,'var(--bad)','burn')+mm('🌡️','Прогрев',s.heat,'var(--warn)','heat');
+ $('#numsEl').innerHTML=`<span data-help="trust">👥 <b>${fmt(mine)}</b> подписчиков</span><span data-help="trust">🤝 <b>${Math.round(s.trust)}</b> доверие</span><span data-help="skill">🎯 <b>${Math.round(s.skill)}</b> навык</span>`;
+
+ const P=s.post;
+ $('#stageEl').innerHTML=(P?`<div class="card post${P.viral?' vir':''}">
+   <div class="pHead" style="display:flex;align-items:center;gap:8px"><span class="pAv">${a.e}</span><div><b>${s.blog}</b><i>${TYPES[P.type].e} ${TYPES[P.type].t}${P.viral?' · залетело':''}</i></div><span class="pQ">${P.q}/100</span></div>
+   <div class="pTitle">${P.title}</div>
+   <div class="pViews"><b data-count="${P.views}">${fmt(P.views)}</b><span>просмотров</span></div>
+   <div class="pStats"><span>❤️ ${fmt(P.likes)}</span><span>🔖 ${fmt(P.saves)}</span><span>👥 +${fmt(P.gain)}</span></div>
+   ${P.cmts.map(c=>`<div class="pC"><b>${c.n||pickName()}</b> ${c.c||c}</div>`).join('')}
+  </div>`:'')+
+  `<div class="miniFeed">${s.log.slice(0,P?3:5).map(x=>`<p>${x}</p>`).join('')}</div>`;
+ animateCount();
+
+ $('#tabsEl').innerHTML=TABS.map(([k,n])=>`<button data-tab="${k}" aria-selected="${tab===k}">${n}</button>`).join('')
+  +`<button class="restB" data-act="rest"${s.over?' disabled':''} aria-label="Отдых">😴</button>`;
+ $('#actsEl').innerHTML=GROUPS[tab].map(x=>{
+  const c=x.c(),n=typeof x.t==='function'?x.t():x.t,dis=s.energy<c||s.over||(s.postBan>0&&x.id.indexOf('r_')===0);
+  return `<button class="act${x.p?' p':''}" data-act="${x.id}"${dis?' disabled':''}><span class="e">${x.e}</span><span class="t">${n}</span><span class="g">${x.g||''}</span><span class="c">⚡${c}</span></button>`}).join('');
+ $('#insBtn').textContent=`Инсайты ${s.ins.length}`;
+ setTimeout(tutTick,40);setTimeout(tgBackSync,0);
+}
+
+/* ====== ОКНА ====== */
+function flush(){
+ insToast();
+ if(modalOpen||!queue.length)return;
+ const m=queue.shift();modalOpen=true;
+ const root=$('#ovRoot');let body;
+ if(m.end){const s=S;
+  const hist=s.hist.length>1?s.hist:[s.live+s.dead];
+  const mx=Math.max(...hist,1),pts=hist.map((v,i)=>`${(i/(hist.length-1||1)*100).toFixed(1)},${(50-v/mx*46).toFixed(1)}`).join(' ');
+  const mistakes=[];
+  if(s.dead>s.live*.3)mistakes.push('покупал(а) аудиторию не там');
+  if(s.scammed)mistakes.push(`попался(ась) на «продюсеров» ${s.scammed} раз`);
+  if(s.burn>60)mistakes.push('работал(а) на износ');
+  if(s.trust<35)mistakes.push('мало строил(а) доверие');
+  if(s.tier===0&&s.fam!=='art')mistakes.push('так и не вышел(шла) за рамки разовых услуг');
+  if(!mistakes.length)mistakes.push('шёл(шла) по пути почти без ошибок');
+  body=`<div class="mo">
+  <div class="poster">
+   <div class="pk">Путь креатора · ${A().e} ${A().name}${s.challenge?' · челлендж №'+s.challenge:''}${s.hc?' · режим выживания':''}</div>
+   <h4>${s.blog}</h4>
+   <div class="pb">${s.rank}${s.wonDay?` · цель взята на ${s.wonDay}-й день`:''}</div>
+   <svg viewBox="0 0 100 52" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg>
+   <div class="pGrid"><div><b>${fmt(s.live+s.dead)}</b><span>подписчиков</span></div><div><b>${fmt(s.revenue)} ₽</b><span>заработано</span></div>
+    <div><b>${fmt(s.best)}</b><span>лучший ролик</span></div><div><b>${s.reels}</b><span>публикаций</span></div></div>
+   <div class="pf">Главное, что стоило сделать иначе: ${mistakes.slice(0,3).join(', ')}.<br>Инсайтов открыто: ${s.ins.length} из ${Object.keys(INS).length}.</div>
+  </div>
+  <div class="em">${m.e}</div><div class="kick">Титул: ${s.rank}</div><h3>${m.t}</h3><p>${m.d}</p>
+  ${s.wonDay?`<p>Первая цель взята на <b>${s.wonDay}-й день</b>${s.won>1?`, дальше вы подняли планку ${s.won-1} ${s.won-1===1?'раз':'раза'}`:''}.</p>`:''}
+  <div class="grid2"><div><b>${s.reels}</b><span>публикаций</span></div><div><b>${fmt(s.best)}</b><span>лучший рилс</span></div>
+  <div><b>${fmt(s.live+s.dead)}</b><span>подписчиков</span></div><div><b>${fmt(s.revenue)} ₽</b><span>заработано</span></div>
+  <div><b>${s.flat?'есть':'нет'}</b><span>${s.flat||'своей квартиры'}</span></div>
+  <div><b>${s.ins.length}/${Object.keys(INS).length}</b><span>инсайтов</span></div><div><b>${s.scammed}</b><span>раз развели</span></div></div>
+  <button class="btn" data-m="share">Скопировать результат</button>
+  <button class="btn g" data-m="ins">Что я узнал</button>
+  <button class="btn g" data-m="restart">Сыграть ещё раз</button></div>`;
+ }else{
+  const ch=m.choices||[{l:m.ins?'Понятно':'Дальше',f:()=>{}}];m._c=ch;
+  body=`<div class="mo"><div class="em">${m.e}</div>${m.ins?'<div class="kick">Новый инсайт</div>':''}<h3>${m.t}</h3><p>${m.d}</p>${m.x||''}
+  ${ch.map((c,i)=>`<button class="btn${i?' g':''}" data-c="${i}">${c.l}</button>`).join('')}</div>`;
+ }
+ root.innerHTML=`<div class="ov">${body}</div>`;
+ root.onclick=e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.m==='share'){const t=shareText();if(tgShare(t))return;
+   try{navigator.clipboard.writeText(t).then(()=>toast('Скопировано'),()=>prompt('Скопируйте:',t))}catch(x){prompt('Скопируйте:',t)}return}
+  if(b.dataset.m==='ins'){openSheet('ins',1);return}
+  if(b.dataset.m==='restart'){location.reload();return}
+  if(b.dataset.c!==undefined){
+   root.innerHTML='';root.onclick=null;modalOpen=false;
+   m._c[+b.dataset.c].f();
+   if(S&&!S.over){S.mot=clamp(S.mot,0,100);endCheck();save()}
+   render();flush();drainToasts();
+  }};
+ const f=root.querySelector('button');if(f)f.focus();
+}
+function reopen(k){closeSheet();openSheet(k)}
+function openSheet(k,top){
+ const s=S;let h='';
+ if(k==='team'){
+  h=`<h3>Команда</h3><p>Нанимать и увольнять можно в любой момент — день не тратится. Деньги списываются в начале недели.</p>`;
+  for(const key in TEAM){const t=TEAM[key],on=s.team[key],once=key==='funnel'||key==='course';
+   h+=`<div class="it${on?' on':''}"><div class="h"><span>${t.n}</span><em>${t.p}</em></div><div class="d">${t.d}</div>
+   ${once&&on?'<div class="d">✓ уже есть</div>':`<button class="btn${on?' g':''}" data-h="${key}">${on?'Отказаться':once?'Купить':'Нанять'}</button>`}</div>`}
+  h+=`<h4>Продюсер</h4>`;
+  for(const id in PRODS){const P=PRODS[id],on=s.prod&&s.prod.id===id;
+   h+=`<div class="it${on?' on':''}"><div class="h"><span>${P.name}</span></div><div class="d">${P.d}</div>
+   ${s.prod&&!on?'<div class="d">Сначала расстаньтесь с текущим продюсером</div>':`<button class="btn${on?' g':''}" data-h="p_${id}">${on?'Расстаться':'Нанять'}</button>`}</div>`}
+ }else if(k==='offer'){
+  const f=FAM[s.fam],a=A();
+  h=`<h3>Продукт</h3><p>Что именно вы продаёте аудитории. Ступень выше — меньше покупателей, но крупнее чек.</p>`;
+  f.tiers.forEach((t,i)=>{
+   const cur=s.tier===i, r=t.req, ok=!r||(s.live>=r.live&&s.trust>=r.trust);
+   const price=s.fam==='art'?`доход ×${t.pm}`:`${fmt(tierPrice(niche(),t))} ₽ за штуку`;
+   h+=`<div class="it${cur?' on':''}"><div class="h"><span>${t.n}</span><em>${price}</em></div><div class="d">${t.d}</div>`;
+   if(cur)h+=`<div class="d">✓ сейчас продаёте это</div>`;
+   else if(ok)h+=`<button class="btn" data-t="${i}">Перейти</button>`;
+   else h+=`<div class="d">🔒 Нужно ${fmt(r.live)} живых подписчиков и доверие ${r.trust}</div>`;
+   h+=`</div>`;
+  });
+  if(a.cost)h+=`<div class="it"><div class="h"><span>Себестоимость</span><em>${Math.round(a.cost*100)}%</em></div><div class="d">Материалы и производство съедают эту часть каждой продажи. В цель идут только чистые деньги.</div></div>`;
+ }else if(k==='info'){
+  const w=wk(),ql=questList(),r=s.rival,mine=s.live+s.dead;
+  h=`<h3>${w.e} ${w.t}</h3><p>${w.d}</p>
+  <h4>Задания недели</h4>
+  ${ql.map(q=>{const c=Math.min(q.g(s),q.n),ok=c>=q.n;const m=q.m;
+    const rew=[m.money?fmt(m.money)+' ₽':'',m.mot?'+'+m.mot+' мотивации':'',m.skill?'+'+m.skill+' навыка':'',m.trust?'+'+m.trust+' доверия':''].filter(Boolean).join(', ');
+    return `<div class="it${ok?' on':''}"><div class="h"><span>${ok?'✓ ':''}${q.t}</span><em>${fmt(c)}/${fmt(q.n)}</em></div><div class="d">Награда: ${rew}</div></div>`}).join('')}
+  ${r?`<h4>Конкурент</h4><div class="it"><div class="h"><span>${r.n}</span><em>${fmt(r.f)}</em></div>
+    <div class="d">${mine>=r.f?`Вы впереди на ${fmt(mine-r.f)} подписчиков.`:`Отстаёте на ${fmt(r.f-mine)}.`}${r.v?' У него только что залетел ролик.':''}</div></div>`:''}
+  <h4>Настройки</h4>
+  <div class="it"><div class="h"><span>Выбор подачи перед съёмкой</span><em>${s.autoPick?'выключен':'включён'}</em></div>
+   <div class="d">Если выключить, игра сама подставит случайную подачу — быстрее, но без выбора риска.</div>
+   <button class="btn g" data-ap="1">${s.autoPick?'Включить выбор':'Снимать без выбора'}</button></div>`;
+ }else if(k==='money'){
+  const wc=weeklyCost(),lp=loanPay();
+  h=`<h3>Финансы</h3>
+  <div class="grid2"><div><b>${fmt(s.money)} ₽</b><span>на счету</span></div><div><b>${fmt(s.revenue)} ₽</b><span>заработано всего</span></div></div>
+  <div class="it"><div class="h"><span>Расходы</span></div><div class="d">Жизнь: ${fmt(life())} ₽ каждые 30 дней<br>Команда и рассрочки: ${fmt(wc)} ₽ в неделю<br>Кредит: ${fmt(lp)} ₽ в неделю${s.mort?`<br>Ипотека: ${fmt(s.mort.pay)} ₽ в неделю`:''}</div></div>
+  ${s.mort?`<div class="it on"><div class="h"><span>🏦 Ипотека: ${s.mort.name}</span><em>осталось ${fmt(s.mort.left)} ₽</em></div>
+   <div class="d">Платёж ${fmt(s.mort.pay)} ₽ каждую неделю под 16% годовых: одна игровая неделя считается за месяц.</div>
+   ${s.money>=s.mort.left?`<button class="btn" data-l="mortoff">Погасить досрочно — ${fmt(s.mort.left)} ₽</button>`:''}</div>`:''}
+  <div class="it"><div class="h"><span>Кредит 100 000 ₽</span><em>вернуть 140 000 ₽</em></div><div class="d">Взято: ${s.loans} из 3. Ниже −150 000 ₽ — игра заканчивается.</div>
+   ${s.loans<3?'<button class="btn" data-l="take">Взять кредит</button>':''}</div>
+  ${s.debt?`<div class="it"><div class="h"><span>Долг</span><em>${fmt(s.debt)} ₽</em></div><button class="btn g" data-l="repay"${s.money<s.debt?' disabled':''}>Погасить полностью</button></div>`:''}
+  ${s.dream.on&&!s.gear.camera?(()=>{const need=s.dream.goal-s.dream.saved;return `<div class="it on"><div class="h"><span>🎥 Камера мечты</span><em>${fmt(s.dream.saved)} / ${fmt(s.dream.goal)} ₽</em></div>
+   <div class="trk"><i style="width:${clamp(s.dream.saved/s.dream.goal*100,0,100)}%"></i></div>
+   <div class="d">${s.dream.inst?'Рассрочка списывает 12 000 ₽ в неделю.':`Осталось ${fmt(need)} ₽. Камера даёт +12 к качеству контента.`}</div>
+   ${s.dream.inst?'':(s.money>=need?`<button class="btn" data-l="dreamall">Купить сразу — ${fmt(need)} ₽</button>`:'')+
+     `<button class="btn${s.money>=need?' g':''}" data-l="dream">Отложить 20 000 ₽</button>`+
+     (s.money>=100000&&need>100000?`<button class="btn g" data-l="dream100">Отложить 100 000 ₽</button>`:'')}</div>`})():''}
+  ${s.gear.camera?'<div class="it on"><div class="h"><span>🎥 Камера куплена</span></div><div class="d">Качество контента +12.</div></div>':''}
+  ${s.flat?`<div class="it on"><div class="h"><span>🔑 ${s.flat}</span></div><div class="d">Своя квартира. Расходы на жизнь снижены.</div></div>`:''}
+  <h4>Мечты и покупки</h4>
+  <p style="font-size:13px">Цель считает заработанное за всю игру, поэтому покупки не откатывают прогресс — но тратят деньги, на которые живёт блог.</p>
+  ${BUYS.filter(b=>b.c()).map(b=>{
+    const flat=b.id.indexOf('flat')===0;
+    let a2=s.money>=b.p?`<button class="btn" data-b="${b.id}">Купить сразу</button>`:`<div class="d">Наличными не хватает ${fmt(b.p-s.money)} ₽</div>`;
+    if(flat&&!s.mort&&!s.flat){const down=Math.round(b.p*.2);
+     a2+=`<div class="d" style="margin-top:8px">Ипотека под 16% годовых, взнос ${fmt(down)} ₽${s.money<down?' — не хватает':''}:</div>`
+      +MORT.map(m=>`<button class="btn g" data-m2="${b.n}|${b.p}|${m.n}"${s.money<down?' disabled':''}>На ${m.y} лет — ${fmt(mortPay(b.p-down,m.n))} ₽/нед</button>`).join('')}
+    return `<div class="it"><div class="h"><span>${b.e} ${b.n}</span><em>${fmt(b.p)} ₽</em></div><div class="d">${b.d}</div>${a2}</div>`}).join('')}`;
+ }else{
+  const all=Object.keys(INS);
+  h=`<h3>Инсайты ${s.ins.length} из ${all.length}</h3><p>Открываются, когда вы проживаете ситуацию в игре.</p>`
+   +s.ins.map(id=>`<div class="it"><div class="h"><span>${INS[id].e} ${INS[id].t}</span></div><div class="d">${INS[id].d}</div></div>`).join('')
+   +(all.length>s.ins.length?`<div class="it"><div class="d">🔒 Ещё ${all.length-s.ins.length} скрыто. Пробуйте другие стратегии.</div></div>`:'')
+   +(s.thoughts.length?`<h4>Мысли недели</h4>`+s.thoughts.map((t,i)=>`<div class="it"><div class="h"><span>Неделя ${i+1}</span></div><div class="d">${t}</div></div>`).join(''):'');
+ }
+ h+=`<button class="btn g" data-x="1">Закрыть</button>`;
+ const el=document.createElement('div');el.className='ov sheet';el.id='sheet';el.style.zIndex=top?60:40;
+ el.innerHTML=`<div class="mo">${h}</div>`;
+ el.onclick=e=>{if(e.target===el)return closeSheet();
+  const b=e.target.closest('button');if(!b||b.disabled)return;
+  if(b.dataset.x)closeSheet();
+  else if(b.dataset.h)hire(b.dataset.h);
+  else if(b.dataset.l==='take')takeLoan();
+  else if(b.dataset.l==='repay')repay();
+  else if(b.dataset.ap){S.autoPick=!S.autoPick;save();reopen('info');render()}
+  else if(b.dataset.b)buy(b.dataset.b);
+  else if(b.dataset.l==='dream')saveDream(20000);
+  else if(b.dataset.l==='dream100')saveDream(100000);
+  else if(b.dataset.l==='dreamall')saveDream(S.dream.goal-S.dream.saved);
+  else if(b.dataset.l==='mortoff'){if(S.money>=S.mort.left){S.money-=S.mort.left;S.mort=null;S.mot=Math.min(100,S.mot+20);log('🏦 Ипотека закрыта досрочно.');save();reopen('money');render()}}
+  else if(b.dataset.m2){const[n,pr,mn]=b.dataset.m2.split('|');takeMort(n,+pr,+mn)}
+  else if(b.dataset.t!==undefined){S.tier=+b.dataset.t;log(`🪜 Перешли на ступень: ${tierOf(S.tier).n}.`);unlock('ladder');save();reopen('offer');render();flush()}};
+ document.body.appendChild(el);
+ setTimeout(tgBackSync,0);
+}
+function closeSheet(){const el=$('#sheet');if(el)el.remove();setTimeout(drainToasts,60);setTimeout(tgBackSync,0)}
+
+
+
+/* ====== ОБУЧЕНИЕ ====== */
+const TUT=[
+ {sel:'[data-act="r_expert"]',t:'Начнём с первого ролика. Экспертный даёт подписчиков и доверие — нажмите на него.',w:'click'},
+ {sel:'.hk',t:'Выберите подачу. У каждой свой риск: безопасная — стабильно, провокация — охват и споры, личная история — доверие.',w:'click'},
+ {sel:'#stageEl .post',t:'Вот результат: просмотры, прирост подписчиков и комментарии. Первые ролики почти всегда слабые — это нормально.',w:'next'},
+ {sel:'#metersEl',t:'Энергия тратится на каждое действие, выгорание копится без отдыха, прогрев нужен для продаж. Нажмите на любую шкалу — расскажу подробнее.',w:'next'},
+ {sel:'[data-tab="growth"]',t:'Во вкладке «Подготовка» есть сценарий: он усиливает следующий ролик. Откройте её.',w:'click'},
+ {sel:'[data-act="prep"]',t:'Проработайте сценарий. Четыре подряд — максимум качества, чип станет зелёным.',w:'click'},
+ {sel:'.restB',t:'Отдых всегда здесь, справа. Когда энергии меньше 35, ролики получаются хуже.',w:'next'},
+ {sel:'#chipsEl',t:'Сверху — неделя от астрологов, задания и ваш конкурент. Нажмите на чип, чтобы увидеть подробности.',w:'next'},
+ {sel:'.menu',t:'Внизу — продукт, команда, финансы и инсайты: ступени продукта, найм, ипотека и мечты. Дальше — сами. Удачи!',w:'next'}
+];
+function tutDone(){S.tut=99;try{localStorage.setItem('putkreatora_tut','done')}catch(e){}}
+function tutTick(){
+ document.querySelectorAll('.coachT').forEach(x=>x.classList.remove('coachT'));
+ const old=$('#coach');if(old)old.remove();
+ if(!S||S.over||S.tut===undefined||S.tut>=TUT.length)return;
+ const st=TUT[S.tut];
+ if(st.sel==='.hk'&&!document.querySelector('.hk')){S.tut=0;return tutTick()}
+ if(modalOpen&&st.sel!=='.hk')return;
+ if(document.querySelector('#sheet'))return;
+ const t=document.querySelector(st.sel);if(!t)return;
+ t.classList.add('coachT');
+ const r=t.getBoundingClientRect(),H=window.innerHeight||700;
+ const b=document.createElement('div');b.id='coach';
+ b.innerHTML=`<div class="cT">${st.t}</div><div class="cB"><button data-tut="skip">Пропустить обучение</button>${st.w==='next'?'<button data-tut="next" class="cN">Дальше</button>':''}</div>`;
+ if(r.top>H/2)b.style.bottom=(H-r.top+10)+'px';else b.style.top=(r.bottom+10)+'px';
+ document.body.appendChild(b);
+}
+document.addEventListener('click',e=>{
+ if(!S||S.tut>=TUT.length)return;
+ const tb=e.target.closest('[data-tut]');
+ if(tb){e.stopPropagation();if(tb.dataset.tut==='skip')tutDone();else{S.tut++;if(S.tut>=TUT.length)tutDone()}save();return setTimeout(tutTick,30)}
+ const st=TUT[S.tut];
+ if(st.w==='click'&&e.target.closest(st.sel)){S.tut++;if(S.tut>=TUT.length)tutDone();setTimeout(tutTick,80)}
+},true);
+
+/* ====== ЭФФЕКТЫ ====== */
+function fx(kind){
+ try{
+  if(kind==='confetti'){
+   const box=document.createElement('div');box.className='conf';
+   const cols=['#8E7BFF','#FF6FA8','#2ED89B','#E8A020','#fff'];
+   for(let i=0;i<46;i++){const c=document.createElement('i');c.style.left=Math.random()*100+'%';c.style.background=cols[i%cols.length];
+    c.style.animationDelay=(Math.random()*.35)+'s';c.style.animationDuration=(1.1+Math.random()*.9)+'s';c.style.transform=`rotate(${Math.random()*360}deg)`;box.appendChild(c)}
+   document.body.appendChild(box);setTimeout(()=>box.remove(),2400);
+   haptic('success');
+  }else if(kind==='shake'){
+   const el=$('#numsEl');if(el){el.classList.remove('shk');void el.offsetWidth;el.classList.add('shk')}
+   haptic('heavy');
+  }else if(kind==='glow'){
+   const el=$('#chipsEl');if(el){el.classList.remove('glw');void el.offsetWidth;el.classList.add('glw')}
+  }
+ }catch(e){}
+}
+/* ====== ИТОГИ МЕСЯЦА ====== */
+function monthTrack(k,title,views,q){const m=S.month;if(!m)return;m.posts++;m.q+=q;
+ if(!m.best||views>m.best.v)m.best={t:title,v:views};
+ if(!m.worst||views<m.worst.v)m.worst={t:title,v:views}}
+function monthReport(){
+ const s=S,m=s.month;if(!m)return;
+ const n=Math.round((s.day-1)/30),subs=s.live+s.dead,gain=subs-m.subs,rev=s.revenue-m.rev;
+ const cps=gain>0&&m.spent>0?Math.round(m.spent/gain):0,avgQ=m.posts?Math.round(m.q/m.posts):0;
+ const ser=m.series.length>1?m.series:[m.subs,subs];const mx=Math.max(...ser),mn=Math.min(...ser);
+ const pts=ser.map((v,i)=>`${(i/(ser.length-1)*100).toFixed(1)},${(38-(mx===mn?.5:(v-mn)/(mx-mn))*34).toFixed(1)}`).join(' ');
+ let advice;
+ if(m.posts<8)advice='Публикаций меньше двух в неделю — алгоритму не на чем учиться. Ритм важнее качества каждого ролика.';
+ else if(avgQ<45)advice='Среднее качество ниже 45. Попробуйте хотя бы один «Сценарий» перед каждой публикацией.';
+ else if(s.trust<35)advice='Подписчики есть, доверия мало. Сторис и карусели в следующем месяце дадут больше денег, чем новые охваты.';
+ else if(rev<=0&&subs>800)advice='Аудитория есть, продаж нет. Прогрейте продающими и запустите продажу, пока прогрев выше 50.';
+ else if(s.burn>60)advice='Выгорание выше 60. Следующий месяц начните с выходного и встречи с друзьями — иначе потеряете пять дней разом.';
+ else advice='Сильный месяц. Проверьте, не пора ли подняться на следующую ступень продукта.';
+ queue.push({e:'📊',t:`Итоги месяца ${n}`,d:`<svg viewBox="0 0 100 40" preserveAspectRatio="none" style="width:100%;height:46px;display:block;margin:2px 0 10px"><polyline points="${pts}" fill="none" stroke="var(--acc)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+ <div class="grid2" style="margin-bottom:10px"><div><b>${gain>=0?'+':''}${fmt(gain)}</b><span>подписчиков за месяц</span></div><div><b>${fmt(rev)} ₽</b><span>заработано</span></div>
+ <div><b>${m.posts}</b><span>публикаций, качество ${avgQ}</span></div><div><b>${cps?fmt(cps)+' ₽':'—'}</b><span>цена подписчика</span></div></div>
+ ${m.best?`🏆 Лучший: «${m.best.t}» — ${fmt(m.best.v)}<br>`:''}${m.worst&&m.posts>1?`🥶 Худший: «${m.worst.t}» — ${fmt(m.worst.v)}<br>`:''}<br><b>Совет на месяц:</b> ${advice}`});
+ s.month={subs,rev:s.revenue,spent:0,best:null,worst:null,posts:0,q:0,series:[subs]};
+}
+/* ====== ЧЕЛЛЕНДЖ И РЕКОРДЫ НА СТАРТЕ ====== */
+function drawStartBtns(){
+ const c=challengeSetup(),n=NICHE[c.fam].find(x=>x.id===c.nc);
+ $('#chalBtn').innerHTML=`⚔️ Челлендж недели №${c.k}<small>${n.e} ${n.n} · ${STORIES[c.st].n} · ${TRAITS[c.trt].n}</small>`;
+}
+function startChallenge(){const c=challengeSetup();pickFam=c.fam;newGame(c.fam,c.nc,'normal','',c.trt,c.st,c.k)}
+function showRecords(){
+ const a=loadRecs().sort((x,y)=>(y.won-x.won)||(y.rev-x.rev)||(y.subs-x.subs));
+ const wk=weekKey(),ch=a.filter(r=>r.ch===wk).sort((x,y)=>(y.won-x.won)||(y.rev-x.rev));
+ const row=(r,i)=>`<div class="it"><div class="h"><span>${i+1}. ${r.e} ${r.name}</span><em>${r.won?'✓ '+r.wonDay+'-й день':r.day+' дн.'}</em></div>
+  <div class="d">${r.rank}<br>${fmt(r.rev)} ₽ · ${fmt(r.subs)} подписчиков · ${STORIES[r.story]?STORIES[r.story].n.toLowerCase():''}${r.hc?' · выживание':''}${r.ch?' · челлендж №'+r.ch:''}</div></div>`;
+ const body=`<div class="mo"><div class="em">🏆</div><h3>Мои рекорды</h3>
+  ${a.length?'':'<p>Пока пусто. Закончите первую игру — результат появится здесь.</p>'}
+  ${ch.length?`<h4>Челлендж этой недели</h4>${ch.slice(0,3).map(row).join('')}`:''}
+  ${a.length?`<h4>Лучшие забеги</h4>${a.slice(0,10).map(row).join('')}`:''}
+  <button class="btn g" data-c="x">Закрыть</button></div>`;
+ const root=$('#ovRoot');root.innerHTML=`<div class="ov">${body}</div>`;
+ root.onclick=e=>{const b=e.target.closest('button');if(b){root.innerHTML='';root.onclick=null}};
+}
+
+/* ====== СТАРТ ====== */
+let pickFam=null,pickNiche=null,pickDiff=null,pickStory=null;
+function drawStart(){
+ const L=$('#archList');
+ if(!pickFam){
+  $('#startHint').textContent='Шаг 1. Чем вы зарабатываете?';
+  L.innerHTML=Object.entries(FAM).map(([k,f])=>
+   `<button class="archBtn" data-f="${k}"><span class="em">${f.e}</span><b>${f.name}</b><small>${f.desc} Цель: ${f.goalText.toLowerCase()}.</small></button>`).join('');
+ }else{
+  if(pickNiche&&pickStory&&pickDiff){
+   $('#startHint').textContent='Шаг 5. Ваш характер';
+   L.innerHTML=Object.entries(TRAITS).map(([k,t])=>`<button class="archBtn" data-tr="${k}"><span class="em">${t.e}</span><b>${t.n}</b><small>${t.d}</small></button>`).join('')
+    +`<button class="wide ghost" data-back="1">Назад</button>`;
+   return;
+  }
+  if(pickNiche&&pickStory){
+   $('#startHint').textContent='Шаг 4. Уровень сложности';
+   L.innerHTML=Object.entries(DIFF).map(([k,d])=>`<button class="archBtn" data-d="${k}"><span class="em">${d.e}</span><b>${d.n}</b><small>${d.d}</small></button>`).join('')
+    +`<button class="wide ghost" data-back="1">Назад</button>`;
+   return;
+  }
+  if(pickNiche){
+   $('#startHint').textContent='Шаг 3. С чего всё началось';
+   L.innerHTML=Object.entries(STORIES).map(([k,t])=>`<button class="archBtn" data-st="${k}"><span class="em">${t.e}</span><b>${t.n}</b><small>${t.d}</small></button>`).join('')
+    +`<button class="wide ghost" data-back="1">Назад</button>`;
+   return;
+  }
+  $('#startHint').textContent='Шаг 2. Ваша профессия';
+  L.innerHTML=NICHE[pickFam].map(n=>
+   `<button class="archBtn" data-n="${n.id}"><span class="em">${n.e}</span><b>${n.n}</b><small>${n.d}</small></button>`).join('')
+   +`<button class="wide ghost" data-back="1">Назад</button>`;
+ }
+}
+$('#archList').onclick=e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.back){if(pickDiff)pickDiff=null;else if(pickStory)pickStory=null;else if(pickNiche)pickNiche=null;else pickFam=null;return drawStart()}
+ if(b.dataset.st){pickStory=b.dataset.st;return drawStart()}
+ if(b.dataset.f){pickFam=b.dataset.f;return drawStart()}
+ if(b.dataset.n){pickNiche=b.dataset.n;return drawStart()}
+ if(b.dataset.d){pickDiff=b.dataset.d;return drawStart()}
+ if(b.dataset.tr){newGame(pickFam,pickNiche,pickDiff,'',b.dataset.tr,pickStory)}};
+drawStart();drawStartBtns();
+$('#chalBtn').onclick=startChallenge;$('#recBtn').onclick=showRecords;
+$('#game').onclick=e=>{
+ if(!S||modalOpen)return;
+ const sh=e.target.closest('[data-sheet]');
+ if(sh)return reopen(sh.dataset.sheet);
+ const i=e.target.closest('[data-info]');
+ if(i)return reopen('info');
+ const c=e.target.closest('[data-help]');
+ if(c){const H=HELP[c.dataset.help];msg(H[0],H[1],H[2]);flush()}
+};
+$('#actsEl').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled){haptic('tap');act(b.dataset.act)}};
+$('#tabsEl').onclick=e=>{const b=e.target.closest('button');if(!b||b.disabled)return;if(b.dataset.act)return act('rest');tab=b.dataset.tab;render()};
+$('.menu').onclick=e=>{const b=e.target.closest('button');if(b&&S&&!modalOpen)reopen(b.dataset.sheet)};
+function offerContinue(sv){if(!sv||sv.over)return;$('#contBtn').classList.remove('hidden');
+ $('#contBtn').onclick=()=>{S=sv;week=WEEKS.find(w=>w.id===S.weekId)||WEEKS[8];showGame();render()}}
+const sv=load();
+if(sv&&!sv.over)offerContinue(sv);
+else cloudGet('game',str=>{try{const c=str&&JSON.parse(str);if(c&&!c.over){localStorage.setItem(SAVE,str);offerContinue(c)}}catch(e){}});
+if(!loadRecs().length)cloudGet('recs',str=>{try{if(str)localStorage.setItem(REC,str)}catch(e){}});
+})();
+</script>
+</body>
+</html>
